@@ -1,4 +1,10 @@
-export type RootParamList = { landing: undefined, dashboard: undefined, signup: any, signin: any }
+export type RootParamList = {
+    landing: undefined,
+    dashboard: undefined,
+    signup: any,
+    signin: any,
+    otp:any
+}
 export const colors={
     primary:"#48A8EF",
     background:"#0A062B",

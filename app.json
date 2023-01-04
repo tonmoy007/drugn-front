@@ -27,7 +27,19 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "Drugn",
+      "shortName": "Drugn",
+      "lang": "en",
+      "themeColor": "#48A8EF",
+      "display": "minimal-ui",
+      "backgroundColor": "#0A062B",
+      "barStyle": "black-translucent",
+      "splash": {
+        "backgroundColor": "#0A062B",
+        "image": "./assets/splash.png",
+        "resizeMode": "contain"
+      }
     }
   }
 }

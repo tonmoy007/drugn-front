@@ -1,11 +1,11 @@
-import {View} from "react-native";
+import {FBox} from "../../components/globals/fbox";
 
 export const SignInScreen = () => {
     return (
         <>
-            <View style={{display: "flex", flex: 1}}>
+            <FBox style={{display: "flex", flex: 1}}>
 
-            </View>
+            </FBox>
         </>
     )
 }

@@ -1,13 +1,13 @@
-import {Provider as PaperProvider, MD2DarkTheme, MD3DarkTheme, Text} from 'react-native-paper';
-import {View} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createNativeStackNavigator, NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Provider as PaperProvider, MD3DarkTheme, configureFonts} from 'react-native-paper';
+import {Platform} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home} from './src/screens/dashboard/home';
 import {UnAuthLanding} from './src/screens/auth/unauth-landing';
 import {colors, RootParamList} from "./src/utils/settings";
 import {SignUpScreen} from "./src/screens/auth/sign-up";
 import {SignInScreen} from "./src/screens/auth/sign-in";
-import {ThemeProp} from "react-native-paper/lib/typescript/types";
+import {MD3Type, ThemeProp} from "react-native-paper/lib/typescript/types";
 import {
     useFonts,
     Montserrat_400Regular,
@@ -16,6 +16,10 @@ import {
     Montserrat_700Bold
 } from "@expo-google-fonts/montserrat";
 import {BackButton} from "./src/components/globals/back-button";
+import {StepOf} from "./src/components/globals/step-of";
+import {OtpScreen} from "./src/screens/auth/otp";
+import {FontConfig} from "./src/utils/font-config";
+
 
 const theme: ThemeProp = {
     // Extend Material Design 2 theme
@@ -27,31 +31,36 @@ const theme: ThemeProp = {
         ...MD3DarkTheme.colors,
         primary: colors.primary,
         background: colors.background,
-        backgroundColor: colors.background,
         onPrimary: colors.text,
         onBackground: colors.text,
-        text: colors.text,
         onSurface: colors.text,
         onSurfaceVariant: colors.textDark
 
 
     },
+    fonts: configureFonts({isV3: true, config: FontConfig})
 };
 
 export type AppTheme = typeof theme;
 const Stack = createNativeStackNavigator<RootParamList>();
 const linking = {
-    config: {screens: {landing: '/landing', dashboard: '/dashboard', signup: '/signup', signin: "/sign-in"}},
+    config: {
+        screens: {
+            landing: '/landing',
+            dashboard: '/dashboard',
+            signup: '/signup',
+            signin: "/sign-in",
+            otp: "/otp"
+        }
+    },
     prefixes: []
 }
 export default function App() {
     let [fontsLoaded] = useFonts({
-                                     Montserrat_400Regular, Montserrat_100Thin, Montserrat_700Bold, Montserrat_300Light
-                                 });
+        Montserrat_400Regular, Montserrat_100Thin, Montserrat_700Bold, Montserrat_300Light
+    });
 
-    if (!fontsLoaded) {
-        return null;
-    }
+
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer linking={linking} theme={{
@@ -59,10 +68,10 @@ export default function App() {
                 colors: {
                     primary: theme.colors?.primary ?? colors.primary,
                     background: theme.colors?.background ?? colors.background,
-                    card: theme.colors?.primaryContainer ?? colors.background,
-                    text: theme.colors?.onPrimary ?? colors.text,
+                    card: theme.colors?.background ?? colors.background,
+                    text: theme.colors?.onSurface ?? colors.text,
                     border: "transparent",
-                    notification: theme.colors?.onPrimary ?? colors.text
+                    notification: theme.colors?.onSurface ?? colors.text
                 }
             }}>
                 <Stack.Navigator initialRouteName='landing' screenOptions={{
@@ -81,12 +90,17 @@ export default function App() {
                                       },
                                       headerRight: () => {
                                           return (
-                                              <View style={{paddingHorizontal: 20}}>
-                                                  <Text>1 / 2</Text>
-                                              </View>
+                                              <StepOf total={2} current={1}/>
                                           )
                                       }
                                   }}/>
+                    <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
+                        title: "Sign up",
+                        headerRight: () => {
+                            return <StepOf total={2} current={2}/>
+                        },
+                        headerLeft: () => <BackButton path={"landing"}/>
+                    }}/>
                     <Stack.Screen name="signin" component={SignInScreen} options={{title: "Sign In"}}/>
                 </Stack.Navigator>
             </NavigationContainer>

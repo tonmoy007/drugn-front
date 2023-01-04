@@ -1,15 +1,39 @@
-import {View} from "react-native";
 import {Button, HelperText, Text, TextInput} from "react-native-paper";
-import {Controller, FormProvider, useForm} from "react-hook-form";
-import {colors} from "../../utils/settings";
+import {Controller, useForm} from "react-hook-form";
+import {FBox} from "../../components/globals/fbox";
+import {useState} from "react";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootParamList} from "../../utils/settings";
 
 export const SignUpScreen = () => {
-    const {handleSubmit, control, formState: {errors, isValid}, reset} = useForm({mode: "onBlur"})
-    const onSubmit = (data) => {}
+    const [submitting, setSubmitting] = useState(false)
+    type FormData = {
+        name: string,
+        email: string
+    }
+    const {
+        handleSubmit,
+        control,
+        formState: {errors, isValid, isSubmitted},
+        setFocus,
+        reset
+    } = useForm<FormData>({mode: "onBlur"})
+    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
+    const onSubmit = (data: FormData) => {
+        console.log("Submit", data)
+        setSubmitting(true)
+        setTimeout(() => {
+            console.log(data)
+            setSubmitting(false)
+            nav.navigate("otp")
+        }, 1000)
+
+    }
     return (
-        <View style={{paddingHorizontal: 18, paddingVertical: 60}}>
-            <View style={{display: "flex", flexDirection: "column"}}>
-                <View style={{paddingBottom: 20}}>
+        <FBox style={{paddingHorizontal: 18, paddingVertical: 60}}>
+            <FBox style={{display: "flex", flexDirection: "column"}}>
+                <FBox style={{paddingBottom: 20}}>
                     <Text style={{fontFamily: "Montserrat_400Regular", fontSize: 16, marginBottom: 5}}>Account
                         Name</Text>
                     <Controller control={control}
@@ -21,46 +45,44 @@ export const SignUpScreen = () => {
                                     return (
                                         <>
                                             <TextInput error={Boolean(errors.name)} ref={form.field.ref}
-                                                       onChange={form.field.onChange}
+                                                       onChangeText={(val) => form.field.onChange(val)}
                                                        onBlur={form.field.onBlur}
                                                        mode={"outlined"}
                                                        placeholder={"You can use your nickname also"}/>
-                                            <Text style={{color: colors.red}}>{errors.name?.message as string}</Text>
+                                            <HelperText type={"error"}>{errors.name?.message as string}</HelperText>
                                         </>
                                     )
                                 }} name="name"/>
 
 
-                </View>
-                <View style={{paddingBottom: 20}}>
+                </FBox>
+                <FBox style={{paddingBottom: 20}}>
                     <Text style={{fontFamily: "Montserrat_400Regular", fontSize: 16, marginBottom: 5}}>Email</Text>
                     <Controller rules={{
                         required: "Email is required",
                         pattern: {value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i, message: "Invalid email address"}
                     }} render={(form) => {
                         return (<>
-                            <TextInput error={Boolean(errors.email)} mode={"outlined"} onChange={form.field.onChange}
-                                       onBlur={form.field.onBlur}
+                            <TextInput value={form.field.value} error={Boolean(errors.email)} mode={"outlined"}
+                                       onChangeText={(val) => form.field.onChange(val)}
                                        ref={form.field.ref} placeholder={"youremail@medicine.com"}/>
 
-                            <Text style={{color: colors.red}}>{errors.email?.message as string}</Text>
+                            <HelperText type={"error"}>{errors.email?.message as string}</HelperText>
 
                         </>)
                     }} name={"email"} control={control}/>
 
-                </View>
-                <View style={{paddingTop: 60}}>
+                </FBox>
+                <FBox style={{paddingTop: 60}}>
 
-                    <Button mode="contained" onPress={() => {
-
-                    }}
-                            disabled={!isValid}
+                    <Button loading={submitting} mode="contained" onPress={handleSubmit(onSubmit)}
+                            disabled={!isValid || submitting}
                             style={{width: "100%", marginBottom: 12, borderRadius: 5}}>Sign Up</Button>
-                </View>
+                </FBox>
 
 
-            </View>
+            </FBox>
 
-        </View>
+        </FBox>
     )
 }
