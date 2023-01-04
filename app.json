@@ -34,7 +34,7 @@
       "shortName": "Drugn",
       "lang": "en",
       "themeColor": "#48A8EF",
-      "display": "minimal-ui",
+      "startUrl": "/",
       "backgroundColor": "#0A062B",
       "barStyle": "black-translucent",
       "splash": {

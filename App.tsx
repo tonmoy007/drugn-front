@@ -1,5 +1,4 @@
 import {Provider as PaperProvider, MD3DarkTheme, configureFonts} from 'react-native-paper';
-import {Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home} from './src/screens/dashboard/home';
@@ -7,7 +6,7 @@ import {UnAuthLanding} from './src/screens/auth/unauth-landing';
 import {colors, RootParamList} from "./src/utils/settings";
 import {SignUpScreen} from "./src/screens/auth/sign-up";
 import {SignInScreen} from "./src/screens/auth/sign-in";
-import {MD3Type, ThemeProp} from "react-native-paper/lib/typescript/types";
+import { ThemeProp} from "react-native-paper/lib/typescript/types";
 import {
     useFonts,
     Montserrat_400Regular,
@@ -15,7 +14,7 @@ import {
     Montserrat_300Light,
     Montserrat_700Bold
 } from "@expo-google-fonts/montserrat";
-import {BackButton} from "./src/components/globals/back-button";
+import * as serviceWorkerRegistration from "./src/serviceWorkerRegistration";
 import {StepOf} from "./src/components/globals/step-of";
 import {OtpScreen} from "./src/screens/auth/otp";
 import {FontConfig} from "./src/utils/font-config";
@@ -106,3 +105,4 @@ export default function App() {
     );
 }
 
+serviceWorkerRegistration.register()
