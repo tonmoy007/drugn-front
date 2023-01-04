@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . /app
 RUN npm install
 RUN npx expo export:web
-CMD ["npx","serve","web-build"]
+CMD ["npx","serve","web-build", "-l","tcp://0.0.0.0:80"]
