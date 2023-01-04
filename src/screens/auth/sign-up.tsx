@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../utils/settings";
+import {FormLabel} from "../../components/globals/form-label";
 
 export const SignUpScreen = () => {
     const [submitting, setSubmitting] = useState(false)
@@ -15,13 +16,10 @@ export const SignUpScreen = () => {
     const {
         handleSubmit,
         control,
-        formState: {errors, isValid, isSubmitted},
-        setFocus,
-        reset
-    } = useForm<FormData>({mode: "onBlur"})
+        formState: {errors, isValid},
+    } = useForm<FormData>({mode: "onBlur",defaultValues:{name:"",email:""}})
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onSubmit = (data: FormData) => {
-        console.log("Submit", data)
         setSubmitting(true)
         setTimeout(() => {
             console.log(data)
@@ -34,8 +32,7 @@ export const SignUpScreen = () => {
         <FBox style={{paddingHorizontal: 18, paddingVertical: 60}}>
             <FBox style={{display: "flex", flexDirection: "column"}}>
                 <FBox style={{paddingBottom: 20}}>
-                    <Text style={{fontFamily: "Montserrat_400Regular", fontSize: 16, marginBottom: 5}}>Account
-                        Name</Text>
+                    <FormLabel title={"Account Name"}/>
                     <Controller control={control}
                                 rules={{
                                     required: "Name is required",
@@ -44,7 +41,8 @@ export const SignUpScreen = () => {
                                 render={(form) => {
                                     return (
                                         <>
-                                            <TextInput error={Boolean(errors.name)} ref={form.field.ref}
+                                            <TextInput returnKeyType={"next"} error={Boolean(errors.name)}
+                                                       ref={form.field.ref}
                                                        onChangeText={(val) => form.field.onChange(val)}
                                                        onBlur={form.field.onBlur}
                                                        mode={"outlined"}
@@ -57,14 +55,17 @@ export const SignUpScreen = () => {
 
                 </FBox>
                 <FBox style={{paddingBottom: 20}}>
-                    <Text style={{fontFamily: "Montserrat_400Regular", fontSize: 16, marginBottom: 5}}>Email</Text>
+                    <FormLabel title={"Email"}/>
                     <Controller rules={{
                         required: "Email is required",
                         pattern: {value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i, message: "Invalid email address"}
                     }} render={(form) => {
                         return (<>
-                            <TextInput value={form.field.value} error={Boolean(errors.email)} mode={"outlined"}
+                            <TextInput autoComplete={"email"} textContentType={"emailAddress"} autoCapitalize={"none"}
+                                       keyboardType={"email-address"} value={form.field.value}
+                                       error={Boolean(errors.email)} mode={"outlined"}
                                        onChangeText={(val) => form.field.onChange(val)}
+                                       onBlur={form.field.onBlur}
                                        ref={form.field.ref} placeholder={"youremail@medicine.com"}/>
 
                             <HelperText type={"error"}>{errors.email?.message as string}</HelperText>

@@ -67,12 +67,16 @@ export const OtpInput = (props: Props) => {
                     {boxArray.map(boxDigit)}
                 </SplitOTPBoxesContainer>
                 <TextInputHidden
+                    autoComplete={"sms-otp"}
+                    autoFocus={true}
+                    keyboardType={"number-pad"}
                     type={"number"}
                     value={code}
                     onChangeText={setCode}
                     maxLength={props.maximumLength}
                     ref={inputRef}
                     onBlur={handleOnBlur}
+                    returnKeyType={"next"}
                 />
             </OTPInputContainer>
         </>

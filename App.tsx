@@ -77,7 +77,9 @@ export default function App() {
                 <Stack.Navigator initialRouteName='landing' screenOptions={{
                     statusBarColor: colors.background,
                     headerStyle: {backgroundColor: colors.background},
-                    headerTitleStyle: {fontFamily: "Montserrat_700Bold"}
+                    headerTitleStyle: {fontFamily: "Montserrat_700Bold"},
+                    animation: "fade_from_bottom",
+                    headerBackImageSource:require("./assets/icons/chevron-left-large.svg")
                 }}>
                     <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
                     <Stack.Screen component={Home} name="dashboard" navigationKey={"dashboard"}
@@ -85,9 +87,6 @@ export default function App() {
                     <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"}
                                   options={{
                                       title: "Sign up",
-                                      headerLeft: () => {
-                                          return <BackButton path={"landing"}/>
-                                      },
                                       headerRight: () => {
                                           return (
                                               <StepOf total={2} current={1}/>
@@ -95,11 +94,10 @@ export default function App() {
                                       }
                                   }}/>
                     <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
-                        title: "Sign up",
+                        title: "Sign up ",
                         headerRight: () => {
                             return <StepOf total={2} current={2}/>
                         },
-                        headerLeft: () => <BackButton path={"landing"}/>
                     }}/>
                     <Stack.Screen name="signin" component={SignInScreen} options={{title: "Sign In"}}/>
                 </Stack.Navigator>
