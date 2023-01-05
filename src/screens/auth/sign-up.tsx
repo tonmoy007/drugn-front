@@ -76,7 +76,7 @@ export const SignUpScreen = () => {
                 </FBox>
                 <FBox style={{paddingTop: 60}}>
 
-                    <Button loading={submitting} mode="contained" onPress={handleSubmit(onSubmit)}
+                    <Button  loading={submitting} mode="contained" onPress={handleSubmit(onSubmit)}
                             disabled={!isValid || submitting}
                             style={{width: "100%", marginBottom: 12, borderRadius: 5}}>Sign Up</Button>
                 </FBox>

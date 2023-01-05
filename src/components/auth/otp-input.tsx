@@ -10,14 +10,15 @@ import {
 } from "./styled";
 
 interface Props {
-    onChange: (val: string) => void
+    code:string;
+    setCode:(val:string)=>void;
     maximumLength: number
     setIsPinReady: (state: boolean) => void
 }
 
 export const OtpInput = (props: Props) => {
     const boxArray = new Array(props.maximumLength).fill(0);
-    const [code, setCode] = useState("")
+
     const inputRef = useRef<HTMLInputElement>();
 
     const [isInputBoxFocused, setIsInputBoxFocused] = useState(false);
@@ -35,27 +36,26 @@ export const OtpInput = (props: Props) => {
 
     useEffect(() => {
         // update pin ready status
-        props.setIsPinReady(code.length === props.maximumLength);
+        props.setIsPinReady(props.code.length === props.maximumLength);
         // clean up function
-        props.onChange(code)
         return () => {
             props.setIsPinReady(false);
         };
-    }, [code]);
+    }, [props.code]);
     const boxDigit = (_, index) => {
         const emptyInput = "";
-        const digit = code[index] || emptyInput;
+        const digit = props.code[index] || emptyInput;
 
-        const isCurrentValue = index === code.length;
+        const isCurrentValue = index === props.code.length;
         const isLastValue = index === props.maximumLength - 1;
-        const isCodeComplete = code.length === props.maximumLength;
+        const isCodeComplete = props.code.length === props.maximumLength;
 
         const isValueFocused = isCurrentValue || (isLastValue && isCodeComplete);
 
         const StyledSplitBoxes =
             isInputBoxFocused && isValueFocused ? SplitBoxesFocused : SplitBoxes;
         return (
-            <StyledSplitBoxes key={index}>
+            <StyledSplitBoxes key={index} style={{marginRight:index===props.maximumLength-1?0:18}}>
                 <SplitBoxText>{digit}</SplitBoxText>
             </StyledSplitBoxes>
         );
@@ -70,13 +70,11 @@ export const OtpInput = (props: Props) => {
                     autoComplete={"sms-otp"}
                     autoFocus={true}
                     keyboardType={"number-pad"}
-                    type={"number"}
-                    value={code}
-                    onChangeText={setCode}
+                    value={props.code}
+                    onChangeText={props.setCode}
                     maxLength={props.maximumLength}
                     ref={inputRef}
                     onBlur={handleOnBlur}
-                    returnKeyType={"next"}
                 />
             </OTPInputContainer>
         </>

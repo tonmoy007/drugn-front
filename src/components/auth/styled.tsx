@@ -1,9 +1,11 @@
 
 import styled from "styled-components/native";
+import {colors} from "../../utils/settings";
 
 export const OTPInputContainer = styled.View`
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 export const TextInputHidden = styled.TextInput`
@@ -20,24 +22,23 @@ export const TextInputHidden = styled.TextInput`
 
 export const SplitOTPBoxesContainer = styled.Pressable`
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   position: relative;
-  flex: 1 1 auto;
+  width: 100%;
+  align-items: center;
 `;
 export const SplitBoxes = styled.View`
-  border-color: #585858;
+  border-color: ${colors.grayBorder};
   border-width: 1px;
   border-radius: 5px;
-  padding: 12px;
-  min-width: 60px;
+  min-width: calc(25% - 14px );
   min-height: 70px;
-  margin-right: 18px;
 `;
 
 export const SplitBoxText = styled.Text`
   font-size: 20px;
   text-align: center;
-  color: #e5e5e5;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +46,7 @@ export const SplitBoxText = styled.Text`
 `;
 
 export const SplitBoxesFocused = styled(SplitBoxes)`
-  border-color: #48A8EF;
+  border-color: ${colors.primaryBorder};
   background-color: transparent;
 `;
 

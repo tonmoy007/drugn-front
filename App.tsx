@@ -6,7 +6,6 @@ import {UnAuthLanding} from './src/screens/auth/unauth-landing';
 import {colors, RootParamList} from "./src/utils/settings";
 import {SignUpScreen} from "./src/screens/auth/sign-up";
 import {SignInScreen} from "./src/screens/auth/sign-in";
-import { ThemeProp} from "react-native-paper/lib/typescript/types";
 import {
     useFonts,
     Montserrat_400Regular,
@@ -17,48 +16,16 @@ import {
 import * as serviceWorkerRegistration from "./src/serviceWorkerRegistration";
 import {StepOf} from "./src/components/globals/step-of";
 import {OtpScreen} from "./src/screens/auth/otp";
-import {FontConfig} from "./src/utils/font-config";
+import {linking} from "./src/utils/routes";
+import {theme} from "./src/utils/theme";
+import {AccountComplete} from "./src/screens/auth/account-complete";
 
-
-const theme: ThemeProp = {
-    // Extend Material Design 2 theme
-
-    ...MD3DarkTheme, // or MD2DarkTheme
-
-    // Specify a custom nested property
-    colors: {
-        ...MD3DarkTheme.colors,
-        primary: colors.primary,
-        background: colors.background,
-        onPrimary: colors.text,
-        onBackground: colors.text,
-        onSurface: colors.text,
-        onSurfaceVariant: colors.textDark
-
-
-    },
-    fonts: configureFonts({isV3: true, config: FontConfig})
-};
-
-export type AppTheme = typeof theme;
 const Stack = createNativeStackNavigator<RootParamList>();
-const linking = {
-    config: {
-        screens: {
-            landing: '/landing',
-            dashboard: '/dashboard',
-            signup: '/signup',
-            signin: "/sign-in",
-            otp: "/otp"
-        }
-    },
-    prefixes: []
-}
+
 export default function App() {
     let [fontsLoaded] = useFonts({
         Montserrat_400Regular, Montserrat_100Thin, Montserrat_700Bold, Montserrat_300Light
     });
-
 
     return (
         <PaperProvider theme={theme}>
@@ -78,7 +45,7 @@ export default function App() {
                     headerStyle: {backgroundColor: colors.background},
                     headerTitleStyle: {fontFamily: "Montserrat_700Bold"},
                     animation: "fade_from_bottom",
-                    headerBackImageSource:require("./assets/icons/chevron-left-large.svg")
+                    headerBackImageSource:require("./assets/icons/back.svg")
                 }}>
                     <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
                     <Stack.Screen component={Home} name="dashboard" navigationKey={"dashboard"}
@@ -98,6 +65,7 @@ export default function App() {
                             return <StepOf total={2} current={2}/>
                         },
                     }}/>
+                    <Stack.Screen name={"accountComplete"} component={AccountComplete} navigationKey={"account-complete"} options={{headerShown:false}}/>
                     <Stack.Screen name="signin" component={SignInScreen} options={{title: "Sign In"}}/>
                 </Stack.Navigator>
             </NavigationContainer>

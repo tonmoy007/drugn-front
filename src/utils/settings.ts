@@ -3,7 +3,8 @@ export type RootParamList = {
     dashboard: undefined,
     signup: any,
     signin: any,
-    otp:any
+    otp:any,
+    accountComplete:any
 }
 export const colors={
     primary:"#48A8EF",
@@ -11,6 +12,8 @@ export const colors={
     text:"#FFFFFF",
     textDark:"rgba(255, 255, 255, 0.301961)",
     red:"#FF3633",
-    blue:"#2222DD"
+    blue:"#2222DD",
+    grayBorder:"#585858",
+    primaryBorder:"#47C3E8"
 
 }
