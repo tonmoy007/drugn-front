@@ -19,6 +19,7 @@ import {OtpScreen} from "./src/screens/auth/otp";
 import {linking} from "./src/utils/routes";
 import {theme} from "./src/utils/theme";
 import {AccountComplete} from "./src/screens/auth/account-complete";
+import {StoreRegistration} from "./src/screens/account/store-registration";
 
 const Stack = createNativeStackNavigator<RootParamList>();
 
@@ -50,6 +51,7 @@ export default function App() {
                     <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
                     <Stack.Screen component={Home} name="dashboard" navigationKey={"dashboard"}
                                   options={{title: "Dashboard"}}/>
+                    <Stack.Screen name={"storeRegistration"} component={StoreRegistration} options={{headerShown:false}}/>
                     <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"}
                                   options={{
                                       title: "Sign up",

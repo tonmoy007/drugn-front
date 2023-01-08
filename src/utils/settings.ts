@@ -4,7 +4,8 @@ export type RootParamList = {
     signup: any,
     signin: any,
     otp:any,
-    accountComplete:any
+    accountComplete:any,
+    storeRegistration:any
 }
 export const colors={
     primary:"#48A8EF",
