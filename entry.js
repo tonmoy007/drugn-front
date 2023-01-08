@@ -3,7 +3,7 @@ import {Platform} from "react-native";
 import {activateKeepAwake} from "expo-keep-awake";
 import App from "./App";
 import {createRoot} from "react-dom/client";
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import {registerRootComponent} from 'expo';
 
 if (__DEV__) {
     activateKeepAwake().then(() => {
