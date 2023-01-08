@@ -38,6 +38,7 @@ export const SignUpScreen = () => {
                                     required: "Name is required",
                                     minLength: {value: 4, message: "minimum 4 character"}
                                 }}
+
                                 render={(form) => {
                                     return (
                                         <>
@@ -46,6 +47,7 @@ export const SignUpScreen = () => {
                                                        onChangeText={(val) => form.field.onChange(val)}
                                                        onBlur={form.field.onBlur}
                                                        mode={"outlined"}
+                                                       value={form.field.value}
                                                        placeholder={"You can use your nickname also"}/>
                                             <HelperText type={"error"}>{errors.name?.message as string}</HelperText>
                                         </>

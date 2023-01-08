@@ -52,7 +52,7 @@ export default function App() {
                                          statusBarColor: colors.background,
                                          headerStyle: {backgroundColor: colors.background},
                                          headerTitleStyle: {fontFamily: "Montserrat_700Bold"},
-                                         animation: "fade_from_bottom",
+                                         animation: "flip",
                                          headerBackImageSource: require("./assets/icons/back.svg")
                                      }}>
                         <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
