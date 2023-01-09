@@ -1,5 +1,5 @@
 import {FBox} from "../../components/globals/fbox";
-import {List, Text, TextInput, useTheme} from "react-native-paper";
+import {Button, List, Text, TextInput, useTheme} from "react-native-paper";
 import {Controller, useForm} from "react-hook-form";
 import {useState} from "react";
 import {Dimensions, Image, ScrollView} from "react-native";
@@ -16,9 +16,23 @@ export const StoreRegistration = () => {
             id: item
         }
     })
+    const onLocationSelect=(item)=>{}
+    const registerStore = (data) => {
+
+    }
     return (
-        <FBox style={{flex: 1, paddingHorizontal: 18, paddingTop: 18, overflow: "scroll"}}>
-            <FBox style={{alignItems: "center", justifyContent: "center", paddingTop: 80, paddingBottom: 20}}>
+        <FBox style={{
+            flex: 1,
+            paddingHorizontal: 18,
+            paddingTop: 18,
+            overflow: "hidden",
+            position: "relative",
+        }}>
+            <FBox style={{position: "absolute", top: 0, right: 0, zIndex: 10}}>
+                <Button mode={"text"} onPress={handleSubmit(registerStore)}>登録</Button>
+            </FBox>
+
+            <FBox style={{alignItems: "center", justifyContent: "center", paddingTop: 20, paddingBottom: 20}}>
                 <FBox style={{padding: 0}}>
                     <Image source={require("../../../assets/icons/store_location_icon.svg")}
                            style={{width: 100, height: 80}}/>
@@ -84,6 +98,8 @@ export const StoreRegistration = () => {
                                     borderRadius: 5,
                                     marginBottom: 10
                                 }}
+                                titleStyle={{color:theme.colors.primary}}
+                                onPress={()=>onLocationSelect(item)}
                                 title={item.title}
                                 description={item.description}
                                 left={props => <List.Image style={{
