@@ -3,18 +3,63 @@ export type RootParamList = {
     dashboard: undefined,
     signup: any,
     signin: any,
-    otp:any,
-    accountComplete:any,
-    storeRegistration:any
+    otp: any,
+    accountComplete: any,
+    storeRegistration: any
 }
-export const colors={
-    primary:"#48A8EF",
-    background:"#0A062B",
-    text:"#FFFFFF",
-    textDark:"rgba(255, 255, 255, 0.301961)",
-    red:"#FF3633",
-    blue:"#2222DD",
-    grayBorder:"#585858",
-    primaryBorder:"#47C3E8"
+export const ourTheme = {
+    "colors": {
+        "primary": "rgb(148, 204, 255)",
+        "onPrimary": "rgb(0, 51, 82)",
+        "primaryContainer": "rgb(0, 75, 116)",
+        "onPrimaryContainer": "rgb(205, 229, 255)",
+        "secondary": "rgb(185, 200, 218)",
+        "onSecondary": "rgb(35, 50, 64)",
+        "secondaryContainer": "rgb(57, 72, 87)",
+        "onSecondaryContainer": "rgb(212, 228, 246)",
+        "tertiary": "rgb(210, 191, 231)",
+        "onTertiary": "rgb(56, 42, 74)",
+        "tertiaryContainer": "rgb(79, 64, 97)",
+        "onTertiaryContainer": "rgb(237, 220, 255)",
+        "error": "rgb(255, 180, 171)",
+        "onError": "rgb(105, 0, 5)",
+        "errorContainer": "rgb(147, 0, 10)",
+        "onErrorContainer": "rgb(255, 180, 171)",
+        "background": "rgb(26, 28, 30)",
+        "onBackground": "rgb(226, 226, 229)",
+        "surface": "rgb(26, 28, 30)",
+        "onSurface": "rgb(226, 226, 229)",
+        "surfaceVariant": "rgb(66, 71, 78)",
+        "onSurfaceVariant": "rgb(194, 199, 207)",
+        "outline": "rgb(140, 145, 152)",
+        "outlineVariant": "rgb(66, 71, 78)",
+        "shadow": "rgb(0, 0, 0)",
+        "scrim": "rgb(0, 0, 0)",
+        "inverseSurface": "rgb(226, 226, 229)",
+        "inverseOnSurface": "rgb(47, 48, 51)",
+        "inversePrimary": "rgb(0, 99, 153)",
+        "elevation": {
+            "level0": "transparent",
+            "level1": "rgb(12,10,30)",
+            "level2": "rgb(13,11,43)",
+            "level3": "rgb(22, 19, 54)",
+            "level4": "rgb(41, 49, 57)",
+            "level5": "rgb(43, 53, 62)"
+        },
+        "surfaceDisabled": "rgba(226, 226, 229, 0.12)",
+        "onSurfaceDisabled": "rgba(226, 226, 229, 0.38)",
+        "backdrop": "rgba(43, 49, 55, 0.4)"
+    }
+}
+export const colors = {
+    white: "#FFFFFF",
+    primary: "#48A8EF",
+    background: "#0A062B",
+    text: "#FFFFFF",
+    textDark: "rgba(255, 255, 255, 0.301961)",
+    red: "#FF3633",
+    blue: "#2222DD",
+    grayBorder: "#585858",
+    primaryBorder: "#47C3E8"
 
 }
