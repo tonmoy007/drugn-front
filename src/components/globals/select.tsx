@@ -57,7 +57,7 @@ export const FPaperSelect = (props: Props) => {
                    outlineColor={props.outlineColor}
                    outlineStyle={props.outlineStyle} onFocus={onFocus} mode={props.mode}
                    right={<TextInput.Icon icon={"chevron-down"}/>} disabled={visible}/>
-        <Portal>
+        <Portal >
             <Dialog visible={visible} dismissable={true} onDismiss={onDismiss}>
                 <Dialog.Content style={{padding: 0}}>
                     <List.Subheader>{props.title}</List.Subheader>

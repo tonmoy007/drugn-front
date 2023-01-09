@@ -31,8 +31,8 @@ export const ourTheme = {
         "onSurface": "rgb(226, 226, 229)",
         "surfaceVariant": "rgb(66, 71, 78)",
         "onSurfaceVariant": "rgb(194, 199, 207)",
-        "outline": "rgb(140, 145, 152)",
-        "outlineVariant": "rgb(66, 71, 78)",
+        "outline": "rgb(88, 88, 88)",
+        "outlineVariant": "rgb(45, 43, 60)",
         "shadow": "rgb(0, 0, 0)",
         "scrim": "rgb(0, 0, 0)",
         "inverseSurface": "rgb(226, 226, 229)",
@@ -48,7 +48,7 @@ export const ourTheme = {
         },
         "surfaceDisabled": "rgba(226, 226, 229, 0.12)",
         "onSurfaceDisabled": "rgba(226, 226, 229, 0.38)",
-        "backdrop": "rgba(43, 49, 55, 0.4)"
+        "backdrop": "rgba(43, 49, 55, 0.1)"
     }
 }
 export const colors = {
