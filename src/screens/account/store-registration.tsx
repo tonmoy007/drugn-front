@@ -1,24 +1,57 @@
 import {FBox} from "../../components/globals/fbox";
-import {Button, List, Text, TextInput, useTheme} from "react-native-paper";
+import {Button, Text, TextInput, useTheme} from "react-native-paper";
 import {Controller, useForm} from "react-hook-form";
 import {useState} from "react";
-import {Dimensions, Image, ScrollView} from "react-native";
+import {Image} from "react-native";
 import {FPaperSelect, SelectItem} from "../../components/globals/select";
+import {StoreList} from "../../components/account/store-list";
 
+const data = [{value: "OK", label: "OK"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {
+    label: "Not Ok",
+    value: "Not Ok"
+}, {label: "Not Ok", value: "Not Ok"}, {label: "Not Ok", value: "Not Ok"}]
 export const StoreRegistration = () => {
-    const {handleSubmit, control} = useForm()
-    const [selected, setSelected] = useState<SelectItem | null>(null)
+    const {handleSubmit, control, setValue} = useForm()
+    const [selected, setSelected] = useState<SelectItem | undefined>()
+    const [items, setItems] = useState(data)
     const theme = useTheme()
-    const list = [...Array(10).keys()].map((item) => {
+    const [list, updateList] = useState([...Array(10).keys()].map((item) => {
         return {
             title: "ツルハドラッグ　川崎モアーズ店",
             description: "神奈川県 川崎市中原区 新丸子東3-1302 ららテラス 武蔵小杉1階",
-            id: item
+            id: item,
+            selected: false
         }
-    })
-    const onLocationSelect=(item)=>{}
-    const registerStore = (data) => {
+    }))
+    const onLocationSelect = (index) => {
+        const l = list.map(data => {
+            return {...data, selected: false}
+        })
+        l[index].selected = true
+        updateList(l)
+        setValue("location", l[index])
 
+    }
+    const registerStore = (data) => {
+        console.log(data)
     }
     return (
         <FBox style={{
@@ -53,67 +86,19 @@ export const StoreRegistration = () => {
                     }} name={"query"} control={control}/>
                 </FBox>
                 <FBox>
-                    <Controller render={({field, fieldState, formState}) => {
-                        return (
-                            <FPaperSelect title={"Select Item"}
-                                          selectItems={[{value: "OK", label: "OK"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {
-                                              label: "Not Ok",
-                                              value: "Not Ok"
-                                          }, {label: "Not Ok", value: "Not Ok"}, {label: "Not Ok", value: "Not Ok"}]}
-                                          onChange={field.onChange} selectedItem={selected} mode={"outlined"}
-                                          outlineStyle={{backgroundColor: "rgba(255,255,255,.06)"}}
-                                          outlineColor={"transparent"}/>
-                        )
-                    }} name={"dist"} control={control}/>
+
+                    <FPaperSelect name={"dist"} title={"Select Item"}
+                                  selectItems={items}
+                                  mode={"outlined"}
+                                  onChange={(item) => setValue("dist", item)}
+                                  outlineStyle={{backgroundColor: "rgba(255,255,255,.06)"}}
+                                  outlineColor={"transparent"}
+                                  selectedItem={selected}
+                    />
+
                 </FBox>
             </FBox>
-            <FBox style={{paddingTop: 10, flex: 1, position: "relative"}}>
-                <ScrollView style={{maxHeight: "100%"}}>
-                    <List.Section>
-                        {list.map(item => {
-                            return <List.Item
-                                key={`data_${item.id}`}
-                                style={{
-                                    padding: 10,
-                                    borderWidth: 1,
-                                    borderColor: theme.colors.outline,
-                                    borderRadius: 5,
-                                    marginBottom: 10
-                                }}
-                                titleStyle={{color:theme.colors.primary}}
-                                onPress={()=>onLocationSelect(item)}
-                                title={item.title}
-                                description={item.description}
-                                left={props => <List.Image style={{
-                                    borderRadius: 10,
-                                    shadowColor: "rgba(0, 0, 0)",
-                                    shadowOffset: {width: 4, height: 4},
-                                    shadowOpacity: .25,
-                                    shadowRadius: 4
-                                }}
-                                                           source={require("../../../assets/images/Drugn_logo_white.png")}/>}/>
-                        })}
-                    </List.Section>
-                </ScrollView>
-            </FBox>
+            <StoreList list={list} onLocationSelect={onLocationSelect}/>
         </FBox>
     )
 }

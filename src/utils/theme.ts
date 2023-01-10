@@ -24,3 +24,14 @@ export const theme: ThemeProp = {
 };
 
 export type AppTheme = typeof theme;
+export const navTheme={
+    dark: true,
+    colors: {
+        primary: theme.colors?.primary ?? colors.primary,
+        background: theme.colors?.background ?? colors.background,
+        card: theme.colors?.background ?? colors.background,
+        text: theme.colors?.onSurface ?? colors.text,
+        border: "transparent",
+        notification: theme.colors?.onSurface ?? colors.text
+    }
+}
