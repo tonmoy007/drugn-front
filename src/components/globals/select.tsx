@@ -20,6 +20,8 @@ interface Props {
     selectedItem?: SelectItem
     mode?: "flat" | "outlined"
     onBlur?: () => void;
+    action?: boolean;
+    header?: boolean;
 }
 
 export const FPaperSelect = (props: Props) => {
@@ -67,9 +69,11 @@ export const FPaperSelect = (props: Props) => {
                                ref={field.ref}
                     />
                     <Portal>
-                        <Dialog visible={visible} dismissable={true} onDismiss={onDismiss}>
+                        <Dialog theme={{roundness: 2}} visible={visible} dismissable={true} onDismiss={onDismiss}>
                             <Dialog.Content style={{padding: 0}}>
-                                <List.Subheader>{props.title}</List.Subheader>
+                                {props.header && (
+                                    <List.Subheader>{props.title}</List.Subheader>
+                                )}
                                 <ScrollView style={{maxHeight: Dimensions.get("window").height - 200}}>
                                     <List.Section>
                                         {props.selectItems.map((item, index) => {
@@ -93,9 +97,12 @@ export const FPaperSelect = (props: Props) => {
                                     </List.Section>
                                 </ScrollView>
                             </Dialog.Content>
-                            <Dialog.Actions>
-                                <Button mode={"text"} onPress={onCancel}>Cancel</Button>
-                            </Dialog.Actions>
+                            {props.action && (
+
+                                <Dialog.Actions>
+                                    <Button mode={"text"} onPress={onCancel}>Cancel</Button>
+                                </Dialog.Actions>
+                            )}
                         </Dialog>
                     </Portal>
                 </>

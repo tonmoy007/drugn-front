@@ -7,7 +7,7 @@ export const theme: ThemeProp = {
     // Extend Material Design 2 theme
 
     ...MD3DarkTheme, // or MD2DarkTheme
-    roundness: 1,
+    roundness: 5,
     // Specify a custom nested property
     colors: {
         ...ourTheme.colors,

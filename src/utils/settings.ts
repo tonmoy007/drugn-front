@@ -60,6 +60,7 @@ export const colors = {
     red: "#FF3633",
     blue: "#2222DD",
     grayBorder: "#585858",
-    primaryBorder: "#47C3E8"
+    primaryBorder: "#47C3E8",
+    textInputIconBackground:"#1B192E"
 
 }
