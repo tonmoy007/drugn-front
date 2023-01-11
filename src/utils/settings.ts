@@ -6,6 +6,7 @@ export type RootParamList = {
     otp: any,
     accountComplete: any,
     storeRegistration: any
+    storeRegistrationSuccess:any
 }
 export const ourTheme = {
     "colors": {
@@ -61,6 +62,6 @@ export const colors = {
     blue: "#2222DD",
     grayBorder: "#585858",
     primaryBorder: "#47C3E8",
-    textInputIconBackground:"#1B192E"
-
+    textInputIconBackground:"#1B192E",
+    textSemiDark:"#C1C1C1"
 }

@@ -20,6 +20,7 @@ import {linking} from "./src/utils/routes";
 import {navTheme, theme} from "./src/utils/theme";
 import {AccountComplete} from "./src/screens/auth/account-complete";
 import {StoreRegistration} from "./src/screens/account/store-registration";
+import {StoreRegistrationSuccess} from "./src/screens/account/store-registration-success";
 
 const Stack = createNativeStackNavigator<RootParamList>();
 export default function App() {
@@ -36,29 +37,32 @@ export default function App() {
                     headerStyle: {backgroundColor: colors.background},
                     headerTitleStyle: {fontFamily: "Montserrat_700Bold"},
                     animation: "fade_from_bottom",
-                    headerBackImageSource:require("./assets/icons/back.svg")
+                    headerBackImageSource: require("./assets/icons/back.svg")
                 }}>
-                    <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
                     <Stack.Screen component={Home} name="dashboard" navigationKey={"dashboard"}
-                                  options={{title: "Dashboard"}}/>
-                    <Stack.Screen name={"storeRegistration"} component={StoreRegistration} options={{headerShown:false,title:"Store Registration"}}/>
-                    <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"}
-                                  options={{
-                                      title: "Sign up",
-                                      headerRight: () => {
-                                          return (
-                                              <StepOf total={2} current={1}/>
-                                          )
-                                      }
-                                  }}/>
+                                  options={{title: "Dashboard", headerShown: false}}/>
+                    <Stack.Screen component={UnAuthLanding} name="landing" options={{headerShown: false}}/>
+                    <Stack.Screen name={"storeRegistration"} component={StoreRegistration}
+                                  options={{headerShown: false, title: "Store Registration"}}/>
+                    <Stack.Screen name={"storeRegistrationSuccess"} component={StoreRegistrationSuccess}
+                                  options={{headerShown: false, title: "Store registration success"}}/>
+                    <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"} options={{
+                        title: "Sign up",
+                        headerRight: () => {
+                            return (
+                                <StepOf total={2} current={1}/>
+                            )
+                        }
+                    }}/>
                     <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
                         title: "Sign up ",
                         headerRight: () => {
                             return <StepOf total={2} current={2}/>
                         },
                     }}/>
-                    <Stack.Screen name={"accountComplete"} component={AccountComplete} navigationKey={"account-complete"} options={{headerShown:false}}/>
-                    <Stack.Screen name="signin" component={SignInScreen} options={{title: "Sign In"}}/>
+                    <Stack.Screen name={"accountComplete"} component={AccountComplete}
+                                  navigationKey={"account-complete"} options={{headerShown: false}}/>
+                    <Stack.Screen name={"signin"} component={SignInScreen} options={{title: "Sign In"}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </PaperProvider>

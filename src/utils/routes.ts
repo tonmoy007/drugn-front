@@ -7,7 +7,8 @@ export const linking = {
             signin: "/sign-in",
             otp: "/otp",
             accountComplete: "/account-complete",
-            storeRegistration: "/store-registration"
+            storeRegistration: "/store-registration",
+            storeRegistrationSuccess: "store-registration/success"
         }
     },
     prefixes: []

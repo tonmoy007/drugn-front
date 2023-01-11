@@ -1,38 +1,23 @@
 import {FBox} from "../../components/globals/fbox";
-import {Button, Text, TextInput, useTheme} from "react-native-paper";
+import {Button, Text, TextInput} from "react-native-paper";
 import {Controller, useForm} from "react-hook-form";
 import {useState} from "react";
 import {Image} from "react-native";
 import {FPaperSelect, SelectItem} from "../../components/globals/select";
 import {StoreList} from "../../components/account/store-list";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {RootParamList} from "../../utils/settings";
 
-const data = [{value: "OK", label: "OK"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {
-    label: "Not Ok",
-    value: "Not Ok"
-}, {label: "Not Ok", value: "Not Ok"}, {label: "Not Ok", value: "Not Ok"}]
+const data = [{value: "横浜市西区", label: "横浜市西区（16）"}, {
+    label: "横浜市中央区（16）",
+    value: "横浜市中央区"
+}, {label: "藤沢市（3）", value: "藤沢市"}]
 export const StoreRegistration = () => {
     const {handleSubmit, control, setValue} = useForm()
     const [selected, setSelected] = useState<SelectItem | undefined>()
     const [items, setItems] = useState(data)
-    const theme = useTheme()
+    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const [list, updateList] = useState([...Array(10).keys()].map((item) => {
         return {
             title: "ツルハドラッグ　川崎モアーズ店",
@@ -52,6 +37,8 @@ export const StoreRegistration = () => {
     }
     const registerStore = (data) => {
         console.log(data)
+        nav.navigate("storeRegistrationSuccess")
+
     }
     return (
         <FBox style={{
