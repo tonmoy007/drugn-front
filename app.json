@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -41,13 +41,8 @@
         "backgroundColor": "#0A062B",
         "image": "./assets/splash.png",
         "resizeMode": "contain"
-      },
-      "bundler": "webpack"
+      }
     },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
-    }
-
+    "jsEngine": "hermes"
   }
 }

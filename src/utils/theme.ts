@@ -20,11 +20,12 @@ export const theme: ThemeProp = {
         onSurfaceVariant: colors.textDark,
 
     },
-    fonts: configureFonts({isV3: true, config: FontConfig})
+    fonts: configureFonts({isV3: true, config: FontConfig}),
+    isV3: true
 };
 
 export type AppTheme = typeof theme;
-export const navTheme={
+export const navTheme = {
     dark: true,
     colors: {
         primary: theme.colors?.primary ?? colors.primary,

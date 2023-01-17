@@ -8,6 +8,12 @@ export type RootParamList = {
     storeRegistration: any
     storeRegistrationSuccess:any
 }
+export type BottomTab={
+    Home:any;
+    Account:any;
+    Nft:any;
+    MedicineList:any
+}
 export const ourTheme = {
     "colors": {
         "primary": "rgb(148, 204, 255)",
@@ -16,7 +22,7 @@ export const ourTheme = {
         "onPrimaryContainer": "rgb(205, 229, 255)",
         "secondary": "rgb(185, 200, 218)",
         "onSecondary": "rgb(35, 50, 64)",
-        "secondaryContainer": "rgb(57, 72, 87)",
+        "secondaryContainer": "transparent",
         "onSecondaryContainer": "rgb(212, 228, 246)",
         "tertiary": "rgb(210, 191, 231)",
         "onTertiary": "rgb(56, 42, 74)",
@@ -63,5 +69,8 @@ export const colors = {
     grayBorder: "#585858",
     primaryBorder: "#47C3E8",
     textInputIconBackground:"#1B192E",
-    textSemiDark:"#C1C1C1"
+    textSemiDark:"#C1C1C1",
+    navBackground:"#131426",
+    inactive:"rgb(112,112,112)",
+    primary2:"#4BA9BE"
 }

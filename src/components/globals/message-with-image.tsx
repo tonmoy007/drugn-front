@@ -1,12 +1,12 @@
 import {FBox} from "./fbox";
-import {Image} from "react-native";
+import {Image, ImageSourcePropType} from "react-native";
 import {Button, Text, useTheme} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {colors, RootParamList} from "../../utils/settings";
 
 interface Props {
-    imageUrl: string;
+    imageUrl: ImageSourcePropType;
     title: string;
     buttonText: string;
     navigationPath: keyof RootParamList,
@@ -18,10 +18,10 @@ export const MessageWithImage = (props: Props) => {
     const theme = useTheme()
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     return (
-        <FBox style={{flex: 1, paddingHorizontal: 20, alignItems: "center", justifyContent: "center"}}>
+        <FBox style={{flex: 1, paddingHorizontal: 20, alignItems: "center", justifyContent: "center",paddingTop:20}}>
             <FBox style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
                 <FBox style={{paddingVertical: 40}}>
-                    <Image source={require("../../../assets/" + props.imageUrl)}
+                    <Image source={props.imageUrl}
                            style={{width: 240, height: 260}}/>
                 </FBox>
                 <Text style={{
