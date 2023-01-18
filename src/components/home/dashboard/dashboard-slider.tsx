@@ -1,24 +1,25 @@
 import {Dimensions, StyleSheet} from "react-native";
 import {useRef, useState} from "react";
 import Carousel from 'react-native-anchor-carousel';
-import {Button, Card, Text} from "react-native-paper";
+import {Button, Card, Divider, List, Text} from "react-native-paper";
 import {FBox} from "../../globals/fbox";
 import {colors} from "../../../utils/settings";
+import {CustomIcon} from "../../../utils/custom-icon";
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 const styles = StyleSheet.create({
     card: {
         backgroundColor: "rgba(255,255,255,.2)",
+        overflow:"hidden",
         flex: 1,
         borderRadius: 20,
         borderColor: "#FFFFFF",
         borderWidth: 1,
-        alignItems:"center",
-        justifyContent:"center"
+        alignItems: "center",
+        justifyContent: "center",
     },
     carousel: {
         flexGrow: 0,
-        height: windowHeight * .4,
         paddingRight: 18
     },
     dot: {
@@ -40,16 +41,15 @@ const styles = StyleSheet.create({
     dotActive: {
         backgroundColor: colors.white,
         width: 12,
-        height: 5,
         borderRadius: 10,
-        marginRight: 5
     }
 });
 export const SliderPagination = ({currentIndex, length}) => {
     return (
         <FBox style={styles.dotContainer}>
             {Array(length).fill(0).map((item, index) => {
-                return <FBox key={"page_" + index} style={index == currentIndex ? styles.dotActive : styles.dot}></FBox>
+                return <FBox key={"page_" + index}
+                             style={index == currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></FBox>
             })}
         </FBox>
     )
@@ -57,17 +57,17 @@ export const SliderPagination = ({currentIndex, length}) => {
 export const DashboardSlider = () => {
     const carouselRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const data = Array(10).fill(0)
+    const data = Array(5).fill(0)
     const renderItem = ({item, index}) => {
         return (
-            <Card elevation={1} style={{
+            <FBox style={{
                 ...styles.card,
                 marginLeft: index == 0 ? 18 : 0
             }
             }>
-                <Card.Content>
+                <FBox style={{padding: 0, margin: 0, flex:1}}>
                     {index == 0 && (
-                        <FBox style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                        <FBox style={{flex: 1, alignItems: "center", justifyContent: "center", padding: 20}}>
                             <FBox style={{
                                 flex: 1,
                                 flexDirection: "column",
@@ -76,12 +76,29 @@ export const DashboardSlider = () => {
                             }}>
                                 <Text>今日 11/30(水) 朝</Text>
                                 <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 18, fontWeight: "bold"}}
-                                        mode={"text"} textColor={colors.white} onPress={()=>{}}>薬を新規登録する</Button>
+                                        mode={"text"} textColor={colors.white} onPress={() => {
+                                }}>薬を新規登録する</Button>
                             </FBox>
                         </FBox>
                     )}
-                </Card.Content>
-            </Card>
+                    {index == 1 && (
+                        <FBox style={{flex: 1,alignItems:"center",justifyContent:"center"}}>
+                            {Array(3).fill(0).map((item, index) => {
+                                return (
+                                    <>
+                                        {index != 0 && (<Divider  style={{backgroundColor: colors.white,width:"90%"}}/>)}
+                                        <List.Item onPress={() => {
+                                        }} titleStyle={{fontSize: 15, fontWeight: "700", lineHeight: 20}}
+                                                   left={(props) => <CustomIcon color={colors.white} name={"pill"}
+                                                                                size={24}/>} title={"１ダイアモックス錠250mg"}
+                                                   description={"三和化学研究テキストテキスト"}/>
+                                    </>
+                                )
+                            })}
+                        </FBox>
+                    )}
+                </FBox>
+            </FBox>
         );
     }
     const handleCarouselScrollEnd = (item, index) => {
@@ -100,7 +117,6 @@ export const DashboardSlider = () => {
                 itemWidth={windowWidth * 0.92}
                 containerWidth={windowWidth}
                 separatorWidth={18}
-                itemHeight={windowHeight * .4}
                 onScrollEnd={handleCarouselScrollEnd}
                 onScrollEndDrag={handleCarouselScrollEnd}
                 inActiveOpacity={0.3}

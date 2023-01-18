@@ -1,7 +1,7 @@
 module.exports = function (api) {
     api.cache(true);
     return {
-        presets: ['babel-preset-expo','module:metro-react-native-babel-preset',],
+        presets: ['babel-preset-expo'],
         env: {
             production: {
                 plugins: [
@@ -10,6 +10,7 @@ module.exports = function (api) {
             },
         },
         plugins: [
+            'react-native-paper/babel',
             'babel-plugin-react-native-web',
             '@babel/plugin-proposal-export-namespace-from',
             'react-native-reanimated/plugin'

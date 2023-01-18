@@ -1,7 +1,7 @@
 {
   "name": "drugn-app",
   "version": "1.0.0",
-  "main": "entry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -49,10 +49,5 @@
     "workbox-strategies": "^6.5.4",
     "workbox-webpack-plugin": "^6.5.4"
   },
-  "private": true,
-  "rnpm": {
-    "assets": [
-      "assets/fonts"
-    ]
-  }
+  "private": true
 }

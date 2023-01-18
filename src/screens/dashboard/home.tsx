@@ -9,6 +9,7 @@ import {useCallback, useMemo, useRef} from "react";
 import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
 import {StyleSheet} from "react-native";
 import {DashboardActions} from "../../components/home/dashboard/dashboard-actions";
+import {DashboardNft} from "../../components/home/dashboard/dashboard-nft";
 
 export const Home = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -19,19 +20,12 @@ export const Home = () => {
     return (
             <LinearGradient style={{flex: 1}} colors={[colors.primary2, colors.background]} start={{x: 0.1, y: 0.3}}
                             end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
-                <DashboardHeader title={"Laura Brooke"} wallet={300}/>
-                <DashboardSlider/>
-                <DashboardActions/>
-                {/*<BottomSheet*/}
-                {/*    ref={bottomSheetRef}*/}
-                {/*    index={1}*/}
-                {/*    snapPoints={snapPoints}*/}
-                {/*    onChange={handleSheetChanges}*/}
-                {/*>*/}
-                {/*    <FBox style={styles.contentContainer}>*/}
-                {/*        <Text>Awesome 🎉</Text>*/}
-                {/*    </FBox>*/}
-                {/*</BottomSheet>*/}
+                <FBox style={{flex:1}}>
+                    <DashboardHeader title={"Laura Brooke"} wallet={300}/>
+                    <DashboardSlider/>
+                    <DashboardActions/>
+                </FBox>
+                <DashboardNft/>
             </LinearGradient>
     )
 }
