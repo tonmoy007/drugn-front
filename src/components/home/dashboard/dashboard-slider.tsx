@@ -101,7 +101,7 @@ export const DashboardSlider = () => {
                             }}>
                                 <Text style={{fontFamily: 'Montserrat_700Bold', marginBottom: 5}}>今日 11/30(水)
                                     朝</Text>
-                                <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 30, fontWeight: "bold"}}
+                                <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 30, fontWeight: "bold",lineHeight:40}}
                                         mode={"text"} textColor={colors.white} onPress={() => {
                                 }}>薬を新規登録する</Button>
                             </FBox>
