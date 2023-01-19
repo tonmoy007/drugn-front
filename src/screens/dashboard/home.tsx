@@ -1,4 +1,4 @@
-import { Text} from "react-native-paper"
+import {Text} from "react-native-paper"
 import {FBox} from "../../components/globals/fbox";
 import {DashboardSlider} from "../../components/home/dashboard/dashboard-slider";
 import {LinearGradient} from "expo-linear-gradient";
@@ -18,15 +18,16 @@ export const Home = () => {
         console.log('handleSheetChanges', index);
     }, []);
     return (
-            <LinearGradient style={{flex: 1}} colors={[colors.primary2, colors.background]} start={{x: 0.1, y: 0.3}}
-                            end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
-                <FBox style={{flex:1}}>
-                    <DashboardHeader title={"Laura Brooke"} wallet={300}/>
-                    <DashboardSlider/>
-                    <DashboardActions/>
-                </FBox>
-                <DashboardNft/>
-            </LinearGradient>
+        <LinearGradient style={{flex: 1, justifyContent: "space-between"}} colors={[colors.primary2, colors.background]}
+                        start={{x: 0.1, y: 0.3}}
+                        end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
+            <FBox>
+                <DashboardHeader title={"Laura Brooke"} wallet={300}/>
+                <DashboardSlider/>
+                <DashboardActions/>
+            </FBox>
+            <DashboardNft/>
+        </LinearGradient>
     )
 }
 const styles = StyleSheet.create({
