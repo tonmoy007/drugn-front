@@ -5,7 +5,7 @@ import {colors} from "../../../utils/settings";
 
 export const DashboardActions = () => {
     return (
-        <FBox style={{flexDirection: "row", paddingHorizontal: 10, paddingVertical: 18}}>
+        <FBox style={{flexDirection: "row", padding: 18}}>
             <Button  contentStyle={styles.container} labelStyle={styles.label} icon={"history"} mode={"outlined"} style={{marginRight: 5, ...styles.button}}
                     onPress={() => {
                     }}>

@@ -77,7 +77,7 @@ export const DashboardNft = () => {
         }}>
             <TouchableOpacity style={styles.handle_container}>
                 <PanGestureHandler onEnded={onSwipe}>
-                    <TouchableOpacity style={styles.handle} onPress={() => setOpen(!open)}/>
+                    <TouchableOpacity activeOpacity={.8}  style={styles.handle} onPress={() => setOpen(!open)}/>
                 </PanGestureHandler>
             </TouchableOpacity>
             <FBox style={{margin: 18}}>

@@ -37,7 +37,7 @@ export default function App() {
         <GestureHandlerRootView style={{flex:1}}>
             <PaperProvider theme={theme}>
                 <NavigationContainer linking={linking} theme={navTheme}>
-                    <Stack.Navigator initialRouteName='landing' screenOptions={{
+                    <Stack.Navigator initialRouteName='dashboard' screenOptions={{
                         statusBarColor: colors.background,
                         headerStyle: {backgroundColor: colors.background},
                         headerTitleStyle: {fontFamily: "Montserrat_700Bold"},

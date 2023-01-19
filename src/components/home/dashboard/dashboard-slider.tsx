@@ -4,7 +4,6 @@ import Carousel from 'react-native-anchor-carousel';
 import {Button, Card, Divider, List, Text} from "react-native-paper";
 import {FBox} from "../../globals/fbox";
 import {colors} from "../../../utils/settings";
-import {CustomIcon} from "../../../utils/custom-icon";
 import {SliderLists} from "./slider-lists";
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
@@ -45,6 +44,30 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     }
 });
+const scheduleData = [
+    {
+        time: '今日 11/30(水) 朝',
+        title: '１ダイアモックス錠250mg',
+        description: '三和化学研究テキストテキスト',
+        rightIcon: 'sunrise',
+        active: true,
+    },
+    {
+        time: '朝食前 / 2錠',
+        title: '１ダイアモックス錠250mg',
+        description: '三和化学研究テキストテキスト',
+        rightIcon: '',
+        active: false,
+        color: '#FFA5FB'
+    },
+    {
+        time: '朝食前 / 2錠',
+        title: '１ダイアモックス錠250mg',
+        description: '三和化学研究テキストテキスト',
+        rightIcon: '',
+        active: false,
+    }
+]
 export const SliderPagination = ({currentIndex, length}) => {
     return (
         <FBox style={styles.dotContainer}>
@@ -76,15 +99,16 @@ export const DashboardSlider = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text>今日 11/30(水) 朝</Text>
-                                <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 18, fontWeight: "bold"}}
+                                <Text style={{fontFamily: 'Montserrat_700Bold', marginBottom: 5}}>今日 11/30(水)
+                                    朝</Text>
+                                <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 30, fontWeight: "bold"}}
                                         mode={"text"} textColor={colors.white} onPress={() => {
                                 }}>薬を新規登録する</Button>
                             </FBox>
                         </FBox>
                     )}
                     {index == 1 && (
-                        <SliderLists/>
+                        <SliderLists data={scheduleData}/>
                     )}
                 </FBox>
             </FBox>
