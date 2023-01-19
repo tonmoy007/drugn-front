@@ -72,5 +72,6 @@ export const colors = {
     textSemiDark:"#C1C1C1",
     navBackground:"#131426",
     inactive:"rgb(112,112,112)",
-    primary2:"#4BA9BE"
+    primary2:"#4BA9BE",
+    onBackgroundSpace:"#293658"
 }
