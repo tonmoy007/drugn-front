@@ -3,8 +3,10 @@ import {useRef, useState} from "react";
 import Carousel from 'react-native-anchor-carousel';
 import {Button, Card, Divider, List, Text} from "react-native-paper";
 import {FBox} from "../../globals/fbox";
-import {colors} from "../../../utils/settings";
+import {colors, RootParamList} from "../../../utils/settings";
 import {SliderLists} from "./slider-lists";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -82,6 +84,7 @@ export const DashboardSlider = () => {
     const carouselRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const data = Array(5).fill(0)
+    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const renderItem = ({index, key}) => {
         return (
             <FBox style={{
@@ -102,8 +105,7 @@ export const DashboardSlider = () => {
                                 <Text style={{fontFamily: 'Montserrat_700Bold', marginBottom: 5}}>今日 11/30(水)
                                     朝</Text>
                                 <Button icon={"plus-circle-outline"} labelStyle={{fontSize: 30, fontWeight: "bold",lineHeight:40}}
-                                        mode={"text"} textColor={colors.white} onPress={() => {
-                                }}>薬を新規登録する</Button>
+                                        mode={"text"} textColor={colors.white} onPress={() => nav.navigate("addMedicine")}>薬を新規登録する</Button>
                             </FBox>
                         </FBox>
                     )}

@@ -24,6 +24,8 @@ import {Dashboard} from "./src/screens/dashboard";
 import * as Font from "expo-font";
 import 'react-native-gesture-handler';
 import {enableExperimentalWebImplementation, GestureHandlerRootView} from 'react-native-gesture-handler';
+import AddMedicine from './src/screens/medicine/add';
+import ManageMedicine from './src/screens/medicine/manage';
 
 enableExperimentalWebImplementation(true);
 const Stack = createNativeStackNavigator<RootParamList>();
@@ -68,6 +70,15 @@ export default function App() {
                         <Stack.Screen name={"accountComplete"} component={AccountComplete}
                                       navigationKey={"account-complete"} options={{headerShown: false}}/>
                         <Stack.Screen name={"signin"} component={SignInScreen} options={{title: "Sign In"}}/>
+                        <Stack.Screen component={AddMedicine} name="addMedicine" navigationKey={"addMedicine"} options={{
+                            title: "薬を新規登録",
+                            headerRight: () => {
+                                return (
+                                    <StepOf total={3} current={1}/>
+                                )
+                            }
+                        }}/>
+                        <Stack.Screen name={"manageMedicine"} component={ManageMedicine} options={{title: "Manage Medicine"}}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>
