@@ -54,7 +54,7 @@ export default function App() {
                         <Stack.Screen name={"storeRegistrationSuccess"} component={StoreRegistrationSuccess}
                                       options={{headerShown: false, title: "Store registration success"}}/>
                         <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"} options={{
-                            title: "Sign up",
+                            title: "DrugNのアカウントを作る",
                             headerRight: () => {
                                 return (
                                     <StepOf total={2} current={1}/>
@@ -62,7 +62,7 @@ export default function App() {
                             }
                         }}/>
                         <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
-                            title: "Sign up ",
+                            title: "DrugNのアカウントを作る",
                             headerRight: () => {
                                 return <StepOf total={2} current={2}/>
                             },
