@@ -60,10 +60,10 @@ export const DashboardNft = () => {
     const [open, setOpen] = useState(false)
     const onSwipe = (event) => {
         console.log(event.nativeEvent)
-        if (event.nativeEvent.velocityY > 10) {
+        if (event.nativeEvent.velocityY > 0) {
             setOpen(false)
         }
-        if (event.nativeEvent.velocityY < -10) {
+        if (event.nativeEvent.velocityY < 0) {
             setOpen(true)
         }
     }

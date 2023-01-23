@@ -33,10 +33,10 @@ export const UnAuthLanding = () => {
 
                             navigation.navigate(signUpUrl)
                         }}
-                                style={{width: "100%", marginBottom: 12, borderRadius: 5}}>Sign Up</Button>
+                                style={{width: "100%", marginBottom: 12, borderRadius: 5}}>DrugNを始める</Button>
                         <Button mode="text" textColor="#ffffff" onPress={() => {
                             navigation.navigate(signInUrl)
-                        }}>I already have an account</Button>
+                        }}>既に登録している方はこちら</Button>
                     </FBox>
 
                 </FBox>

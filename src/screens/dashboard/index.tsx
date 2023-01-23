@@ -16,14 +16,15 @@ export const Dashboard = () => {
         <Tab.Navigator shifting={false} initialRouteName={"Home"} barStyle={{backgroundColor: colors.navBackground}}
                        inactiveColor={colors.inactive}>
             <Tab.Screen name={"Home"} component={Home} options={{
+                title:"ホーム",
                 tabBarIcon: (props) => <CustomIcon name={"home"} size={24} color={props.color}/>
             }}/>
             <Tab.Screen name={"MedicineList"} component={MedicineListScreen}
-                        options={{tabBarIcon: (props) => <CustomIcon name={"pill"} size={24} color={props.color}/>}}/>
+                        options={{title:"お薬一覧",tabBarIcon: (props) => <CustomIcon name={"pill"} size={24} color={props.color}/>}}/>
             <Tab.Screen name={"Nft"} component={NftScreen}
-                        options={{tabBarIcon: (props) => <CustomIcon name={"nft"} size={24} color={props.color}/>}}/>
+                        options={{title:"NFT",tabBarIcon: (props) => <CustomIcon name={"nft"} size={24} color={props.color}/>}}/>
             <Tab.Screen name={"Account"} component={AccountScreen}
-                        options={{tabBarIcon: (props) => <CustomIcon name={"user"} size={24} color={props.color}/>}}/>
+                        options={{title:"アカウント",tabBarIcon: (props) => <CustomIcon name={"user"} size={24} color={props.color}/>}}/>
         </Tab.Navigator>
     </>
 }
