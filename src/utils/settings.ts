@@ -6,7 +6,9 @@ export type RootParamList = {
     otp: any,
     accountComplete: any,
     storeRegistration: any
-    storeRegistrationSuccess:any
+    storeRegistrationSuccess:any,
+    addMedicine: any,
+    manageMedicine: any
 }
 export type BottomTab={
     Home:any;
@@ -60,10 +62,12 @@ export const ourTheme = {
 }
 export const colors = {
     white: "#FFFFFF",
+    black: '#000000',
     primary: "#48A8EF",
     background: "#0A062B",
     text: "#FFFFFF",
     textDark: "rgba(255, 255, 255, 0.301961)",
+    textDarker: "rgba(0, 0, 0, 0.46)",
     red: "#FF3633",
     blue: "#2222DD",
     grayBorder: "#585858",

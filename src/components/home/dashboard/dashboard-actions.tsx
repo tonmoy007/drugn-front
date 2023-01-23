@@ -1,9 +1,13 @@
 import {FBox} from "../../globals/fbox";
 import {Button} from "react-native-paper";
 import {StyleSheet} from "react-native";
-import {colors} from "../../../utils/settings";
+import {colors, RootParamList} from "../../../utils/settings";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 export const DashboardActions = () => {
+const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+
     return (
         <FBox style={{flexDirection: "row", padding: 18}}>
             <Button  contentStyle={styles.container} labelStyle={styles.label} icon={"history"} mode={"outlined"} style={{marginRight: 5, ...styles.button}}
@@ -16,8 +20,7 @@ export const DashboardActions = () => {
                     }}>
                 薬の編集
             </Button>
-            <Button icon={"plus-circle-outline"} labelStyle={styles.label} mode={"outlined"} onPress={() => {
-            }} style={{...styles.button}}>
+            <Button icon={"plus-circle-outline"} labelStyle={styles.label} mode={"outlined"} onPress={() => nav.navigate("addMedicine")} style={{...styles.button}}>
                 薬を新規登録
             </Button>
         </FBox>
