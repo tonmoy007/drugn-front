@@ -29,9 +29,12 @@ import ManageMedicine from './src/screens/medicine/manage';
 import {Provider as StoreProvider} from "react-redux";
 import {globalStore} from "./src/utils/store/global";
 import {useEffect} from "react";
-
+import {Ionicons} from "@expo/vector-icons";
 enableExperimentalWebImplementation(true);
 const Stack = createNativeStackNavigator<RootParamList>();
+Ionicons.loadFont().catch(err=>{
+    console.error(err)
+})
 export default function App() {
     let [fontsLoaded] = useFonts({
         Montserrat_400Regular, Montserrat_100Thin, Montserrat_700Bold, Montserrat_300Light,
