@@ -65,6 +65,7 @@ export const colors = {
     black: '#000000',
     primary: "#48A8EF",
     background: "#0A062B",
+    background2: '#1B2036',
     text: "#FFFFFF",
     textDark: "rgba(255, 255, 255, 0.301961)",
     textDarker: "rgba(0, 0, 0, 0.46)",

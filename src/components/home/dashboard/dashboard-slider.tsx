@@ -1,54 +1,15 @@
-import {Dimensions, StyleSheet, TouchableOpacity} from "react-native";
-import {useRef, useState} from "react";
-import SideSwipe from 'react-native-sideswipe';
+import {Dimensions, StyleSheet,TouchableOpacity} from "react-native";
+import {useEffect, useRef, useState} from "react";
 import {Button, Text} from "react-native-paper";
 import {FBox} from "../../globals/fbox";
 import {colors, RootParamList} from "../../../utils/settings";
 import {SliderLists} from "./slider-lists";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import SideSwipe from 'react-native-sideswipe'
 
-const {width: windowWidth} = Dimensions.get('window');
-const styles = StyleSheet.create({
-    card: {
-        backgroundColor: "rgba(255,255,255,.2)",
-        overflow: "hidden",
-        flex: 1,
-        borderRadius: 20,
-        borderColor: "#FFFFFF",
-        borderWidth: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: 200,
-        marginRight: 18,
-        width: windowWidth - 36
-    },
-    carousel: {
-        flexGrow: 0,
-        paddingRight: 18
-    },
-    dot: {
-        backgroundColor: colors.textDark,
-        width: 5,
-        height: 5,
-        borderRadius: 5,
-        marginRight: 5
-    },
-    dotContainer: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        width: "100%",
-        marginTop: 5
+const windowDimensions = Dimensions.get('window');
 
-    },
-    dotActive: {
-        backgroundColor: colors.white,
-        width: 12,
-        borderRadius: 10,
-    }
-});
 const scheduleData = [
     {
         time: '今日 11/30(水) 朝',
@@ -74,30 +35,43 @@ const scheduleData = [
     }
 ]
 export const SliderPagination = ({
-                                     currentIndex,
-                                     length,
-                                     onClick
-                                 }: { currentIndex: number, length: number, onClick: (index) => void }) => {
-    return (
-        <FBox style={styles.dotContainer}>
-            {Array(length).fill(0).map((item, index) => {
-                return <TouchableOpacity onPress={() => onClick(index)} key={"page_" + index}
-                                         style={index == currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
-            })}
-        </FBox>
-    )
+    currentIndex,
+    length,
+    onClick
+}: { currentIndex: number, length: number, onClick: (index) => void }) => {
+return (
+<FBox style={styles.dotContainer}>
+{Array(length).fill(0).map((item, index) => {
+return <TouchableOpacity onPress={() => onClick(index)} key={"page_" + index}
+        style={index == currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
+})}
+</FBox>
+)
 }
+
 export const DashboardSlider = () => {
-    const carouselRef = useRef(null);
+     const carouselRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const[windowDimension, setWindowDimension] = useState(windowDimensions)
     const data = Array(2).fill(0)
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+    
+    useEffect(() => {
+        const subscription = Dimensions.addEventListener(
+          'change',
+          ({window}) => {
+            setWindowDimension(window);
+          },
+        );
+        return () => subscription?.remove();
+      });
+
     const renderItem = ({itemIndex, currentIndex, item, animatedValue}) => {
         const index = itemIndex;
         const key = itemIndex + currentIndex;
         return (
             <FBox style={{
-                ...styles.card,
+                ...styles.card,width: windowDimension.width-36
             }}
                   key={`item-${index}${key}`}
             >
@@ -134,22 +108,22 @@ export const DashboardSlider = () => {
 
     return (
         <FBox style={{flex: 1}}>
-            {/*<Carousel*/}
-            {/*    ref={carouselRef}*/}
-            {/*    data={data}*/}
-            {/*    renderItem={renderItem}*/}
-            {/*    style={styles.carousel}*/}
-            {/*    itemWidth={windowWidth * 0.92}*/}
-            {/*    containerWidth={windowWidth}*/}
-            {/*    separatorWidth={18}*/}
-            {/*    onScrollEnd={handleCarouselScrollEnd}*/}
-            {/*    onScrollEndDrag={handleCarouselScrollEnd}*/}
-            {/*    inActiveOpacity={0.3}*/}
-            {/*    onScrollBeginDrag={handleCarouselScrollEnd}*/}
-            {/*/>*/}
-            <SideSwipe data={data} index={currentIndex} itemWidth={windowWidth - 18}
-                       style={{width: windowWidth}}
-                       threshold={windowWidth - 100}
+            {/* <Carousel
+                ref={carouselRef}
+                data={data}
+                renderItem={renderItem}
+                style={styles.carousel}
+                itemWidth={windowDimension.width * 0.92}
+                containerWidth={windowDimension.width}
+                separatorWidth={18}
+                onScrollEnd={handleCarouselScrollEnd}
+                onScrollEndDrag={handleCarouselScrollEnd}
+                inActiveOpacity={0.3}
+                onScrollBeginDrag={handleCarouselScrollEnd}
+            /> */}
+            <SideSwipe data={data} index={currentIndex} itemWidth={windowDimension.width - 18}
+                       style={{width: windowDimension.width}}
+                       threshold={windowDimension.width - 100}
                        contentOffset={18}
                        shouldRelease={(event) => false}
                        renderItem={renderItem} onIndexChange={handleCarouselScrollEnd}/>
@@ -157,3 +131,43 @@ export const DashboardSlider = () => {
         </FBox>
     )
 }
+
+const styles = StyleSheet.create({
+    card: {
+        backgroundColor: "rgba(255,255,255,.2)",
+        overflow: "hidden",
+        flex: 1,
+        borderRadius: 20,
+        borderColor: "#FFFFFF",
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: 200,
+        marginRight: 18,
+    },
+    carousel: {
+        flexGrow: 0,
+        paddingRight: 18
+    },
+    dot: {
+        backgroundColor: colors.textDark,
+        width: 5,
+        height: 5,
+        borderRadius: 5,
+        marginRight: 5
+    },
+    dotContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        width: "100%",
+        marginTop: 5
+
+    },
+    dotActive: {
+        backgroundColor: colors.white,
+        width: 12,
+        borderRadius: 10,
+    }
+});
