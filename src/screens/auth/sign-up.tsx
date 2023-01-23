@@ -40,6 +40,7 @@ export const SignUpScreen = () => {
                                     required: "Name is required",
                                     minLength: {value: 4, message: "minimum 4 character"}
                                 }}
+
                                 render={(form) => {
                                     return (
                                         <>
@@ -49,8 +50,8 @@ export const SignUpScreen = () => {
                                                        onChangeText={(val) => form.field.onChange(val)}
                                                        onBlur={form.field.onBlur}
                                                        mode={"outlined"}
-                                                       placeholder={"好きなニックネームを入力してください"}
                                                        value={form.field.value}
+                                                       placeholder={"好きなニックネームを入力してください"}
                                                        right={!Boolean(errors.name)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
                                             />
                                             <HelperText type={"error"}>{errors.name?.message as string}</HelperText>
