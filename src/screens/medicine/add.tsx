@@ -1,6 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
 import {Button} from "react-native-paper";
 import {  IconButton } from 'react-native-paper';
 import { StepOf } from '../../components/globals/step-of';
