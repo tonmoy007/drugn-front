@@ -1,6 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
 import {Button} from "react-native-paper";
 import {  IconButton } from 'react-native-paper';
 import { StepOf } from '../../components/globals/step-of';
@@ -11,9 +11,13 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 export default function AddMedicine({route, navigation}) {
   let cameraRef = useRef<any>()
   const [type, setType] = useState<any>(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, setPermission] =  useState<boolean>(false);
   const [medicine, setMedicine] = useState<any>({});
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+
+useEffect(()=>{
+  requestCameraPermission()
+},[])
 
   useEffect(() => {
     let curStep = 1;
@@ -24,7 +28,7 @@ export default function AddMedicine({route, navigation}) {
     navigation.setOptions({
       headerTitleAlign: 'center',
       headerLeft: () => (
-        <IconButton icon={"close"} iconColor={colors.white} onPress={() => navigation.goBack(null)}/>
+        <IconButton icon={"close"} iconColor={colors.white} onPress={handleBackNav}/>
       ),
       headerRight: () => {
         return (
@@ -39,7 +43,19 @@ export default function AddMedicine({route, navigation}) {
     });
   }, [medicine]);
 
-let takePic = async () => {
+  const requestCameraPermission = async ()=>{
+    const cameraPermission = await Camera.requestCameraPermissionsAsync();
+    setPermission(cameraPermission.granted)
+  }
+
+  const handleBackNav = ()=>{
+    if(navigation.canGoBack())
+    navigation.goBack()
+    else
+    navigation.replace('dashboard')
+  }
+
+const takePic = async () => {
   let options = {
     quality: 1,
     base64: true,
@@ -51,14 +67,12 @@ let takePic = async () => {
 };
 
   if (!permission) {
-    return <View />;
-  }
-
-  if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} >Grant permission</Button>
+        <View>
+        <Text style={{...styles.text, color:colors.white }}>Permission to use Camera</Text>
+        <Button onPress={requestCameraPermission} style={styles.button} >Grant permission</Button>
+      </View>
       </View>
     );
   }

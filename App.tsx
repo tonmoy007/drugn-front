@@ -30,6 +30,7 @@ import {Provider as StoreProvider} from "react-redux";
 import {globalStore} from "./src/utils/store/global";
 import {useEffect} from "react";
 import {Ionicons} from "@expo/vector-icons";
+import UserProfile from './src/screens/account/profie';
 enableExperimentalWebImplementation(true);
 const Stack = createNativeStackNavigator<RootParamList>();
 Ionicons.loadFont().catch(err=>{
@@ -82,6 +83,7 @@ export default function App() {
                             <Stack.Screen name={"accountComplete"} component={AccountComplete}
                                           navigationKey={"account-complete"} options={{headerShown: false}}/>
                             <Stack.Screen name={"signin"} component={SignInScreen} options={{title: "ログインする"}}/>
+                            <Stack.Screen name={"profile"} component={UserProfile} options={{title: "Profile Page"}}/>
                             <Stack.Screen component={AddMedicine} name="addMedicine" navigationKey={"addMedicine"}
                                           options={{
                                               title: "薬を新規登録",

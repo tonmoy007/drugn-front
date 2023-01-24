@@ -8,7 +8,8 @@ export type RootParamList = {
     storeRegistration: any
     storeRegistrationSuccess:any,
     addMedicine: any,
-    manageMedicine: any
+    manageMedicine: any,
+    profile: any
 }
 export type BottomTab={
     Home:any;
@@ -65,11 +66,13 @@ export const colors = {
     black: '#000000',
     primary: "#48A8EF",
     background: "#0A062B",
+    background2: '#1B2036',
     text: "#FFFFFF",
     textDark: "rgba(255, 255, 255, 0.301961)",
     textDarker: "rgba(0, 0, 0, 0.46)",
     red: "#FF3633",
     blue: "#2222DD",
+    lightBlue:'#528fff',
     grayBorder: "#585858",
     primaryBorder: "#47C3E8",
     textInputIconBackground:"#1B192E",
