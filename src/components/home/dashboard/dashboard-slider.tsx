@@ -44,7 +44,7 @@ interface SliderPaginationProps {
 export const SliderPagination = (props: SliderPaginationProps) => {
     return (
         <FBox style={styles.dotContainer}>
-            {Array(length).fill(0).map((item, index) => {
+            {Array(props.length).fill(0).map((item, index) => {
                 return <TouchableOpacity onPress={() => props.onClick(index)} key={"page_" + index}
                                          style={index == props.currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
             })}
