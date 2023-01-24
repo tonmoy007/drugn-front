@@ -11,7 +11,7 @@ import {
 
 const {height: windowHeight} = Dimensions.get('window');
 
-const smallScreen = windowHeight < 650
+const smallScreen = windowHeight < 680
 const styles = StyleSheet.create({
     container: {
         borderTopRightRadius: 20,
@@ -81,7 +81,7 @@ export const DashboardNft = () => {
                 </PanGestureHandler>
             </TouchableOpacity>
             <FBox style={{margin: 18}}>
-                <Text style={{fontFamily: "Montserrat_700Bold", paddingBottom: 20}}>NFT</Text>
+                <Text style={{fontFamily: "Montserrat_700Bold", paddingBottom: smallScreen?10:20}}>NFT</Text>
                 <Card theme={{elevation: 1}} style={styles.card}>
                     <Card.Content>
                         <FBox style={styles.cardWrapper}>

@@ -16,7 +16,9 @@ export default function AddMedicine({route, navigation}) {
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
 
 useEffect(()=>{
-  requestCameraPermission()
+  requestCameraPermission().then(res=>{
+      console.log("Here",res)
+  }).catch(err=>console.log(err))
 },[])
 
   useEffect(() => {

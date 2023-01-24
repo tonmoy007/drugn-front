@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet,TouchableOpacity} from "react-native";
+import {Dimensions, StyleSheet, TouchableOpacity} from "react-native";
 import {useEffect, useRef, useState} from "react";
 import {Button, Text} from "react-native-paper";
 import {FBox} from "../../globals/fbox";
@@ -34,44 +34,46 @@ const scheduleData = [
         active: false,
     }
 ]
-export const SliderPagination = ({
-    currentIndex,
-    length,
-    onClick
-}: { currentIndex: number, length: number, onClick: (index) => void }) => {
-return (
-<FBox style={styles.dotContainer}>
-{Array(length).fill(0).map((item, index) => {
-return <TouchableOpacity onPress={() => onClick(index)} key={"page_" + index}
-        style={index == currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
-})}
-</FBox>
-)
+
+interface SliderPaginationProps {
+    currentIndex: number,
+    length: number,
+    onClick: (index) => void
+}
+
+export const SliderPagination = (props: SliderPaginationProps) => {
+    return (
+        <FBox style={styles.dotContainer}>
+            {Array(length).fill(0).map((item, index) => {
+                return <TouchableOpacity onPress={() => props.onClick(index)} key={"page_" + index}
+                                         style={index == props.currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
+            })}
+        </FBox>
+    )
 }
 
 export const DashboardSlider = () => {
-     const carouselRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const[windowDimension, setWindowDimension] = useState(windowDimensions)
+    const [windowDimension, setWindowDimension] = useState(windowDimensions)
     const data = Array(2).fill(0)
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
-    
+
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
-          'change',
-          ({window}) => {
-            setWindowDimension(window);
-          },
+            'change',
+            ({window}) => {
+                setWindowDimension(window);
+            },
         );
         return () => subscription?.remove();
-      });
+    });
 
     const renderItem = ({itemIndex, currentIndex, item, animatedValue}) => {
         const index = itemIndex;
         const key = itemIndex + currentIndex;
         return (
             <FBox style={{
-                ...styles.card,width: windowDimension.width-36
+                ...styles.card, width: windowDimension.width - 36
             }}
                   key={`item-${index}${key}`}
             >
@@ -108,24 +110,10 @@ export const DashboardSlider = () => {
 
     return (
         <FBox style={{flex: 1}}>
-            {/* <Carousel
-                ref={carouselRef}
-                data={data}
-                renderItem={renderItem}
-                style={styles.carousel}
-                itemWidth={windowDimension.width * 0.92}
-                containerWidth={windowDimension.width}
-                separatorWidth={18}
-                onScrollEnd={handleCarouselScrollEnd}
-                onScrollEndDrag={handleCarouselScrollEnd}
-                inActiveOpacity={0.3}
-                onScrollBeginDrag={handleCarouselScrollEnd}
-            /> */}
             <SideSwipe data={data} index={currentIndex} itemWidth={windowDimension.width - 18}
                        style={{width: windowDimension.width}}
                        threshold={windowDimension.width - 100}
                        contentOffset={18}
-                       shouldRelease={(event) => false}
                        renderItem={renderItem} onIndexChange={handleCarouselScrollEnd}/>
             <SliderPagination currentIndex={currentIndex} length={data.length} onClick={(i) => setCurrentIndex(i)}/>
         </FBox>

@@ -63,6 +63,7 @@ export const ourTheme = {
 }
 export const colors = {
     white: "#FFFFFF",
+    mutedWhite:"#F8F4F4",
     black: '#000000',
     primary: "#48A8EF",
     background: "#0A062B",
