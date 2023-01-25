@@ -1,12 +1,13 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
-import {Button} from "react-native-paper";
+import { StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import {Button, useTheme} from "react-native-paper";
 import {  IconButton } from 'react-native-paper';
 import { StepOf } from '../../components/globals/step-of';
 import { colors, RootParamList } from '../../utils/settings';
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { FBox } from '../../components/globals/fbox';
 
 export default function AddMedicine({route, navigation}) {
   let cameraRef = useRef<any>()
@@ -14,6 +15,7 @@ export default function AddMedicine({route, navigation}) {
   const [permission, setPermission] =  useState<boolean>(false);
   const [medicine, setMedicine] = useState<any>({});
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+const theme = useTheme();
 
 useEffect(()=>{
   requestCameraPermission().then(res=>{
@@ -70,18 +72,18 @@ const takePic = async () => {
 
   if (!permission) {
     return (
-      <View style={styles.container}>
-        <View>
+      <FBox style={styles.container}>
+        <FBox>
         <Text style={{...styles.text, color:colors.white }}>Permission to use Camera</Text>
         <Button onPress={requestCameraPermission} style={styles.button} >Grant permission</Button>
-      </View>
-      </View>
+      </FBox>
+      </FBox>
     );
   }
 
 
   return (
-    <View style={styles.container}>
+    <FBox style={styles.container}>
       {medicine[1] && medicine[2]?
       <>
       {Array.from({ length: 2 }).map((_, index) =>
@@ -93,41 +95,41 @@ const takePic = async () => {
             </Button>
         </ImageBackground >
       )}
-      <View style={{flex:1}}>
+      <FBox style={{flex:1}}>
         <Text style={styles.text}>服用するお薬を撮影してください。
 ※お薬飲み忘れで時間が異なる場合も同様に撮影ください。</Text>
-      <View style={[styles.buttonContainer, {flexDirection:'row-reverse', justifyContent:'space-between', marginRight:10}]}>
-      <Button icon={"arrow-right"} labelStyle={styles.text} mode={"contained"} style={[styles.button, styles.nextButton]}
+      <FBox style={[styles.buttonContainer, {flexDirection:'row-reverse', justifyContent:'space-between', marginRight:10}]}>
+      <Button icon={"arrow-right"} labelStyle={styles.text} mode={"contained"} style={{...styles.button, ...styles.nextButton,backgroundColor: theme.colors.primary}}
                    onPress={()=>nav.navigate("manageMedicine",{
                     medicine: medicine,
                   })}>
               次
             </Button>
-        </View>
-        </View>
+        </FBox>
+        </FBox>
       </>
     :
     <>
       <Camera style={styles.camera} type={type} ref={cameraRef} />
-     <View style={styles.photoType}>
+     <FBox style={styles.photoType}>
      {!medicine[1]?
      <Text style={styles.cameraText}>フロント</Text>
      :
      <Text style={styles.cameraText}>バック</Text>
      }
-     </View>
-      <View style={{flex:2}}>
+     </FBox>
+      <FBox style={{flex:2}}>
         <Text style={styles.text}>服用するお薬を撮影してください。
 ※お薬飲み忘れで時間が異なる場合も同様に撮影ください。</Text>
-      <View style={styles.buttonContainer}>
+      <FBox style={styles.buttonContainer}>
           <TouchableOpacity style={styles.circle} onPress={takePic}>
           <IconButton icon={"camera"} iconColor={colors.black} size={35}/>
           </TouchableOpacity>
-        </View>
-        </View>
+        </FBox>
+        </FBox>
       </> 
         }
-    </View>
+    </FBox>
   );
 }
 
@@ -166,13 +168,11 @@ const styles = StyleSheet.create({
       },
   button: {
       backgroundColor: colors.textDark,
-      borderColor: colors.white,
       borderRadius: 10,
       width: 'max-content',
       margin:'auto'
 },
   nextButton: {
-      backgroundColor: colors.primary,
       marginRight: 10
 },
   buttonContainer: {

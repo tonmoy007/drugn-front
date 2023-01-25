@@ -1,21 +1,24 @@
-import {StyleSheet, View, Text, Image} from 'react-native';
-import {colors} from '../../utils/settings';
+import { StyleSheet, Text, Image } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { colors } from '../../utils/settings';
+import { FBox } from '../globals/fbox';
 
 export default function UserProfileHeader() {
+    const theme = useTheme()
     return (
-        <View style={styles.headerContainer}>
-            <View style={styles.header}>
-                <View style={styles.headerTextContainer}>
-                    <Text style={styles.headerText}>2022/11/30(D)</Text>
-                    <Text style={styles.headerText}>9:41</Text>
-                </View>
-                <View style={styles.profileContainer}>
-                    <Image source={require("../../../assets/images/Face.svg")} style={styles.profilePic}/>
+        <FBox style={styles.headerContainer}>
+            <FBox style={{ ...styles.header, backgroundColor: theme.colors.primary }}>
+                <FBox style={styles.headerTextContainer}>
+                    <Text style={{ ...styles.headerText, color: theme.colors.onPrimary }}>2022/11/30 (月)</Text>
+                    <Text style={{ ...styles.headerText, color: theme.colors.onPrimary }}>9:41</Text>
+                </FBox>
+                <FBox style={styles.profileContainer}>
+                    <Image source={require("../../../assets/images/Face.svg")} style={styles.profilePic} />
                     <Text style={styles.name}>Laura Burke</Text>
-                    <Image source={require("../../../assets/icons/first_nft.svg")} style={styles.headerSVG}/>
-                </View>
-            </View>
-        </View>
+                    <Image source={require("../../../assets/icons/first_nft.svg")} style={styles.headerSVG} />
+                </FBox>
+            </FBox>
+        </FBox>
     );
 }
 
@@ -27,7 +30,6 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 80,
-        backgroundColor: colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative'
@@ -40,7 +42,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     headerText: {
-        color: colors.white,
         fontSize: 20,
         fontWeight: '500',
         fontFamily: 'monoscope'

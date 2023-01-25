@@ -1,41 +1,42 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { colors } from '../../utils/settings';
-import {  Card } from 'react-native-paper';
+import {  Card, useTheme } from 'react-native-paper';
 import { CustomIcon } from '../../utils/custom-icon';
+import { FBox } from '../globals/fbox';
 
 export default function UserProfileTabs() {
-    
+    const theme = useTheme();
   return (
  <Card theme={{elevation: 1}} style={styles.card}>
                     <Card.Content>
-                        <View style={styles.tabs}>
-                            <View style={styles.tabContainer}>
-                            <View style={styles.tabLabel}>
-                                <Text style={styles.tabLabelText}>
+                        <FBox style={styles.tabs}>
+                            <FBox style={styles.tabContainer}>
+                            <FBox style={styles.tabLabel}>
+                                <Text style={{...styles.tabLabelText,color:theme.colors.onPrimary}}>
                                     <CustomIcon name="pill" /> Coins
                                 </Text>
-                                </View>
-                                <Text style={styles.tabText}>+8.8</Text>
-                            </View>
-                            <View style={styles.cardDivider}></View>
-                            <View style={styles.tabContainer}>
-                            <View style={styles.tabLabel}>
-                                <Text style={styles.tabLabelText}>
+                                </FBox>
+                                <Text style={{...styles.tabText,color:theme.colors.onPrimary}}>+8.8</Text>
+                            </FBox>
+                            <FBox style={styles.cardDivider}></FBox>
+                            <FBox style={styles.tabContainer}>
+                            <FBox style={styles.tabLabel}>
+                                <Text style={{...styles.tabLabelText,color:theme.colors.onPrimary}}>
                                     <CustomIcon name="pill" /> Stamina
                                 </Text>
-                                </View>
-                                <Text style={styles.tabText}>-2.4<Text style={{fontSize:16}}>Hp</Text></Text>
-                            </View>
-                            <View style={styles.cardDivider}></View>
-                            <View style={styles.tabContainer}>
-                            <View style={styles.tabLabel}>
-                                <Text style={styles.tabLabelText}>
+                                </FBox>
+                                <Text style={{...styles.tabText,color:theme.colors.onPrimary}}>-2.4<Text style={{fontSize:16}}>Hp</Text></Text>
+                            </FBox>
+                            <FBox style={styles.cardDivider}></FBox>
+                            <FBox style={styles.tabContainer}>
+                            <FBox style={styles.tabLabel}>
+                                <Text style={{...styles.tabLabelText,color:theme.colors.onPrimary}}>
                                     <CustomIcon name="pill" /> Items
                                 </Text>
-                                </View>
-                                <Text style={styles.tabText}>+1</Text>
-                            </View>
-                        </View>
+                                </FBox>
+                                <Text style={{...styles.tabText,color:theme.colors.onPrimary}}>+1</Text>
+                            </FBox>
+                        </FBox>
                     </Card.Content>
                 </Card>
   );
@@ -69,12 +70,10 @@ cardDivider: {
 tabLabelText: {
     fontSize: 16,
     opacity: 0.9,
-    color:colors.white,
     margin:'0px',
 },
 tabText: {
     marginTop: 2,
     fontSize: 20,
-    color:colors.white,
 }
 });

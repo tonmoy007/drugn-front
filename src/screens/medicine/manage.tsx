@@ -1,18 +1,19 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, Image } from 'react-native';
 import {  IconButton } from 'react-native-paper';
 import { DoseList } from '../../components/medicine/dose-list';
 import { colors, RootParamList } from '../../utils/settings';
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import { MedicineSlider } from '../../components/medicine/medicine-slider';
+import { FBox } from '../../components/globals/fbox';
 
 export default function ManageMedicine({route, navigation}) {
   const [list, updateList] = useState([...Array(1).keys()].map((item,index) => {
     return {
         title: <Text>{index+1} ダイアモックス錠250mg</Text>,
-        description: <View><Text>三和科学研究</Text><Text style={{marginTop:10}}>朝食前/2錠</Text></View>,
+        description: <FBox><Text>三和科学研究</Text><Text style={{marginTop:10}}>朝食前/2錠</Text></FBox>,
         id: item,
         selected: false,
     }
@@ -42,27 +43,27 @@ const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
 }
 
   return (
-    <View style={styles.container}>
-     <View style={styles.imageContainer}>
+    <FBox style={styles.container}>
+     <FBox style={styles.imageContainer}>
      <Image  source={{ uri: medicine[1].uri }} style={styles.image} />
-     </View>
+     </FBox>
       
-      <View style={{flex:2}}>
-        <View style={{ marginLeft:10, marginRight:10, flex:2}}>
+      <FBox style={{flex:2}}>
+        <FBox style={{ marginLeft:10, marginRight:10, flex:2}}>
       <DoseList list={list} onLocationSelect={onLocationSelect}/> 
-       <View style={styles.reshoot}>
+       <FBox style={styles.reshoot}>
         <Text style={{color:colors.primary, fontSize:20}} onPress={()=>nav.navigate("addMedicine")}>
           <IconButton style={styles.icon} icon={"camera"} iconColor={colors.primary} size={20}/> 撮り直し</Text>
-        </View>
-      </View>
+        </FBox>
+      </FBox>
 
-      <View style={{flex:1, justifyContent:'flex-end'}}>
-        <View style={styles.slider}>
+      <FBox style={{flex:1, justifyContent:'flex-end'}}>
+        <FBox style={styles.slider}>
     <MedicineSlider />
-        </View>
-        </View>
-        </View>
-    </View>
+        </FBox>
+        </FBox>
+        </FBox>
+    </FBox>
   );
 }
 
