@@ -18,6 +18,7 @@ export const linking = {
             storeRegistration: "/store-registration",
             storeRegistrationSuccess: "store-registration/success",
             addMedicine: "add-medicine",
+            editMedicine: "edit-medicine",
             manageMedicine: "manage-medicine",
             profile: "profile",
         }

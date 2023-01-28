@@ -14,7 +14,7 @@ export default function UserProfileHeader() {
                 </FBox>
                 <FBox style={styles.profileContainer}>
                     <Image source={require("../../../assets/images/Face.svg")} style={styles.profilePic} />
-                    <Text style={styles.name}>Laura Burke</Text>
+                    <Text style={{ ...styles.name, color: theme.colors.primary }}>Laura Burke</Text>
                     <Image source={require("../../../assets/icons/first_nft.svg")} style={styles.headerSVG} />
                 </FBox>
             </FBox>
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 22,
         fontWeight: '500',
-        color: colors.lightBlue,
         position: 'absolute',
         bottom: 10,
         left: 90

@@ -123,7 +123,7 @@ export default function UserMedicineSchedule() {
                         </FBox>
                     </>
                 )}
-                <Text style={styles.footer}>撮り直し</Text>
+                <Text style={{ ...styles.footer, color: theme.colors.primary }}>撮り直し</Text>
             </FBox>
         )
     }
@@ -146,7 +146,7 @@ export default function UserMedicineSchedule() {
                 }}>
                     <FBox key={'date-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, marginRight: 20, marginLeft: 10 }}>
                     </FBox>
-                    <FBox key={'breakfast-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: colors.lightBlue }}>
+                    <FBox key={'breakfast-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: theme.colors.primary }}>
                         <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
                     </FBox>
                     <LinearGradient key={'lunch-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(255, 230, 3)', 'rgb(240, 129, 26)', 'rgb(191, 83, 31)', 'rgb(136, 87, 3)']}
@@ -231,6 +231,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 10,
         fontSize: 20,
-        color: colors.lightBlue
     }
 });
