@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import UserProfileHeader from '../../components/profile/header';
 import UserMedicineSchedule from '../../components/profile/medicine-shedule';
 import UserProfileTabs from '../../components/profile/tab';
 import { colors, RootParamList } from '../../utils/settings';
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import { IconButton } from 'react-native-paper';
 import { DownloadShare } from '../../components/globals/download-share';
+import { FBox } from '../../components/globals/fbox';
 
 export default function UserProfile({navigation}) {
-    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
 
     useEffect(() => {
         navigation.setOptions({
@@ -29,20 +27,20 @@ export default function UserProfile({navigation}) {
       }    
 
   return (
-    <View style={styles.container}>
-        
+    <FBox style={styles.container}>
+      <ScrollView>
 <UserProfileHeader />
-<View style={{...styles.subContainer}}>
+<FBox style={{...styles.subContainer}}>
 <UserProfileTabs />
-</View>
-<View style={{...styles.subContainer}}>
+</FBox>
+<FBox style={{...styles.subContainer}}>
 <UserMedicineSchedule />
-    </View>
-    <View style={{...styles.subContainer,marginTop:15}}>
+    </FBox>
+    <FBox style={{...styles.subContainer,marginTop:15, marginBottom:20}}>
 <DownloadShare />
-    </View>
-
-    </View>
+    </FBox>
+</ScrollView>
+    </FBox>
   );
 }
 
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
   subContainer:{
     width: '94%',
     margin:'auto',
-    marginBottom:0,
     marginTop:10
   }
 });

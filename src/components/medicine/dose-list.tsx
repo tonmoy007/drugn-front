@@ -1,4 +1,4 @@
-import {ScrollView, View,Text,Image,StyleSheet} from "react-native";
+import {ScrollView,Text,Image,StyleSheet} from "react-native";
 import {Divider, IconButton, List, useTheme} from "react-native-paper";
 import { colors } from "../../utils/settings";
 import {FBox} from "../globals/fbox";
@@ -21,7 +21,7 @@ export const DoseList = ({list,onLocationSelect}:Props) => {
         <ScrollView style={{maxHeight: "100%"}}>   
          <List.Section>
                 {list.map((item, index) => {
-                    return <View key={`view_${item.id}`}><List.Item
+                    return <FBox key={`view_${item.id}`}><List.Item
                         key={`data_${item.id}`}
                         style={styles.list}
                         onPress={() => onLocationSelect(index,item)}
@@ -38,17 +38,17 @@ export const DoseList = ({list,onLocationSelect}:Props) => {
                         }]}
                         source={require("../../../assets/images/Drugn_logo_white.png")} />
                     }
-                        right={props => item.selected?<View style={{alignItems:'center', justifyContent:'center'}}>
+                        right={props => item.selected?<FBox style={{alignItems:'center', justifyContent:'center'}}>
                             <IconButton icon={"trash-can"} onPress={()=>{}} iconColor={colors.red}
                             style={{width:'inherit', height:'inherit', margin:0}}/>
-                        <Text style={{color:colors.red}}>消去</Text></View>
+                        <Text style={{color:colors.red}}>消去</Text></FBox>
                         :
                     null}
                         />
 
 
             {index<list.length-1 && <Divider key={`divider_${item.id}`} style={{borderColor:colors.textDark}}/>} 
-                                                   </View>
+                                                   </FBox>
                 })}  
                 </List.Section>
                   </ScrollView>

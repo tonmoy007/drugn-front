@@ -1,34 +1,40 @@
-import { Camera, CameraType } from 'expo-camera';
-import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import {  IconButton } from 'react-native-paper';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, Image, Modal } from 'react-native';
+import { Divider, IconButton, useTheme } from 'react-native-paper';
 import { DoseList } from '../../components/medicine/dose-list';
 import { colors, RootParamList } from '../../utils/settings';
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MedicineSlider } from '../../components/medicine/medicine-slider';
+import { FBox } from '../../components/globals/fbox';
+import { LinearGradient } from 'expo-linear-gradient';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function ManageMedicine({route, navigation}) {
-  const [list, updateList] = useState([...Array(1).keys()].map((item,index) => {
+export default function ManageMedicine({ route, navigation }) {
+  const [errorModal, setErrorModal] = useState<boolean>(false);
+  const [list, updateList] = useState([...Array(1).keys()].map((item, index) => {
     return {
-        title: <Text>{index+1} ダイアモックス錠250mg</Text>,
-        description: <View><Text>三和科学研究</Text><Text style={{marginTop:10}}>朝食前/2錠</Text></View>,
-        id: item,
-        selected: false,
+      title: <Text>{index + 1} ダイアモックス錠250mg</Text>,
+      description: <FBox><Text>三和科学研究</Text><Text style={{ marginTop: 10 }}>朝食前/2錠</Text></FBox>,
+      id: item,
+      selected: false,
     }
-}))
-const { medicine = {1:{}}} = route.params ?? { }
-const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+  }))
+  const { medicine = { 1: {} } } = route.params ?? {}
+  const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+  const theme = useTheme();
 
   useEffect(() => {
     navigation.setOptions({
       headerTitleAlign: 'center',
-      headerLeft: () => {},
+      headerLeft: () => { },
       headerRight: () => {
         return (
-          <Text style={styles.text}>次</Text>
+          <Text style={{
+            ...styles.text, color: theme.colors.primary
+          }}> 次へ</Text >
         )
-    }
+      }
     });
   }, [medicine]);
 
@@ -39,75 +45,125 @@ const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     // l[index].selected = true
     // updateList(l)
     // setValue(l[index])
-}
+  }
 
   return (
-    <View style={styles.container}>
-     <View style={styles.imageContainer}>
-     <Image  source={{ uri: medicine[1].uri }} style={styles.image} />
-     </View>
-      
-      <View style={{flex:2}}>
-        <View style={{ marginLeft:10, marginRight:10, flex:2}}>
-      <DoseList list={list} onLocationSelect={onLocationSelect}/> 
-       <View style={styles.reshoot}>
-        <Text style={{color:colors.primary, fontSize:20}} onPress={()=>nav.navigate("addMedicine")}>
-          <IconButton style={styles.icon} icon={"camera"} iconColor={colors.primary} size={20}/> 撮り直し</Text>
-        </View>
-      </View>
+    <FBox style={styles.container}>
+      <FBox style={styles.imageContainer}>
+        <Image source={{ uri: medicine[1].uri }} style={styles.image} />
+      </FBox>
 
-      <View style={{flex:1, justifyContent:'flex-end'}}>
-        <View style={styles.slider}>
-    <MedicineSlider />
-        </View>
-        </View>
-        </View>
-    </View>
+      <FBox style={{ flex: 2 }}>
+        <FBox style={{ marginLeft: 10, marginRight: 10, flex: 2 }}>
+          <DoseList list={list} onLocationSelect={onLocationSelect} />
+          <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => setErrorModal(true)}>
+            Show Error
+          </Text>
+          <FBox style={styles.reshoot}>
+            <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => nav.navigate("addMedicine")}>
+              <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 撮り直し</Text>
+          </FBox>
+        </FBox>
+
+        <FBox style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <FBox style={styles.slider}>
+            <MedicineSlider />
+          </FBox>
+        </FBox>
+      </FBox>
+
+      <Modal
+        animationType="slide"
+        visible={errorModal}
+        transparent={true}
+        onRequestClose={() => {
+          console.log("Modal has been closed.");
+        }}
+      >
+        <FBox style={styles.modalContainer}>
+          <FBox style={{ ...styles.modalContent, backgroundColor: theme.colors.onPrimary }}>
+            <Text style={styles.text}>登録したお薬の中にありません。</Text>
+            <Divider />
+            <Text style={styles.text}>1 ダイアモックス錠250mg{"\n"}三和科学研究{"\n"}朝食前/2錠</Text>
+            <Text style={{ ...styles.text, color: theme.colors.errorContainer }}>SOMETHING</Text>
+            <LinearGradient colors={['#F54E5E', '#E83F94']} style={styles.modalButton}>
+              <TouchableOpacity style={{ ...styles.modalButton, padding: 10 }} onPress={() => setErrorModal(false)}>
+                <Text style={{ color: theme.colors.onPrimary, textAlign: 'center' }}>Close</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </FBox>
+        </FBox>
+      </Modal>
+
+    </FBox>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
-  imageContainer:{
-    display:'flex',
-    alignItems:'center',
-    marginLeft:10,
-      marginRight: 10
-},
-reshoot:{
-  display:'flex', 
-  justifyContent:'center',
-  alignItems:'center',
-   marginBottom:40
-},
+  imageContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10
+  },
+  reshoot: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40
+  },
   image: {
-height: 300,
-width: '100%'
+    height: 300,
+    width: '100%'
   },
-  icon:{
-width: 'inherit',
-height: 'inherit',
-margin:0
+  icon: {
+    width: 'inherit',
+    height: 'inherit',
+    margin: 0
   },
   text: {
-    justifyContent:'center',
+    justifyContent: 'center',
     fontSize: 20,
-    textAlign:'center',
-    margin:10,
-    display:'flex',
-    flex:1,
+    textAlign: 'center',
+    margin: 10,
+    display: 'flex',
+    flex: 1,
     alignItems: 'center',
-    color:colors.primary
-},
-slider:{
-  display:'flex', 
-  height:200, 
-  paddingTop:20, 
-  justifyContent:'center', 
-  alignItems:'center', 
-  backgroundColor:colors.background2
-}
+  },
+  slider: {
+    display: 'flex',
+    height: 200,
+    paddingTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background2
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.textDarker,
+  },
+  modalContent: {
+    margin: 40,
+    borderRadius: 10,
+    padding: 30,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  modalButton: {
+    borderRadius: 5,
+    borderWidth: 0,
+    width: '100%',
+  }
 });
