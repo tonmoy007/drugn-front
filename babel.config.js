@@ -10,8 +10,6 @@ module.exports = function (api) {
             },
         },
         plugins: [
-            'react-native-paper/babel',
-            'babel-plugin-react-native-web',
             '@babel/plugin-proposal-export-namespace-from',
             'react-native-reanimated/plugin'
         ]

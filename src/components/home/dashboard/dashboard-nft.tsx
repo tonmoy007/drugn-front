@@ -54,12 +54,11 @@ const styles = StyleSheet.create({
         fontSize: smallScreen ? 10 : 14
     }
 })
-export const DashboardNft = () => {
+export const DashboardNft = ({hideHeader}: { hideHeader?: boolean }) => {
     const theme = useTheme()
 
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(hideHeader)
     const onSwipe = (event) => {
-        console.log(event.nativeEvent)
         if (event.nativeEvent.velocityY > 0) {
             setOpen(false)
         }
@@ -75,13 +74,14 @@ export const DashboardNft = () => {
             height: open ? "100%" : "auto",
             top: open ? 80 : 0,
         }}>
-            <TouchableOpacity style={styles.handle_container}>
+            {!hideHeader ? (<TouchableOpacity style={styles.handle_container}>
                 <PanGestureHandler onEnded={onSwipe}>
-                    <TouchableOpacity activeOpacity={.8}  style={styles.handle} onPress={() => setOpen(!open)}/>
+                    <TouchableOpacity activeOpacity={.8} style={styles.handle} onPress={() => setOpen(!open)}/>
                 </PanGestureHandler>
-            </TouchableOpacity>
+            </TouchableOpacity>) : null}
             <FBox style={{margin: 18}}>
-                <Text style={{fontFamily: "Montserrat_700Bold", paddingBottom: smallScreen?10:20}}>NFT</Text>
+                {!hideHeader ? <Text
+                    style={{fontFamily: "Montserrat_700Bold", paddingBottom: smallScreen ? 10 : 20}}>NFT</Text> : null}
                 <Card theme={{elevation: 1}} style={styles.card}>
                     <Card.Content>
                         <FBox style={styles.cardWrapper}>
@@ -98,9 +98,9 @@ export const DashboardNft = () => {
                     </Card.Content>
                 </Card>
             </FBox>
-            {open && (
+            {open ? (
                 <NftList/>
-            )}
+            ) : null}
         </FBox>
     )
 }

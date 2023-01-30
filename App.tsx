@@ -22,7 +22,6 @@ import { StoreRegistration } from "./src/screens/account/store-registration";
 import { StoreRegistrationSuccess } from "./src/screens/account/store-registration-success";
 import { Dashboard } from "./src/screens/dashboard";
 import * as Font from "expo-font";
-import 'react-native-gesture-handler';
 import { enableExperimentalWebImplementation, GestureHandlerRootView } from 'react-native-gesture-handler';
 import AddMedicine from './src/screens/medicine/add';
 import ManageMedicine from './src/screens/medicine/manage';
@@ -33,7 +32,6 @@ import { Ionicons } from "@expo/vector-icons";
 import UserProfile from './src/screens/account/profie';
 import { EditMedicine } from './src/screens/medicine/edit';
 
-enableExperimentalWebImplementation(true);
 const Stack = createNativeStackNavigator<RootParamList>();
 Ionicons.loadFont().catch(err => {
     console.error(err)
@@ -45,10 +43,7 @@ export default function App() {
     Font.loadAsync({ IcoMoon: require('./assets/icomoon/icomoon.ttf') }).catch(err => {
         console.log(err)
     })
-    useEffect(() => {
-        console.log("")
-    }, [fontsLoaded])
-
+    if (!fontsLoaded) return <></>
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <StoreProvider store={globalStore}>

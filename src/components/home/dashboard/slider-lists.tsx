@@ -10,7 +10,8 @@ export const SliderLists = ({data}) => {
         <FBox style={{}}>
             {data.map((item, i) => {
                 return item.active ? (
-                    <TouchableOpacity key={`slider_list-item${i}`} onPress={()=>{}} activeOpacity={.9}>
+                    <TouchableOpacity key={`slider_list-item${i}`} onPress={() => {
+                    }} activeOpacity={.9}>
                         <LinearGradient colors={['#47C3E8', '#48A8EF']} start={{x: 0, y: 1}} end={{x: 1, y: 0}} style={{
                             borderTopLeftRadius: 20,
                             borderTopRightRadius: 20,
@@ -21,7 +22,7 @@ export const SliderLists = ({data}) => {
                         }}>
                             <FBox style={{padding: 18, flexDirection: "row"}}>
                                 <FBox style={{flex: 1}}>
-                                    <Text variant={"bodyMedium"} style={{marginBottom:10}}>{item.time}</Text>
+                                    <Text variant={"bodyMedium"} style={{marginBottom: 10}}>{item.time}</Text>
                                     <CustomIcon size={28} color={colors.white} name={"pill-outlined"}/>
                                 </FBox>
                                 <FBox>
@@ -39,12 +40,12 @@ export const SliderLists = ({data}) => {
                                                                 size={16}/>} title={item.title}
                                    description={item.description + '\n' + item.time} descriptionNumberOfLines={2}
                                    descriptionStyle={{color: colors.white}}/>
-                        {!item.active && i != data.length - 1 && (<Divider key={`divider_${i}`}
-                                                                           style={{
-                                                                               backgroundColor: colors.white,
-                                                                               width: "90%",
-                                                                               marginLeft: '5%'
-                                                                           }}/>)}
+                        {!item.active && i != data.length - 1 ? (<Divider key={`divider_${i}`}
+                                                                          style={{
+                                                                              backgroundColor: colors.white,
+                                                                              width: "90%",
+                                                                              marginLeft: '5%'
+                                                                          }}/>) : null}
 
                     </FBox>
                 )

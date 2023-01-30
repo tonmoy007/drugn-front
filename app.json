@@ -26,7 +26,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "icon": "./assets/icon.png"
+      "icon": "./assets/icon.png",
+      "package": "com.drugn.app"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -41,6 +42,11 @@
         "backgroundColor": "#0A062B",
         "image": "./assets/splash.png",
         "resizeMode": "contain"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "39a31942-ba7f-484a-a8d9-1d8fe9414e09"
       }
     }
   }
