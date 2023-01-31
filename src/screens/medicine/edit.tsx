@@ -65,9 +65,10 @@ export const EditMedicine = ({ route, navigation }) => {
         setDoseTime(tempArr)
     }
     const removeDosage = (dose) => {
-        setDoseTime(doseTime.filter(item => item !== dose))
+        setDoseTime(doseTime.filter(item => item.dosage.value !== dose.dosage.value && item.time.value !== dose.time.value))
     }
 
+    console.log(doseTime)
     return (
         <ScrollView>
             <FBox style={{

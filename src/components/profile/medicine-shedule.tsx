@@ -1,12 +1,13 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '../../utils/settings';
-import { Card, useTheme } from 'react-native-paper';
+import { Card, useTheme, Text } from 'react-native-paper';
 import { CustomIcon } from '../../utils/custom-icon';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FBox } from '../globals/fbox';
 import { useState } from 'react';
 import SideSwipe from 'react-native-sideswipe'
+import { DownloadShare } from '../globals/download-share';
 
 const medSchedule = [
     {
@@ -67,10 +68,25 @@ const medSchedule = [
     },
 ]
 
+const modalData = [
+    {
+        days: 120,
+        grade: 'AAA',
+        date: '11/14',
+        date2: '(月)',
+    }
+]
+
+const maxCards = 3;
+const maxModals = 3
+
 export default function UserMedicineSchedule() {
     const [curCard, setCurCard] = useState<number>(0);
+    const [showModal, setShowModal] = useState<boolean>(false);
     const [width, setWidth] = useState(400);
-    const maxCards = 3;
+    const [modalWidth, setModalWidth] = useState(400);
+    const [curModal, setCurModal] = useState<number>(0);
+
     const theme = useTheme();
 
     const handleCardSwitch = (nextCard) => {
@@ -80,6 +96,16 @@ export default function UserMedicineSchedule() {
         }
         if (!nextCard && curCard > 0) {
             setCurCard(curCard - 1)
+        }
+    }
+
+    const handleModalSwitch = (nextModal) => {
+        if (nextModal && maxModals - 1 > curModal) {
+            setCurModal(curModal + 1)
+            return;
+        }
+        if (!nextModal && curModal > 0) {
+            setCurModal(curModal - 1)
         }
     }
 
@@ -123,53 +149,118 @@ export default function UserMedicineSchedule() {
                         </FBox>
                     </>
                 )}
-                <Text style={{ ...styles.footer, color: theme.colors.primary }}>撮り直し</Text>
+                <FBox style={{ width: 'max-content', margin: 'auto' }}>
+                    <TouchableOpacity onPress={() => setShowModal(true)}>
+                        <Text style={{ ...styles.footer, color: theme.colors.primary }}>撮り直し</Text>
+                    </TouchableOpacity>
+                </FBox>
             </FBox>
         )
     }
 
+    const ModalSlider = () => {
+        return (<FBox style={{ width: modalWidth }}>
+            {Array(20).fill(modalData[0]).map((data, index) =>
+                <FBox style={{ ...styles.tabs, justifyContent: 'space-between', width: '100%' }} key={index} >
+                    <FBox key={`modal-date${index}`} style={{ ...styles.tabContainer, ...styles.tabDate, justifyContent: 'flex-start' }} >
+                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary, marginRight: 10 }}>{data.date}</Text>
+                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>{data.date2}</Text>
+                    </FBox>
+
+                    <FBox key={`modal-grade${index}`} style={{ ...styles.tabContainer }}>
+                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>{data.grade}</Text>
+                    </FBox>
+
+                    <FBox key={`modal-days${index}`} style={{ ...styles.tabContainer }}>
+                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>{data.days}days</Text>
+                    </FBox>
+                </FBox>
+            )}
+        </FBox>)
+    }
+
     return (
-        <Card theme={{ elevation: 1 }} style={styles.card}>
-            <Card.Content style={{ paddingLeft: 5, paddingRight: 5 }}>
-
-                <FBox style={styles.header}>
-                    <MaterialIcons name='keyboard-arrow-left' onPress={() => handleCardSwitch(false)}
-                        style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curCard > 0 ? 1 : 0.4 }} size={28} />
-                    <Text style={{ ...styles.headerText, color: theme.colors.onPrimary, fontSize: 18 }}>MEDICINE {curCard + 1}</Text>
-                    <MaterialIcons name='keyboard-arrow-right' onPress={() => handleCardSwitch(true)}
-                        style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: maxCards - 1 > curCard ? 1 : 0.4 }} size={28} />
+        <>
+            <Modal
+                animationType="slide"
+                visible={showModal}
+                transparent={true}
+                onRequestClose={() => {
+                    console.log("Modal has been closed.");
+                }}
+            >
+                <FBox style={styles.modalHeader}>
+                    <MaterialIcons name='close' onPress={() => setShowModal(false)}
+                        style={{ color: theme.colors.onPrimary, position: 'absolute', top: 20 }} size={28} />
+                    <Text style={{ color: theme.colors.onPrimary, fontSize: 18, textAlign: 'center' }}>MEDICINE {curCard + 1}</Text>
                 </FBox>
+                <FBox style={{ ...styles.modalContainer, backgroundColor: theme.colors.background }}>
+                    <ScrollView>
+                        <FBox style={{ ...styles.modalContent }}>
+                            <FBox style={{ ...styles.header, width: '100%' }}
+                                onLayout={(event) => setModalWidth(event.nativeEvent.layout.width)} >
+                                <MaterialIcons name='keyboard-arrow-left' onPress={() => handleModalSwitch(false)}
+                                    style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curModal > 0 ? 1 : 0.4 }} size={28} />
+                                <Text style={{ ...styles.headerText, color: theme.colors.onPrimary, fontSize: 18 }}>2022 / 11 ({curModal + 1})</Text>
+                                <MaterialIcons name='keyboard-arrow-right' onPress={() => handleModalSwitch(true)}
+                                    style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curModal < maxModals - 1 ? 1 : 0.4 }} size={28} />
+                            </FBox>
+                            <SideSwipe data={Array(maxModals).fill(0)} index={curModal}
+                                itemWidth={modalWidth}
+                                style={{ width: '100%' }}
+                                threshold={0}
+                                contentOffset={0}
+                                onIndexChange={(e) => setCurModal(e)}
+                                renderItem={ModalSlider} />
+                        </FBox>
+                    </ScrollView>
+                    <FBox style={{ padding: 20 }}>
+                        <DownloadShare />
+                    </FBox>
 
-
-                <FBox style={styles.tabs} onLayout={(event) => {
-                    setWidth(event.nativeEvent.layout.width);
-                }}>
-                    <FBox key={'date-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, marginRight: 20, marginLeft: 10 }}>
-                    </FBox>
-                    <FBox key={'breakfast-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: theme.colors.primary }}>
-                        <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
-                    </FBox>
-                    <LinearGradient key={'lunch-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(255, 230, 3)', 'rgb(240, 129, 26)', 'rgb(191, 83, 31)', 'rgb(136, 87, 3)']}
-                        style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
-                        <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
-                    </LinearGradient>
-                    <FBox key={'snack-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: colors.textDarker }}>
-                        <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
-                    </FBox>
-                    <LinearGradient key={'dinner-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(86, 74, 255)', 'rgb(101, 54, 255)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)']}
-                        style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
-                        <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
-                    </LinearGradient>
                 </FBox>
+            </Modal >
+            <Card theme={{ elevation: 1 }} style={styles.card}>
+                <Card.Content style={{ paddingLeft: 5, paddingRight: 5 }}>
 
-                <SideSwipe data={Array(maxCards).fill(0)} index={curCard}
-                    itemWidth={width}
-                    style={{ width: '100%' }}
-                    threshold={0}
-                    contentOffset={0}
-                    renderItem={ScheduleTabs} onIndexChange={(e) => setCurCard(e)} />
-            </Card.Content>
-        </Card>
+                    <FBox style={styles.header}>
+                        <MaterialIcons name='keyboard-arrow-left' onPress={() => handleCardSwitch(false)}
+                            style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curCard > 0 ? 1 : 0.4 }} size={28} />
+                        <Text style={{ ...styles.headerText, color: theme.colors.onPrimary, fontSize: 18 }}>MEDICINE {curCard + 1}</Text>
+                        <MaterialIcons name='keyboard-arrow-right' onPress={() => handleCardSwitch(true)}
+                            style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: maxCards - 1 > curCard ? 1 : 0.4 }} size={28} />
+                    </FBox>
+
+
+                    <FBox style={styles.tabs} onLayout={(event) => setWidth(event.nativeEvent.layout.width)}>
+                        <FBox key={'date-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, marginRight: 20, marginLeft: 10 }}>
+                        </FBox>
+                        <FBox key={'breakfast-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: theme.colors.primary }}>
+                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                        </FBox>
+                        <LinearGradient key={'lunch-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(255, 230, 3)', 'rgb(240, 129, 26)', 'rgb(191, 83, 31)', 'rgb(136, 87, 3)']}
+                            style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
+                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                        </LinearGradient>
+                        <FBox key={'snack-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: colors.textDarker }}>
+                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                        </FBox>
+                        <LinearGradient key={'dinner-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(86, 74, 255)', 'rgb(101, 54, 255)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)']}
+                            style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
+                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                        </LinearGradient>
+                    </FBox>
+
+                    <SideSwipe data={Array(maxCards).fill(0)} index={curCard}
+                        itemWidth={width}
+                        style={{ width: '100%' }}
+                        threshold={0}
+                        contentOffset={0}
+                        renderItem={ScheduleTabs}
+                        onIndexChange={(e) => setCurCard(e)} />
+                </Card.Content>
+            </Card>
+        </>
     );
 }
 
@@ -231,5 +322,30 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 10,
         fontSize: 20,
+    },
+    modalHeader: {
+        justifyContent: 'space-between',
+        backgroundColor: colors.background2,
+        alignContent: 'center',
+        textAlign: 'center',
+        position: 'relative',
+        padding: 20,
+        borderBottomWidth: 1,
+        borderColor: colors.textSemiDark
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    modalContent: {
+        borderRadius: 10,
+        padding: 30,
+        alignItems: "center",
+        shadowColor: "#000",
+    },
+    modalButton: {
+        borderRadius: 5,
+        borderWidth: 0,
+        width: '100%',
     }
 });
