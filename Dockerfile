@@ -4,6 +4,7 @@ MAINTAINER tonmoy
 WORKDIR /app
 COPY . /app
 RUN npm install
+RUN  rm -rf node_modules/expo-camera/node_modules/react
 RUN npx expo export:web
 
 FROM node:16-alpine3.17 as main

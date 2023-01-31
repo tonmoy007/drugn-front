@@ -8,18 +8,23 @@ import {colors, RootParamList} from "../../utils/settings";
 import {FormLabel} from "../../components/globals/form-label";
 import {Image} from "react-native";
 import {AuthForm} from "../../components/auth/auth-form";
+import {SignUp} from "../../services/auth";
 
 export const SignUpScreen = () => {
     const theme = useTheme()
     const [submitting, setSubmitting] = useState(false)
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
-    const onSubmit = (data: FormData) => {
+    const onSubmit = (data) => {
         setSubmitting(true)
-        setTimeout(() => {
-            console.log(data)
-            setSubmitting(false)
-            nav.navigate("otp",{redirectUri:"accountComplete"})
-        }, 1000)
+        SignUp(data).then(res =>{
+            if (res.error){
+                alert(res.message)
+            }else{
+                nav.navigate("otp",{redirectUri:"accountComplete"})
+            }
+
+
+        }).catch(err => alert(err)).finally(() => setSubmitting(false))
 
     }
     return (
