@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, Image, Modal } from 'react-native';
-import { Divider, IconButton, useTheme } from 'react-native-paper';
+import { StyleSheet, Image, Modal } from 'react-native';
+import { Divider, IconButton, useTheme, Text } from 'react-native-paper';
 import { DoseList } from '../../components/medicine/dose-list';
 import { colors, RootParamList } from '../../utils/settings';
 import { useNavigation } from "@react-navigation/native";
@@ -55,7 +55,7 @@ export default function ManageMedicine({ route, navigation }) {
 
       <FBox style={{ flex: 2 }}>
         <FBox style={{ marginLeft: 10, marginRight: 10, flex: 2 }}>
-          <DoseList list={list} onLocationSelect={onLocationSelect} />
+          <DoseList list={list} onLocationSelect={onLocationSelect} swipeable={false} />
           <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => setErrorModal(true)}>
             Show Error
           </Text>
@@ -82,9 +82,9 @@ export default function ManageMedicine({ route, navigation }) {
       >
         <FBox style={styles.modalContainer}>
           <FBox style={{ ...styles.modalContent, backgroundColor: theme.colors.onPrimary }}>
-            <Text style={styles.text}>登録したお薬の中にありません。</Text>
-            <Divider />
-            <Text style={styles.text}>1 ダイアモックス錠250mg{"\n"}三和科学研究{"\n"}朝食前/2錠</Text>
+            <Text style={{ ...styles.text, color: theme.colors.onSecondary }}>登録したお薬の中にありません。</Text>
+            <Divider style={{ width: '100%', backgroundColor: theme.colors.backdrop }} />
+            <Text style={{ ...styles.text, color: theme.colors.onSecondary }}>1 ダイアモックス錠250mg{"\n"}三和科学研究{"\n"}朝食前/2錠</Text>
             <Text style={{ ...styles.text, color: theme.colors.errorContainer }}>SOMETHING</Text>
             <LinearGradient colors={['#F54E5E', '#E83F94']} style={styles.modalButton}>
               <TouchableOpacity style={{ ...styles.modalButton, padding: 10 }} onPress={() => setErrorModal(false)}>

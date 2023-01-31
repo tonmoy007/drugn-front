@@ -1,5 +1,5 @@
-import { StyleSheet, Text, Image } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { StyleSheet, Image } from 'react-native';
+import { useTheme, Text } from 'react-native-paper';
 import { colors } from '../../utils/settings';
 import { FBox } from '../globals/fbox';
 
