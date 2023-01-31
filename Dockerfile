@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . /app
 RUN npm install
 RUN  rm -rf node_modules/expo-camera/node_modules/react
-RUN ["npm","run","web"]
+CMD ["npm","run","web"]
 
 #FROM node:16-alpine3.17 as main
 #WORKDIR /web-build
