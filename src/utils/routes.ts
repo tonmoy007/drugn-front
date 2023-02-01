@@ -20,6 +20,8 @@ export const linking = {
             addMedicine: "add-medicine",
             editMedicine: "edit-medicine",
             manageMedicine: "manage-medicine",
+            recordMedicine: "/record-medicine",
+            deleteMedicine: "/delete-medicine",
             profile: "profile",
         }
     },

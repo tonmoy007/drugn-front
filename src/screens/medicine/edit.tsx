@@ -2,7 +2,7 @@ import { FBox } from "../../components/globals/fbox";
 import { Divider, Text, TextInput, useTheme } from "react-native-paper";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { FPaperSelect, SelectItem } from "../../components/globals/select";
+import { FPaperSelect } from "../../components/globals/select";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors, RootParamList } from "../../utils/settings";
@@ -23,7 +23,7 @@ const initTime = { value: "", label: "" }
 export const EditMedicine = ({ route, navigation }) => {
     const { handleSubmit, control, setValue } = useForm()
     const [medIcon, setMedIcon] = useState(0)
-    const [doseTime, setDoseTime] = useState([{ dosage: initDose, time: initTime }])
+    const [doseTime, setDoseTime] = useState([{ dosage: initDose, time: initTime, id: 0 }])
 
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const theme = useTheme();
@@ -42,7 +42,8 @@ export const EditMedicine = ({ route, navigation }) => {
         navigation.setOptions({
             headerTitleAlign: 'center',
             headerLeft: () => (
-                <MaterialIcons name='keyboard-arrow-left' size={28} color={colors.white} onPress={handleBackNav} />
+                <TouchableOpacity
+                    style={styles.navBack} onPress={handleBackNav}><MaterialIcons name='keyboard-arrow-left' size={28} color={colors.white} /> <Text>戻る</Text></TouchableOpacity>
             ),
             headerRight: () => {
                 return (
@@ -65,10 +66,9 @@ export const EditMedicine = ({ route, navigation }) => {
         setDoseTime(tempArr)
     }
     const removeDosage = (dose) => {
-        setDoseTime(doseTime.filter(item => item.dosage.value !== dose.dosage.value && item.time.value !== dose.time.value))
+        setDoseTime(doseTime.filter(item => item.id !== dose.id))
     }
 
-    console.log(doseTime)
     return (
         <ScrollView>
             <FBox style={{
@@ -101,11 +101,11 @@ export const EditMedicine = ({ route, navigation }) => {
                     )} />
 
                 {doseTime.map((dose, index) =>
-                    <FBox key={index}>
+                    <FBox key={dose.id}>
                         <Divider style={{ marginTop: 25 }} />
                         <FBox>
                             <Text style={styles.label}>服用時間 {index + 1}</Text>
-                            <FPaperSelect name={"dist"} title={"Select Item"}
+                            <FPaperSelect name={"dist"} title={"選択してください"}
                                 selectItems={data}
                                 mode={"outlined"}
                                 onChange={(item) => handleDoseChange(item, index, 'time')}
@@ -119,7 +119,7 @@ export const EditMedicine = ({ route, navigation }) => {
                             <Text style={styles.label}>服用数 {index + 1}</Text>
                             <FBox style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <FBox style={{ flex: 3 }}>
-                                    <FPaperSelect name={"dosage"} title={"Select dosage"}
+                                    <FPaperSelect name={"dosage"} title={"選択してください"}
                                         selectItems={dosages}
                                         mode={"outlined"}
                                         onChange={(item) => handleDoseChange(item, index, 'dosage')}
@@ -145,7 +145,7 @@ export const EditMedicine = ({ route, navigation }) => {
                 )}
 
                 <Text style={{ ...styles.addDoseText, color: theme.colors.primary }} onPress={() =>
-                    setDoseTime(doseTime => [...doseTime, { dosage: initDose, time: initTime }])}>服用時間を追加する</Text>
+                    setDoseTime(doseTime => [...doseTime, { dosage: initDose, time: initTime, id: doseTime[doseTime.length - 1].id + 1 }])}>服用時間を追加する</Text>
             </FBox >
         </ScrollView >
     )
@@ -164,6 +164,12 @@ const styles = StyleSheet.create({
         color: colors.textSemiDark,
         fontSize: 18,
         marginTop: 15
+    },
+    navBack: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     navText: {
         justifyContent: 'center',

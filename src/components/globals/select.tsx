@@ -1,8 +1,8 @@
-import {Button, Dialog, Divider, List, Portal, TextInput, useTheme} from "react-native-paper";
-import {Dimensions, ScrollView, StyleProp, ViewStyle} from "react-native";
-import {useEffect, useState} from "react";
-import {FBox} from "./fbox";
-import {Control, Controller, FieldValue, useForm} from "react-hook-form";
+import { Button, Dialog, Divider, List, Portal, TextInput, useTheme } from "react-native-paper";
+import { Dimensions, ScrollView, StyleProp, ViewStyle } from "react-native";
+import { useEffect, useState } from "react";
+import { FBox } from "./fbox";
+import { Control, Controller, FieldValue, useForm } from "react-hook-form";
 
 export type SelectItem = {
     label: string;
@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const FPaperSelect = (props: Props) => {
-    const {control, setValue, reset} = useForm({defaultValues: {item: ""}})
+    const { control, setValue, reset } = useForm({ defaultValues: { item: "" } })
     const [selectedItem, setSelectedItem] = useState<SelectItem | undefined>(props.selectedItem)
     const [visible, setVisible] = useState<boolean>(false)
     const theme = useTheme()
@@ -51,45 +51,49 @@ export const FPaperSelect = (props: Props) => {
         setVisible(false)
     }
 
+    useEffect(() => {
+        setSelectedItem(props.selectedItem)
+    }, [props.selectedItem])
+
     return (
-        <Controller control={control} name={"item"} render={({field, fieldState, formState,}) => {
+        <Controller control={control} name={"item"} render={({ field, fieldState, formState, }) => {
             return (
                 <>
                     <TextInput placeholder={props.placeholder ?? props.title}
-                               value={field.value}
-                               onChange={field.onChange}
-                               outlineColor={props.outlineColor}
-                               outlineStyle={props.outlineStyle}
-                               onFocus={onFocus}
-                               mode={props.mode}
-                               right={<TextInput.Icon icon={"chevron-down"}/>}
-                               disabled={visible}
-                               onBlur={field.onBlur}
-                               error={Boolean(fieldState.error)}
-                               ref={field.ref}
+                        value={field.value}
+                        onChange={field.onChange}
+                        outlineColor={props.outlineColor}
+                        outlineStyle={props.outlineStyle}
+                        onFocus={onFocus}
+                        mode={props.mode}
+                        right={<TextInput.Icon icon={"chevron-down"} />}
+                        disabled={visible}
+                        onBlur={field.onBlur}
+                        error={Boolean(fieldState.error)}
+                        ref={field.ref}
                     />
                     <Portal>
-                        <Dialog theme={{roundness: 2}} visible={visible} dismissable={true} onDismiss={onDismiss}>
-                            <Dialog.Content style={{padding: 0}}>
+                        <Dialog theme={{ roundness: 2 }} visible={visible} dismissable={true} onDismiss={onDismiss}>
+                            <Dialog.Content style={{ padding: 0 }}>
                                 {props.header && (
                                     <List.Subheader>{props.title}</List.Subheader>
                                 )}
-                                <ScrollView style={{maxHeight: Dimensions.get("window").height - 200}}>
+                                <ScrollView style={{ maxHeight: Dimensions.get("window").height - 200 }}>
                                     <List.Section>
                                         {props.selectItems.map((item, index) => {
                                             return (
                                                 <FBox key={`select_index_${index}`}>
                                                     <List.Item
-                                                        style={{paddingHorizontal: 10}}
+                                                        style={{ paddingHorizontal: 10 }}
 
                                                         left={props => selectedItem?.value === item.value ?
-                                                            <List.Icon color={theme.colors.primary} icon={"check"}/> :
-                                                            <FBox style={{width: 24}}></FBox>}
-                                                        titleStyle={selectedItem?.value == item.value ? {color: theme.colors.primary} : {}}
+                                                            <List.Icon color={theme.colors.primary} icon={"check"} /> :
+                                                            <FBox style={{ width: 24 }}></FBox>}
+                                                        titleStyle={selectedItem?.value == item.value ? { color: theme.colors.primary } : {}}
                                                         title={item.label} onPress={() => {
-                                                        onSelect(item)
-                                                    }}/>
-                                                    {<Divider/>}
+                                                            onSelect(item)
+                                                        }} />
+                                                    {<Divider />}
                                                 </FBox>
                                             )
                                         })}
@@ -108,6 +112,6 @@ export const FPaperSelect = (props: Props) => {
                 </>
             )
         }
-        }/>)
+        } />)
 
 }

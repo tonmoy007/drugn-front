@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ManageMedicine({ route, navigation }) {
   const [errorModal, setErrorModal] = useState<boolean>(false);
-  const [list, updateList] = useState([...Array(1).keys()].map((item, index) => {
+  const [list, setList] = useState([...Array(1).keys()].map((item, index) => {
     return {
       title: <Text>{index + 1} ダイアモックス錠250mg</Text>,
       description: <FBox><Text>三和科学研究</Text><Text style={{ marginTop: 10 }}>朝食前/2錠</Text></FBox>,
@@ -38,14 +38,6 @@ export default function ManageMedicine({ route, navigation }) {
     });
   }, [medicine]);
 
-  const onLocationSelect = (index) => {
-    // const l = list.map(data => {
-    //     return {...data, selected: false}
-    // })
-    // l[index].selected = true
-    // updateList(l)
-    // setValue(l[index])
-  }
 
   return (
     <FBox style={styles.container}>
@@ -54,14 +46,16 @@ export default function ManageMedicine({ route, navigation }) {
       </FBox>
 
       <FBox style={{ flex: 2 }}>
-        <FBox style={{ marginLeft: 10, marginRight: 10, flex: 2 }}>
-          <DoseList list={list} onLocationSelect={onLocationSelect} swipeable={false} />
-          <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => setErrorModal(true)}>
-            Show Error
-          </Text>
-          <FBox style={styles.reshoot}>
-            <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => nav.navigate("addMedicine")}>
-              <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 撮り直し</Text>
+        <FBox style={{ marginRight: 10, flex: 2 }}>
+          <DoseList list={list} />
+          <FBox style={{ marginLeft: 10 }}>
+            <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => setErrorModal(true)}>
+              Show Error
+            </Text>
+            <FBox style={styles.reshoot}>
+              <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => nav.navigate("addMedicine")}>
+                <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 撮り直し</Text>
+            </FBox>
           </FBox>
         </FBox>
 
