@@ -1,10 +1,11 @@
 import {FBox} from "../../components/globals/fbox";
 import {Text} from "react-native-paper";
+import UserProfile from "../account/profie";
 
-export const AccountScreen=()=>{
+export const AccountScreen=({navigation})=>{
     return (
         <>
-            <FBox><Text>Account</Text></FBox>
+            <UserProfile navigation={navigation}/>
         </>
     )
 }

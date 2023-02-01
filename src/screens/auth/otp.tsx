@@ -5,17 +5,21 @@ import {useCallback, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../utils/settings";
+import {ConfirmCode} from "../../services/auth";
+import {globalStore} from "../../utils/store/global";
+import {setNewUser} from "../../utils/store/user";
 
 export const OtpScreen = ({route}) => {
     const [otp, setOtp] = useState<string>("")
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onPinReady = useCallback((status) => {
         if (status) {
-            if (otp === "1111") {
-                if (route.params.redirectUri) {
+            ConfirmCode({code: otp}).then(res => {
+                if (!res.error)
                     nav.navigate(route.params.redirectUri)
-                }
-            }
+                else
+                    alert(res.message)
+            }).catch(err => alert(err))
         }
     }, [otp])
     return (

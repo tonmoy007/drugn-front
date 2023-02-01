@@ -7,7 +7,7 @@ import {ReactNode} from "react";
 
 export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>void,submitting:boolean,submitText:string,extra:ReactNode})=>{
     type FormData = {
-        name: string,
+        username: string,
         email: string
     }
     const {
@@ -30,16 +30,16 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
                                     return (
                                         <>
                                             <TextInput returnKeyType={"next"}
-                                                       error={Boolean(errors.name)}
+                                                       error={Boolean(errors.username)}
                                                        ref={form.field.ref}
                                                        onChangeText={(val) => form.field.onChange(val)}
                                                        onBlur={form.field.onBlur}
                                                        mode={"outlined"}
                                                        value={form.field.value}
                                                        placeholder={"好きなニックネームを入力してください"}
-                                                       right={!Boolean(errors.name)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
+                                                       right={!Boolean(errors.username)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
                                             />
-                                            <HelperText type={"error"}>{errors.name?.message as string}</HelperText>
+                                            <HelperText type={"error"}>{errors.username?.message as string}</HelperText>
                                         </>
                                     )
                                 }} name="name"/>

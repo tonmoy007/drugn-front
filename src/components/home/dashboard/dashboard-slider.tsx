@@ -109,7 +109,7 @@ export const DashboardSlider = () => {
     }
 
     return (
-        <FBox style={{flex: 1}}>
+        <FBox style={{flex: 1, minHeight: windowDimension.height / 4}}>
             <SideSwipe data={data} index={currentIndex} itemWidth={windowDimension.width - 18}
                        style={{width: windowDimension.width}}
                        threshold={windowDimension.width - 100}

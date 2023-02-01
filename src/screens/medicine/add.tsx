@@ -12,15 +12,13 @@ import { FBox } from '../../components/globals/fbox';
 export default function AddMedicine({ route, navigation }) {
   let cameraRef = useRef<any>()
   const [type, setType] = useState<any>(CameraType.back);
-  const [permission, setPermission] = useState<boolean>(false);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
   const [medicine, setMedicine] = useState<any>({});
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
   const theme = useTheme();
 
   useEffect(() => {
-    requestCameraPermission().then(res => {
-      console.log("Here", res)
-    }).catch(err => console.log(err))
+    requestCameraPermission().catch(err=>console.log(err))
   }, [])
 
   useEffect(() => {
@@ -47,7 +45,6 @@ export default function AddMedicine({ route, navigation }) {
 
   const requestCameraPermission = async () => {
     const cameraPermission = await Camera.requestCameraPermissionsAsync();
-    setPermission(cameraPermission.granted)
   }
 
   const handleBackNav = () => {
@@ -68,7 +65,7 @@ export default function AddMedicine({ route, navigation }) {
     setMedicine({ ...medicine, [medicine[1] ? 2 : 1]: newMedicine });
   };
 
-  if (!permission) {
+  if (!permission?.granted) {
     return (
       <FBox style={styles.container}>
         <FBox>
