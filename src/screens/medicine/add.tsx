@@ -18,7 +18,7 @@ export default function AddMedicine({ route, navigation }) {
   const theme = useTheme();
 
   useEffect(() => {
-    requestCameraPermission().catch(err=>console.log(err))
+    requestCameraPermission().catch(err => console.log(err))
   }, [])
 
   useEffect(() => {

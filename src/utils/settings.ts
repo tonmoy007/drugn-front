@@ -10,7 +10,9 @@ export type RootParamList = {
     addMedicine: any,
     editMedicine: any,
     manageMedicine: any,
-    profile: any
+    recordMedicine: any,
+    deleteMedicine: any
+    profile: any,
 }
 export type BottomTab={
     Home:any;

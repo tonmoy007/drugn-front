@@ -31,6 +31,8 @@ import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UserProfile from './src/screens/account/profie';
 import { EditMedicine } from './src/screens/medicine/edit';
+import { RecordMedicine } from './src/screens/medicine/record';
+import { DeleteMedicine } from './src/screens/medicine/delete';
 
 const Stack = createNativeStackNavigator<RootParamList>();
 Ionicons.loadFont().catch(err => {
@@ -80,7 +82,6 @@ export default function App() {
                             <Stack.Screen name={"accountComplete"} component={AccountComplete}
                                 navigationKey={"account-complete"} options={{ headerShown: false }} />
                             <Stack.Screen name={"signin"} component={SignInScreen} options={{ title: "ログインする" }} />
-                            <Stack.Screen name={"profile"} component={UserProfile} options={{ title: "Profile Page" }} />
                             <Stack.Screen component={AddMedicine} name="addMedicine" navigationKey={"addMedicine"}
                                 options={{
                                     title: "薬を新規登録",
@@ -94,6 +95,11 @@ export default function App() {
                                 options={{ title: "薬の新規登録" }} />
                             <Stack.Screen name={"manageMedicine"} component={ManageMedicine}
                                 options={{ title: "薬を飲む" }} />
+                            <Stack.Screen name={"deleteMedicine"} component={DeleteMedicine}
+                                options={{ title: "薬を飲む" }} />
+                            <Stack.Screen component={RecordMedicine} name="recordMedicine" options={{ title: 'お薬を飲む' }} />
+                            <Stack.Screen name={"profile"} component={UserProfile} options={{ title: "Profile Page" }} />
+
                         </Stack.Navigator>
                     </NavigationContainer>
                 </PaperProvider>
