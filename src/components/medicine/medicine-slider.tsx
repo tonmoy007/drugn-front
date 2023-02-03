@@ -6,7 +6,6 @@ import { colors } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
 import { CustomIcon } from "../../utils/custom-icon";
 
-const windowDimensions = Dimensions.get('window');
 
 const scheduleData = [
     {
@@ -26,9 +25,11 @@ const scheduleData = [
 ]
 
 export const MedicineSlider = () => {
+    const windowDimensions = Dimensions.get('window');
     const carouselRef = useRef(null);
     const [windowDimension, setWindowDimension] = useState(windowDimensions);
     const theme = useTheme();
+
 
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
@@ -51,7 +52,7 @@ export const MedicineSlider = () => {
                 <FBox style={{ padding: 0, margin: 0 }}>
                     <List.Item key={`slider-item-${index}`} style={styles.list} onPress={() => {
                     }} titleStyle={styles.title}
-                        left={(props) => <CustomIcon color={scheduleData[index].color ?? colors.white} name={"pill"}
+                        left={(props) => <CustomIcon color={scheduleData[index].color ?? theme.colors.onPrimary} name={"pill"}
                             size={16} />} title={scheduleData[index].title}
                         description={scheduleData[index].description}
                     />

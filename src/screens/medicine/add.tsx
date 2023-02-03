@@ -17,9 +17,6 @@ export default function AddMedicine({ route, navigation }) {
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
   const theme = useTheme();
 
-  useEffect(() => {
-    requestCameraPermission().catch(err => console.log(err))
-  }, [])
 
   useEffect(() => {
     let curStep = 1;
@@ -43,9 +40,6 @@ export default function AddMedicine({ route, navigation }) {
     });
   }, [medicine]);
 
-  const requestCameraPermission = async () => {
-    const cameraPermission = await Camera.requestCameraPermissionsAsync();
-  }
 
   const handleBackNav = () => {
     if (navigation.canGoBack())
@@ -70,7 +64,7 @@ export default function AddMedicine({ route, navigation }) {
       <FBox style={styles.container}>
         <FBox>
           <Text style={{ ...styles.text, color: colors.white }}>Permission to use Camera</Text>
-          <Button onPress={requestCameraPermission} style={styles.button} >Grant permission</Button>
+          <Button onPress={requestPermission} style={styles.button} >Grant permission</Button>
         </FBox>
       </FBox>
     );

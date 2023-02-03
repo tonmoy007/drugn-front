@@ -185,9 +185,6 @@ export default function UserMedicineSchedule() {
                 animationType="slide"
                 visible={showModal}
                 transparent={true}
-                onRequestClose={() => {
-                    console.log("Modal has been closed.");
-                }}
             >
                 <FBox style={styles.modalHeader}>
                     <MaterialIcons name='close' onPress={() => setShowModal(false)}
@@ -211,7 +208,8 @@ export default function UserMedicineSchedule() {
                                 threshold={0}
                                 contentOffset={0}
                                 onIndexChange={(e) => setCurModal(e)}
-                                renderItem={ModalSlider} />
+                                renderItem={ModalSlider}
+                            />
                         </FBox>
                     </ScrollView>
                     <FBox style={{ padding: 20 }}>
@@ -221,7 +219,7 @@ export default function UserMedicineSchedule() {
                 </FBox>
             </Modal >
             <Card theme={{ elevation: 1 }} style={styles.card}>
-                <Card.Content style={{ paddingLeft: 5, paddingRight: 5 }}>
+                <Card.Content style={{ paddingHorizontal: 5 }}>
 
                     <FBox style={styles.header}>
                         <MaterialIcons name='keyboard-arrow-left' onPress={() => handleCardSwitch(false)}
@@ -251,13 +249,15 @@ export default function UserMedicineSchedule() {
                         </LinearGradient>
                     </FBox>
 
-                    <SideSwipe data={Array(maxCards).fill(0)} index={curCard}
+                    <SideSwipe
+                        data={Array(maxCards).fill(0)} index={curCard}
                         itemWidth={width}
                         style={{ width: '100%' }}
                         threshold={0}
                         contentOffset={0}
                         renderItem={ScheduleTabs}
-                        onIndexChange={(e) => setCurCard(e)} />
+                        onIndexChange={(e) => setCurCard(e)}
+                    />
                 </Card.Content>
             </Card>
         </>
