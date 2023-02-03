@@ -1,4 +1,4 @@
-const API_URL = process.env.API_URL || 'http://43.206.240.27:8080'
+const API_URL = process.env.API_URL || 'http://18.183.175.32:8080'
 
 export function SignIn(payload: { name?: string, email: string }) {
     return fetch(`${API_URL}/login`, {
