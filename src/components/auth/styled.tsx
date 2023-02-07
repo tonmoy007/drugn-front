@@ -1,6 +1,6 @@
 
 import styled from "styled-components/native";
-import {colors} from "../../utils/settings";
+import { colors } from "../../utils/settings";
 
 export const OTPInputContainer = styled.View`
   justify-content: center;
@@ -62,4 +62,16 @@ export const ButtonContainer = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   color: black;
   font-size: 20px;
+`;
+
+export const SplitCircles = styled.View`
+  border-color: ${colors.grayBorder};
+  border-width: 1px;
+  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+`;
+export const SplitCircleFilled = styled(SplitCircles)`
+  border-width: 0px;
+  background-color: ${colors.white};
 `;

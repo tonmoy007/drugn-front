@@ -15,6 +15,7 @@ export const linking = {
             signin: "/sign-in",
             otp: "/otp",
             accountComplete: "/account-complete",
+            passcode: "/passcode",
             storeRegistration: "/store-registration",
             storeRegistrationSuccess: "store-registration/success",
             addMedicine: "add-medicine",
@@ -23,6 +24,8 @@ export const linking = {
             recordMedicine: "/record-medicine",
             deleteMedicine: "/delete-medicine",
             profile: "profile",
+            wallet: "wallet",
+            freeNFT: "free-nft"
         }
     },
     prefixes: []
