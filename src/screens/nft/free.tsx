@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Image, StyleSheet, FlatList } from 'react-native';
 import { colors } from '../../utils/settings';
 import { Button, Card, Text, useTheme } from 'react-native-paper';

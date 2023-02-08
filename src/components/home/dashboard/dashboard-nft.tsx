@@ -6,13 +6,14 @@ import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { NftList } from "./nft-list";
 import {
-    PanGestureHandler,
+    PanGestureHandler, ScrollView,
 } from "react-native-gesture-handler";
 import Animated, {
     withSpring,
     useAnimatedStyle,
     useSharedValue,
 } from 'react-native-reanimated';
+import HomeNFT from "./nft";
 
 const { height: windowHeight } = Dimensions.get('window');
 
@@ -35,7 +36,7 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
     const sStyle = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: withSpring(open ? -windowHeight + 150 : smallScreen ? -140 : -200, { damping: 160, stiffness: 200 }) },
+                { translateY: withSpring(hideHeader ? 0 : open ? -windowHeight + 150 : smallScreen ? -140 : -200, { damping: 160, stiffness: 200 }) },
 
             ],
         }
@@ -62,11 +63,16 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
                     </PanGestureHandler>
                 </TouchableOpacity>) : null}
                 <FBox style={{ margin: 18 }}>
-                    {!hideHeader ? <Text
+                    {/* {!hideHeader ? <Text
                         style={{
                             fontFamily: "Montserrat_700Bold",
                             paddingBottom: smallScreen ? 10 : 20
-                        }}>NFT</Text> : null}
+                        }}>NFT</Text> : null} */}
+                    <Text
+                        style={{
+                            fontFamily: "Montserrat_700Bold",
+                            paddingBottom: smallScreen ? 10 : 20, textAlign: hideHeader ? 'center' : 'left'
+                        }}>NFT</Text>
                     <Card theme={{ elevation: 1 }} style={styles.card}>
                         <Card.Content>
                             <FBox style={styles.cardWrapper}>
@@ -83,7 +89,10 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
                         </Card.Content>
                     </Card>
                 </FBox>
-                <NftList />
+                <ScrollView>
+                    <HomeNFT />
+                </ScrollView>
+                {/* <NftList /> */}
             </FBox>
         </Animated.View>
     )
