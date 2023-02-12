@@ -51,7 +51,7 @@ export default function App() {
             <StoreProvider store={globalStore}>
                 <PaperProvider theme={theme}>
                     <NavigationContainer linking={linking} theme={navTheme}>
-                        <Stack.Navigator initialRouteName='dashboard' screenOptions={{
+                        <Stack.Navigator initialRouteName='signin' screenOptions={{
                             statusBarColor: colors.background,
                             headerStyle: { backgroundColor: colors.background },
                             headerTitleStyle: { fontFamily: "Montserrat_700Bold" },
