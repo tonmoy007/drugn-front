@@ -17,7 +17,6 @@ export const SignUpScreen = () => {
     const onSubmit = (data) => {
         setSubmitting(true)
         SignUp(data).then(res =>{
-            console.log(res)
             if (res.error){
                 alert(res.message)
             }else{
