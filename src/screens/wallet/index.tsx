@@ -40,23 +40,23 @@ export const NewWallet = ({ route, navigation }) => {
                         {curStep === 1 && <WalletName nextStep={2} setStep={setCurStep} navigation={navigation} />}
                         {curStep === 2 && completed && <>
                             <FBox style={{ flex: 2, alignItems: 'center' }}>
-                                <Text variant={"titleLarge"} style={{ fontWeight: '700' }}>Wallet</Text>
-                                <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20 }}>Random text</Text>
+                                <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20 }}>Walletの作成
+                                    完了いたしました</Text>
                                 <FBox style={{ marginTop: 30 }}>
-                                    <Image source={require("../../../assets/icons/first_nft.svg")} style={{ width: 250, height: 250 }} />
+                                    <Image source={require("../../../assets/icons/bag_bg.svg")} style={{ width: 250, height: 250 }} />
                                 </FBox>
                             </FBox>
                             <FBox style={{ width: '100%' }}>
                                 <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
                                     labelStyle={{ color: theme.colors.onPrimary }} onPress={() => navigation.replace('freeNFT')}
-                                >NFT</Button>
+                                >NFTを受け取る</Button>
 
                                 <FBox style={{ width: '100%', paddingBottom: 30 }}>
                                     <Button icon={"help-circle-outline"} mode={"outlined"}
-                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>Help 1
+                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーとは?
                                     </Button>
                                     <Button icon={"help-circle-outline"} mode={"outlined"}
-                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>Help 2
+                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーを無くしたらどうなりますか?
                                     </Button>
                                 </FBox>
                             </FBox>

@@ -15,7 +15,8 @@ interface Props {
 
 export default function WalletDetails(props: Props) {
     const [copied, setCopied] = useState<boolean>(false)
-    const walletAddress = 'NZhakSO09NDyfhndif8dfedklhj9GDzx7Ad'
+    const walletAddress = 'N12QWEI12138OIH0DOIHQ21IFOUSHFW3HDAKJ'
+    const privateKey = '8192841209710QHDQ213010HEWQHE12H112EJMPOEJQWOWJEPOQJW1'
     const theme = useTheme()
 
     useEffect(() => {
@@ -43,26 +44,26 @@ export default function WalletDetails(props: Props) {
     return (
         <FBox style={styles.container}>
             <FBox style={{ paddingHorizontal: 20, width: '100%' }}>
-                <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20, textAlign: 'center' }}>Wallet Details</Text>
+                <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20, textAlign: 'center' }}>まもなくWalletの準備が整います</Text>
                 <FBox style={{ ...styles.warning, borderColor: theme.colors.scrim }}>
-                    <Text variant={"titleMedium"} style={{ color: theme.colors.scrim, fontWeight: '700' }}><FontAwesome name='warning' size={18} /> NOTE <FontAwesome
+                    <Text variant={"titleMedium"} style={{ color: theme.colors.scrim, fontWeight: '700' }}><FontAwesome name='warning' size={18} /> 重要 <FontAwesome
                         name='warning' size={18} /></Text>
-                    <Text style={{ ...styles.text, color: theme.colors.scrim, marginTop: 8 }}>A very long text</Text>
-                    <Text style={{ ...styles.text, color: theme.colors.scrim }}>A very very very very long text</Text>
-                    <Text style={{ ...styles.text, color: theme.colors.scrim }}>A very long text</Text>
-                    <Text style={{ ...styles.text, color: theme.colors.scrim }}>A very very long text</Text>
-                    <Text style={{ ...styles.text, color: theme.colors.scrim }}>short text</Text>
+                    <Text style={{ ...styles.text, color: theme.colors.scrim, marginTop: 8 }}>Walletの受け取りを完了するには
+                        本画面のスクリーンショットを取るか、
+                        プライベートキーのコピーし、
+                        絶対に紛失しない、流出しないように
+                        大切に保管してください。</Text>
                 </FBox>
             </FBox>
 
             <FBox style={{ ...styles.container2, backgroundColor: theme.colors.onPrimary }}>
-                <Text style={{ color: theme.colors.primary, fontWeight: '700', }} variant={"titleMedium"}>Address</Text>
-                <TouchableOpacity
-                    onLongPress={() => copyToClipboard({ text: walletAddress, msg: `Wallet address copied successfully` })}>
-                    <Text style={{ color: theme.colors.background, fontWeight: '700', }} variant={"titleMedium"}>{walletAddress} <FontAwesome name='copy' /></Text>
-                </TouchableOpacity>
+                <Text style={{ color: theme.colors.primary, fontWeight: '700', }} variant={"titleMedium"}>アドレス</Text>
+                <Button style={{ width: '100%' }}
+                    onPress={() => copyToClipboard({ text: walletAddress, msg: `Wallet address copied successfully` })}>
+                    <Text style={{ ...styles.text, flex: 1, flexWrap: 'wrap', color: theme.colors.background, fontWeight: '700', }} variant={"titleMedium"}>{walletAddress}</Text>
+                </Button>
 
-                <Text style={{ color: theme.colors.primary, fontWeight: '700', marginVertical: 20 }} variant={"titleMedium"}>Address QR Code</Text>
+                <Text style={{ color: theme.colors.primary, fontWeight: '700', marginVertical: 20 }} variant={"titleMedium"}>保管が必要なプライベートキー</Text>
                 <TouchableOpacity
                     onLongPress={() => copyToClipboard({ text: walletAddress, msg: `Wallet address copied successfully` })}>
                     <QRCode
@@ -74,25 +75,23 @@ export default function WalletDetails(props: Props) {
                 </TouchableOpacity>
 
                 <FBox style={{ width: '100%', padding: 10, marginTop: 20, backgroundColor: theme.colors.backdrop }}>
-                    <Text style={{ ...styles.text, color: theme.colors.background, fontWeight: '700', }} variant={"titleMedium"}>123454N82kdLl9x9S6</Text>
-                    <Text style={{ ...styles.text, color: theme.colors.background, fontWeight: '700', }} variant={"titleMedium"}>123454N82kdLl9x9S6</Text>
+                    <Text style={{ ...styles.text, color: theme.colors.background, fontWeight: '700', }} variant={"titleMedium"}>{privateKey}</Text>
                 </FBox>
                 <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
                     onPress={async () => setCopied(await copyToClipboard(
-                        { text: '123454N82kdLl9x9S6', msg: `Copied successfully`, time: 1000 }))}
-                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}>Tap to copy</Button>
+                        { text: privateKey, msg: `Private key copied successfully`, time: 1000 }))}
+                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}>プライベートキーをコピーする</Button>
                 <Text style={{ color: theme.colors.background, fontWeight: '700', marginVertical: 10 }}
-                    variant={"titleMedium"}>Screenshot</Text>
+                    variant={"titleMedium"}>又は</Text>
                 <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
-                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}>Tap to Screenshot</Button>
+                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}>本画面をスクリーンショットで保管する</Button>
 
                 <FBox style={{ width: '100%', paddingBottom: 30 }}>
                     <Button icon={"help-circle-outline"} mode={"outlined"}
-                        style={styles.help} labelStyle={{ color: theme.colors.background }} onPress={() => { }}>Help 1
+                        style={styles.help} labelStyle={{ ...styles.helpText, color: theme.colors.background }} onPress={() => { }}>プライベートキーとは?
                     </Button>
                     <Button icon={"help-circle-outline"} mode={"outlined"}
-                        style={styles.help} labelStyle={{ color: theme.colors.background }} onPress={() => { }}>Help 2
-                    </Button>
+                        style={styles.help} labelStyle={{ ...styles.helpText, color: theme.colors.background }} onPress={() => { }}>プライベートキーを無くしたらどうなりますか?</Button>
                 </FBox>
 
             </FBox>
@@ -148,6 +147,9 @@ const styles = StyleSheet.create({
         border: 0,
         padding: 0,
         height: 20,
-        marginBottom: 10
+        marginBottom: 10,
     },
+    helpText: {
+        marginHorizontal: 0
+    }
 });

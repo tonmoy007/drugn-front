@@ -45,7 +45,7 @@ export const MedicineSlider = () => {
         return (
             <FBox style={{
                 ...styles.card,
-                marginLeft: index == 0 ? 18 : 0
+                marginLeft: index == 0 ? 10 : 0
             }}
                 key={`item-${index}${key}`}
             >
@@ -70,6 +70,7 @@ export const MedicineSlider = () => {
                 renderItem={renderItem}
                 style={styles.carousel}
                 inActiveScale={1}
+                activeScale={1}
                 itemWidth={windowDimension.width * 0.8}
                 containerWidth={windowDimension.width}
                 separatorWidth={10}

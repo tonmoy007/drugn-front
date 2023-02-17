@@ -2,9 +2,6 @@ import { FBox } from "../../components/globals/fbox";
 import { OtpInput } from "../../components/auth/otp-input";
 import { Text, useTheme } from "react-native-paper";
 import { useCallback, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootParamList } from "../../utils/settings";
 import { StyleSheet } from 'react-native'
 
 export const DevicePasscode = ({ navigation }) => {
@@ -40,9 +37,9 @@ export const DevicePasscode = ({ navigation }) => {
     return (
         <FBox style={{ flex: 1, alignItems: "center", justifyContent: "flex-start", padding: 20 }}>
             <FBox style={{ flexDirection: "column", paddingTop: 80, maxWidth: 600, alignItems: "center" }}>
-                <Text variant={"titleMedium"} style={{ marginBottom: 5 }}>Device Passcode</Text>
+                <Text variant={"titleMedium"} style={{ marginBottom: 5 }}>パスコードをご入力ください</Text>
                 <Text variant={"bodySmall"}
-                    style={{ marginBottom: 50 }}>Set your NFT Wallet device passcode</Text>
+                    style={{ marginBottom: 50 }}>アプリ起動のパスコードを設定します。</Text>
 
                 <FBox style={{ marginBottom: 20, width: "100%" }}>
                     <OtpInput code={passcode} setCode={setPasscode} maximumLength={6} setIsPinReady={onPinReady} isPasscode={true} />

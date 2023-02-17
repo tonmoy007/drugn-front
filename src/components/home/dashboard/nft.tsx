@@ -3,7 +3,7 @@ import { colors } from '../../../utils/settings';
 import { Text, useTheme, ProgressBar } from 'react-native-paper';
 import { FBox } from '../../../components/globals/fbox';
 
-const drugImage = require('../../../../assets/icons/first_nft.svg')
+const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 
 
 const nfts = Array.apply(null, Array(20)).map((v, i) => {

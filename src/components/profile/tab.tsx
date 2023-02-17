@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { colors } from '../../utils/settings';
 import { Card, useTheme, Text } from 'react-native-paper';
-import { CustomIcon } from '../../utils/custom-icon';
 import { FBox } from '../globals/fbox';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 
 export default function UserProfileTabs() {
     const theme = useTheme();
@@ -13,7 +13,8 @@ export default function UserProfileTabs() {
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
                             <Text style={{ ...styles.tabLabelText, color: theme.colors.onPrimary }}>
-                                <CustomIcon name="pill" /> Coins
+                                <Image source={require("../../../assets/icons/coins.svg")}
+                                    style={{ width: 18, height: 18 }} /> Coins
                             </Text>
                         </FBox>
                         <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>+8.8</Text>
@@ -22,7 +23,7 @@ export default function UserProfileTabs() {
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
                             <Text style={{ ...styles.tabLabelText, color: theme.colors.onPrimary }}>
-                                <CustomIcon name="pill" /> Stamina
+                                <Image source={require("../../../assets/icons/battery.svg")} style={{ width: 18, height: 18 }} /> Stamina
                             </Text>
                         </FBox>
                         <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>-2.4<Text style={{ fontSize: 16 }}>Hp</Text></Text>
@@ -31,14 +32,14 @@ export default function UserProfileTabs() {
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
                             <Text style={{ ...styles.tabLabelText, color: theme.colors.onPrimary }}>
-                                <CustomIcon name="pill" /> Items
+                                <FontAwesome name='heart' size={18} /> Items
                             </Text>
                         </FBox>
                         <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>+1</Text>
                     </FBox>
                 </FBox>
             </Card.Content>
-        </Card>
+        </Card >
     );
 }
 
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     },
     tabLabel: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     tabContainer: {
         flex: 1,
@@ -68,12 +69,15 @@ const styles = StyleSheet.create({
         height: 80
     },
     tabLabelText: {
-        fontSize: 16,
         opacity: 0.9,
         margin: '0px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex'
+
     },
     tabText: {
         marginTop: 2,
-        fontSize: 20,
+        fontSize: 16,
     }
 });

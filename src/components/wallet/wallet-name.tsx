@@ -24,7 +24,7 @@ export default function WalletName(props: Props) {
             headerRight: () => {
                 return (
                     <Text style={{ ...styles.navText, color: walletName.length > 0 ? theme.colors.primary : theme.colors.onSurfaceDisabled }}
-                        onPress={handleNextNav}>完了</Text >
+                        onPress={handleNextNav}>登録</Text >
                 )
             }
         });
@@ -36,22 +36,22 @@ export default function WalletName(props: Props) {
 
     return (
         <FBox style={styles.container}>
-            <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20 }}>Enter wallet name</Text>
+            <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20 }}>Walletの表示名を設定してください</Text>
             <TextInput
                 style={{ width: '100%' }}
                 onChangeText={setWalletName}
                 mode={"outlined"}
                 value={walletName}
-                placeholder={"Wallet name"}
+                placeholder={"your wallet name"}
                 right={walletName.length > 0 ? <TextInput.Icon icon={"check"} size={12} iconColor={colors.primary} />
                     : <></>}
             />
-            <Text style={{ color: theme.colors.onPrimary, marginTop: 10 }}>A very very very very long text</Text>
-            <Text style={{ color: theme.colors.onPrimary }}>A very long text</Text>
-            <Text style={{ color: theme.colors.onPrimary }}>short text</Text>
+            <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>英数字8文字以上、使えない記号は______です。
+                Walletの表示名は後から編集できません。
+                テキスト仮</Text>
 
             <FBox style={{ marginTop: 50 }}>
-                <Image source={require("../../../assets/icons/first_nft.svg")} style={{ width: 100, height: 100 }} />
+                <Image source={require("../../../assets/icons/bag.svg")} style={{ width: 100, height: 100 }} />
             </FBox>
         </FBox>
     );
@@ -71,4 +71,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    text: {
+        textAlign: 'center'
+    }
 });

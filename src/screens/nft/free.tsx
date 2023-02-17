@@ -6,14 +6,14 @@ import { FBox } from '../../components/globals/fbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ClaimNFT from '../../components/nft/claimNFT';
 
-const drugImage = require('../../../assets/icons/first_nft.svg')
+const drugImage = require('../../../assets/icons/pills/blue_primary_eye.svg')
 const waterImage = require('../../../assets/icons/account_create_success.svg')
 const drugBoxImage = require('../../../assets/icons/store_location_icon.svg')
 
 const nfts = {
     drug: {
         data: Array.apply(null, Array(20)).map((v, i) => {
-            return { id: i, image: drugImage, name: 'drug name', free: true };
+            return { id: i, image: drugImage, name: 'テストユーザー限定', free: true };
         }),
         name: "Drug"
     },

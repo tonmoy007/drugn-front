@@ -20,13 +20,13 @@ export default function ClaimNFT(props: Props) {
         if (claimed)
             props.navigation.setOptions({
                 headerTitleAlign: 'center',
-                headerTitle: 'NFT Success'
+                headerTitle: 'NFTを受け取る'
             });
     }, [claimed]);
 
     if (claimed)
         return (
-            <MessageWithImage description={""} buttonMode={"text"} imageUrl={props.nft.image} title={"Your got a NFT!"} buttonText={"ホーム画面へ"}
+            <MessageWithImage description={""} buttonMode={"text"} imageUrl={require("../../../assets/icons/nft_bag.svg")} title={"Your got a NFT!"} buttonText={"ホーム画面へ"}
                 navigationPath={"dashboard"} />
         )
 
@@ -34,7 +34,7 @@ export default function ClaimNFT(props: Props) {
         <FBox style={styles.container}>
             <FBox style={{ ...styles.card, borderColor: theme.colors.primary }}>
                 <FBox style={{ flex: 1 }}>
-                    <Text variant={"titleLarge"} style={{ ...styles.itemText, fontWeight: '700', marginVertical: 50, }}>Claim Drug?</Text>
+                    <Text variant={"titleLarge"} style={{ ...styles.itemText, fontWeight: '700', marginVertical: 50, }}>購入しますか?</Text>
                     <FBox style={{ marginTop: 50, alignItems: 'center' }}>
                         <Image source={props.nft.image} style={{ width: 200, height: 200 }} />
                     </FBox>
@@ -43,7 +43,7 @@ export default function ClaimNFT(props: Props) {
                 </FBox>
                 <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
                     labelStyle={{ color: theme.colors.onPrimary }} onPress={() => setClaimed(true)}
-                >NFT</Button>
+                >購入する</Button>
             </FBox>
             <FBox>
                 <Text style={{ ...styles.itemText, color: theme.colors.primary, marginBottom: 50, marginTop: 30 }}
