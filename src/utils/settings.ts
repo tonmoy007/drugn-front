@@ -3,7 +3,7 @@ export type RootParamList = {
     dashboard: undefined,
     signup: any,
     signin: any,
-    otp: {redirectUri:string},
+    otp: {redirectUri:string,sessionID:string},
     accountComplete: any,
     passcode: {redirectUri:string},
     storeRegistration: any

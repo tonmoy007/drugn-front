@@ -20,10 +20,8 @@ export const SignUpScreen = () => {
             if (res.error){
                 alert(res.message)
             }else{
-                nav.navigate("otp",{redirectUri:"accountComplete"})
+                nav.navigate("otp",{redirectUri:"accountComplete",sessionID:res.sessionID})
             }
-
-
         }).catch(err => alert(err)).finally(() => setSubmitting(false))
 
     }

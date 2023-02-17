@@ -1,21 +1,13 @@
-const API_URL = process.env.API_URL || 'http://43.206.240.27:8080'
+import {ApiService} from "./api-service";
+
 
 export function SignIn(payload: { name?: string, email: string }) {
-    return fetch(`${API_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {"Content-Type": "application/json"}
-    }).then(res => res.json())
+    return ApiService.post(`login`, payload)
 }
 
 export function SignUp(payload: { name?: string, email: string }) {
-    return fetch(`${API_URL}/signup`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(payload)
-    }).then(res => res.json())
+    return ApiService.post(`signup`, payload)
 }
-export function ConfirmCode(payload:{code:string}){
-    return fetch(`${API_URL}/confirm-code`,{method:"POST",
-        headers: {"Content-Type": "application/json"},body:JSON.stringify(payload)}).then(res=>res.json())
+export function ConfirmCode(payload:{code:string,sessionID:string}){
+    return ApiService.post('confirm-code',payload)
 }

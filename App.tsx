@@ -51,71 +51,65 @@ export default function App() {
     })
     if (!fontsLoaded) return <></>
     return (
-        <RootSiblingParent>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <StoreProvider store={globalStore}>
-                    <PaperProvider theme={theme}>
-                        <NavigationContainer linking={linking} theme={navTheme}>
-                            <Stack.Navigator initialRouteName='dashboard' screenOptions={{
-                                statusBarColor: colors.background,
-                                headerStyle: { backgroundColor: colors.background },
-                                headerTitleStyle: { fontFamily: "Montserrat_700Bold" },
-                                animation: "fade_from_bottom",
-                                headerBackImageSource: require("./assets/icons/back.svg")
-                            }}>
-                                <Stack.Screen component={Dashboard} name="dashboard" navigationKey={"dashboard"}
-                                    options={{ title: "Dashboard", headerShown: false }} />
-                                <Stack.Screen component={UnAuthLanding} name="landing" options={{ headerShown: false }} />
-                                <Stack.Screen name={"storeRegistration"} component={StoreRegistration}
-                                    options={{ headerShown: false, title: "Store Registration" }} />
-                                <Stack.Screen name={"storeRegistrationSuccess"} component={StoreRegistrationSuccess}
-                                    options={{ headerShown: false, title: "Store registration success" }} />
-                                <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"} options={{
-                                    title: "DrugNのアカウントを作る",
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <StoreProvider store={globalStore}>
+                <PaperProvider theme={theme}>
+                    <NavigationContainer linking={linking} theme={navTheme}>
+                        <Stack.Navigator initialRouteName='dashboard' screenOptions={{
+                            statusBarColor: colors.background,
+                            headerStyle: { backgroundColor: colors.background },
+                            headerTitleStyle: { fontFamily: "Montserrat_700Bold" },
+                            animation: "fade_from_bottom",
+                            headerBackImageSource: require("./assets/icons/back.svg")
+                        }}>
+                            <Stack.Screen component={Dashboard} name="dashboard" navigationKey={"dashboard"}
+                                options={{ title: "Dashboard", headerShown: false }} />
+                            <Stack.Screen component={UnAuthLanding} name="landing" options={{ headerShown: false }} />
+                            <Stack.Screen name={"storeRegistration"} component={StoreRegistration}
+                                options={{ headerShown: false, title: "Store Registration" }} />
+                            <Stack.Screen name={"storeRegistrationSuccess"} component={StoreRegistrationSuccess}
+                                options={{ headerShown: false, title: "Store registration success" }} />
+                            <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"} options={{
+                                title: "DrugNのアカウントを作る",
+                                headerRight: () => {
+                                    return (
+                                        <StepOf total={2} current={1} />
+                                    )
+                                }
+                            }} />
+                            <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
+                                title: "DrugNのアカウントを作る",
+                                headerRight: () => {
+                                    return <StepOf total={2} current={2} />
+                                },
+                            }} />
+                            <Stack.Screen name={"accountComplete"} component={AccountComplete}
+                                navigationKey={"account-complete"} options={{ headerShown: false }} />
+                            <Stack.Screen name={"signin"} component={SignInScreen} options={{ title: "ログインする" }} />
+                            <Stack.Screen component={AddMedicine} name="addMedicine" navigationKey={"addMedicine"}
+                                options={{
+                                    title: "薬を新規登録",
                                     headerRight: () => {
                                         return (
-                                            <StepOf total={2} current={1} />
+                                            <StepOf total={3} current={1} />
                                         )
                                     }
                                 }} />
-                                <Stack.Screen name={"otp"} component={OtpScreen} navigationKey={"otp"} options={{
-                                    title: "DrugNのアカウントを作る",
-                                    headerRight: () => {
-                                        return <StepOf total={2} current={2} />
-                                    },
-                                }} />
-                                <Stack.Screen name={"accountComplete"} component={AccountComplete}
-                                    navigationKey={"account-complete"} options={{ headerShown: false }} />
-                                <Stack.Screen name={"passcode"} component={DevicePasscode} navigationKey={"passcode"} options={{
-                                    title: "NFT Wallet Passcode",
-                                }} />
-                                <Stack.Screen name={"signin"} component={SignInScreen} options={{ title: "ログインする" }} />
-                                <Stack.Screen component={AddMedicine} name="addMedicine" navigationKey={"addMedicine"}
-                                    options={{
-                                        title: "薬を新規登録",
-                                        headerRight: () => {
-                                            return (
-                                                <StepOf total={3} current={1} />
-                                            )
-                                        }
-                                    }} />
-                                <Stack.Screen name={"editMedicine"} component={EditMedicine}
-                                    options={{ title: "薬の新規登録" }} />
-                                <Stack.Screen name={"manageMedicine"} component={ManageMedicine}
-                                    options={{ title: "薬を飲む" }} />
-                                <Stack.Screen name={"deleteMedicine"} component={DeleteMedicine}
-                                    options={{ title: "薬を飲む" }} />
-                                <Stack.Screen component={RecordMedicine} name="recordMedicine" options={{ title: 'お薬を飲む' }} />
-                                <Stack.Screen name={"profile"} component={UserProfile} options={{ title: "Profile Page" }} />
-                                <Stack.Screen name={"wallet"} component={NewWallet} options={{ title: "NFT Wallet" }} />
-                                <Stack.Screen name={"freeNFT"} component={FreeNFT} options={{ title: "Claim NFT" }} />
+                            <Stack.Screen name={"editMedicine"} component={EditMedicine}
+                                options={{ title: "薬の新規登録" }} />
+                            <Stack.Screen name={"manageMedicine"} component={ManageMedicine}
+                                options={{ title: "薬を飲む" }} />
+                            <Stack.Screen name={"deleteMedicine"} component={DeleteMedicine}
+                                options={{ title: "薬を飲む" }} />
+                            <Stack.Screen component={RecordMedicine} name="recordMedicine" options={{ title: 'お薬を飲む' }} />
+                            <Stack.Screen name={"profile"} component={UserProfile} options={{ title: "Profile Page" }} />
 
-                            </Stack.Navigator>
-                        </NavigationContainer>
-                    </PaperProvider>
-                </StoreProvider>
-            </GestureHandlerRootView>
-        </RootSiblingParent>
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </PaperProvider>
+            </StoreProvider>
+        </GestureHandlerRootView>
+        </RootSiblingParent >
     );
 }
 

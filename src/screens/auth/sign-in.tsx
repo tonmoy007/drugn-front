@@ -16,7 +16,7 @@ export const SignInScreen = () => {
             if (res.error) {
                 alert(res.message)
             } else {
-                nav.navigate("otp", {redirectUri: 'dashboard'})
+                nav.navigate("otp", {redirectUri: 'dashboard', sessionID: res.sessionID})
             }
         }).catch(err => {
             alert(err)

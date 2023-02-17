@@ -10,11 +10,13 @@ import {globalStore} from "../../utils/store/global";
 import {setNewUser} from "../../utils/store/user";
 
 export const OtpScreen = ({route}) => {
+    const sessionID=route.params.sessionID
     const [otp, setOtp] = useState<string>("")
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onPinReady = useCallback((status) => {
         if (status) {
-            ConfirmCode({code: otp}).then(res => {
+            ConfirmCode({code: otp,sessionID}).then(res => {
+                globalStore.dispatch(setNewUser(res.result))
                 if (!res.error)
                     nav.navigate(route.params.redirectUri)
                 else
