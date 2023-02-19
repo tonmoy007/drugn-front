@@ -1,11 +1,10 @@
-import {FBox} from "../../components/globals/fbox";
-import {AuthForm} from "../../components/auth/auth-form";
-import {useState} from "react";
-import {Link, useNavigation} from "@react-navigation/native";
-import {Text} from "react-native-paper";
-import {colors, RootParamList} from "../../utils/settings";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {SignIn} from "../../services/auth";
+import { AuthForm } from "../../components/auth/auth-form";
+import { useState } from "react";
+import { Link, useNavigation } from "@react-navigation/native";
+import { Text } from "react-native-paper";
+import { colors, RootParamList } from "../../utils/settings";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { SignIn } from "../../services/auth";
 
 export const SignInScreen = () => {
     const [submitting, setSubmitting] = useState(false)
@@ -27,9 +26,9 @@ export const SignInScreen = () => {
     return (
         <>
             <AuthForm submitText={"ログイン"} onSubmit={handleSubmit} submitting={submitting} extra={(
-                <Text style={{textAlign: "center", padding: 10}}>アカウントをお持ちですか？ <Link
-                    style={{fontFamily: "Montserrat_700Bold"}} to={"/signup"}><Text
-                    style={{color: colors.primary}}>サインアップ</Text></Link></Text>
+                <Text style={{ textAlign: "center", padding: 10 }}>アカウントをお持ちですか？ <Link
+                    style={{ fontFamily: "Montserrat_700Bold" }} to={"/signup"}><Text
+                        style={{ color: colors.primary }}>サインアップ</Text></Link></Text>
             )
             }
             />

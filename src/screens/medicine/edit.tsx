@@ -1,5 +1,5 @@
 import { FBox } from "../../components/globals/fbox";
-import { Divider, Text, TextInput, useTheme } from "react-native-paper";
+import { Button, Divider, Text, TextInput, useTheme } from "react-native-paper";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { FPaperSelect } from "../../components/globals/select";
@@ -31,10 +31,10 @@ export const EditMedicine = ({ route, navigation }) => {
 
     const MedicineIcons = ({ index }) => {
         return (
-            <TouchableOpacity style={{ ...styles.iconContainer, borderWidth: medIcon === index ? 1 : 0, borderColor: theme.colors.onPrimary }}
+            <Button style={{ ...styles.iconContainer, borderWidth: medIcon === index ? 1 : 0, borderColor: theme.colors.onPrimary }}
                 onPress={() => setMedIcon(index)}>
-                <CustomIcon name="pill" color={medIconsColors[index]} size={30} />
-            </TouchableOpacity>
+                <CustomIcon name="pill" color={medIconsColors[index]} size={30} style={{ lineHeight: 30 }} />
+            </Button>
         )
     }
 
@@ -154,9 +154,8 @@ export const EditMedicine = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     iconContainer: {
         backgroundColor: 'rgba(255,255,255,.06)',
-        padding: 20,
-        paddingLeft: 15,
-        paddingRight: 15,
+        padding: 15,
+        paddingHorizontal: 10,
         marginRight: 10,
         borderRadius: 5
     },

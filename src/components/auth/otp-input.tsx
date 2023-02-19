@@ -1,19 +1,22 @@
-import {TextInput} from "react-native-paper";
-import {useEffect, useRef, useState} from "react";
+import { TextInput } from "react-native-paper";
+import { useEffect, useRef, useState } from "react";
 import {
     OTPInputContainer,
     SplitBoxes,
     SplitBoxesFocused,
     SplitBoxText,
     SplitOTPBoxesContainer,
-    TextInputHidden
+    TextInputHidden,
+    SplitCircles,
+    SplitCircleFilled
 } from "./styled";
 
 interface Props {
-    code:string;
-    setCode:(val:string)=>void;
+    code: string;
+    setCode: (val: string) => void;
     maximumLength: number
     setIsPinReady: (state: boolean) => void
+    isPasscode?: boolean
 }
 
 export const OtpInput = (props: Props) => {
@@ -54,8 +57,16 @@ export const OtpInput = (props: Props) => {
 
         const StyledSplitBoxes =
             isInputBoxFocused && isValueFocused ? SplitBoxesFocused : SplitBoxes;
+
+        const SplitCircle = props.code[index] ? SplitCircleFilled : SplitCircles
+
+        if (props.isPasscode)
+            return (
+                <SplitCircle key={index} style={{ marginRight: index === props.maximumLength - 1 ? 0 : 18 }} />
+            );
+
         return (
-            <StyledSplitBoxes key={index} style={{marginRight:index===props.maximumLength-1?0:18}}>
+            <StyledSplitBoxes key={index} style={{ marginRight: index === props.maximumLength - 1 ? 0 : 18 }}>
                 <SplitBoxText>{digit}</SplitBoxText>
             </StyledSplitBoxes>
         );

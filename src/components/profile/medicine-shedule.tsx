@@ -1,13 +1,14 @@
-import { StyleSheet, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Modal, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { colors } from '../../utils/settings';
 import { Card, useTheme, Text } from 'react-native-paper';
 import { CustomIcon } from '../../utils/custom-icon';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FBox } from '../globals/fbox';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SideSwipe from 'react-native-sideswipe'
 import { DownloadShare } from '../globals/download-share';
+import DatePicker from '../globals/date-picker';
 
 const medSchedule = [
     {
@@ -86,8 +87,29 @@ export default function UserMedicineSchedule() {
     const [width, setWidth] = useState(400);
     const [modalWidth, setModalWidth] = useState(400);
     const [curModal, setCurModal] = useState<number>(0);
-
+    const [date, setDate] = useState<Date>(new Date());
+    const [dateString, setDateString] = useState<string>(``);
+    const [open, setOpen] = useState<boolean>(false);
     const theme = useTheme();
+
+
+    const onDismissSingle = useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);
+
+    const onConfirmSingle = useCallback(
+        (params) => {
+            setOpen(false);
+            setDate(params.date);
+        },
+        [setOpen, setDate]
+    );
+
+    useEffect(() => {
+        console.log('hi')
+        setDateString(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`);
+    }, [date])
+
 
     const handleCardSwitch = (nextCard) => {
         if (nextCard && maxCards - 1 > curCard) {
@@ -185,14 +207,13 @@ export default function UserMedicineSchedule() {
                 animationType="slide"
                 visible={showModal}
                 transparent={true}
-                onRequestClose={() => {
-                    console.log("Modal has been closed.");
-                }}
             >
                 <FBox style={styles.modalHeader}>
                     <MaterialIcons name='close' onPress={() => setShowModal(false)}
-                        style={{ color: theme.colors.onPrimary, position: 'absolute', top: 20 }} size={28} />
-                    <Text style={{ color: theme.colors.onPrimary, fontSize: 18, textAlign: 'center' }}>MEDICINE {curCard + 1}</Text>
+                        style={{ color: theme.colors.onPrimary }} size={28} />
+                    <Text style={{ color: theme.colors.onPrimary, fontSize: 18, textAlign: 'center' }}>評価 {curCard + 1}</Text>
+                    <MaterialCommunityIcons name='calendar-month'
+                        style={{ color: theme.colors.onPrimary }} onPress={() => setOpen(true)} size={24} />
                 </FBox>
                 <FBox style={{ ...styles.modalContainer, backgroundColor: theme.colors.background }}>
                     <ScrollView>
@@ -201,7 +222,7 @@ export default function UserMedicineSchedule() {
                                 onLayout={(event) => setModalWidth(event.nativeEvent.layout.width)} >
                                 <MaterialIcons name='keyboard-arrow-left' onPress={() => handleModalSwitch(false)}
                                     style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curModal > 0 ? 1 : 0.4 }} size={28} />
-                                <Text style={{ ...styles.headerText, color: theme.colors.onPrimary, fontSize: 18 }}>2022 / 11 ({curModal + 1})</Text>
+                                <Text style={{ ...styles.headerText, color: theme.colors.onPrimary, fontSize: 18 }}>{dateString} ({curModal + 1})</Text>
                                 <MaterialIcons name='keyboard-arrow-right' onPress={() => handleModalSwitch(true)}
                                     style={{ ...styles.headerText, color: theme.colors.onPrimary, opacity: curModal < maxModals - 1 ? 1 : 0.4 }} size={28} />
                             </FBox>
@@ -211,7 +232,8 @@ export default function UserMedicineSchedule() {
                                 threshold={0}
                                 contentOffset={0}
                                 onIndexChange={(e) => setCurModal(e)}
-                                renderItem={ModalSlider} />
+                                renderItem={ModalSlider}
+                            />
                         </FBox>
                     </ScrollView>
                     <FBox style={{ padding: 20 }}>
@@ -220,8 +242,11 @@ export default function UserMedicineSchedule() {
 
                 </FBox>
             </Modal >
+            <DatePicker open={open} date={date} onChange={onConfirmSingle} startYear={2022} endYear={new Date().getFullYear()}
+                onDismiss={onDismissSingle} validRange={{ startDate: new Date('2022-12-09T00:00:00+00:00'), endDate: new Date() }}
+            />
             <Card theme={{ elevation: 1 }} style={styles.card}>
-                <Card.Content style={{ paddingLeft: 5, paddingRight: 5 }}>
+                <Card.Content style={{ paddingHorizontal: 5 }}>
 
                     <FBox style={styles.header}>
                         <MaterialIcons name='keyboard-arrow-left' onPress={() => handleCardSwitch(false)}
@@ -238,26 +263,28 @@ export default function UserMedicineSchedule() {
                         <FBox key={'breakfast-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: theme.colors.primary }}>
                             <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
                         </FBox>
-                        <LinearGradient key={'lunch-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(255, 230, 3)', 'rgb(240, 129, 26)', 'rgb(191, 83, 31)', 'rgb(136, 87, 3)']}
+                        <LinearGradient key={'lunch-header'} start={{ x: 0.5, y: 0.5 }} colors={['#F5C24E', '#E83F94']}
                             style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
-                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                            <Image source={require("../../../assets/icons/sunny.svg")} style={{ ...styles.tabIcon }} />
                         </LinearGradient>
                         <FBox key={'snack-header'} style={{ ...styles.tabContainer, ...styles.tabContainerHeader, backgroundColor: colors.textDarker }}>
-                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                            <Image source={require("../../../assets/icons/dinner.svg")} style={{ ...styles.tabIcon }} />
                         </FBox>
-                        <LinearGradient key={'dinner-header'} start={{ x: 0.5, y: 0.5 }} colors={['rgb(86, 74, 255)', 'rgb(101, 54, 255)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)', 'rgb(144, 0, 176)']}
+                        <LinearGradient key={'dinner-header'} start={{ x: 0.5, y: 0.5 }} colors={['#5B4EF5', '#E83F94']}
                             style={{ ...styles.tabContainer, ...styles.tabContainerHeader }}>
-                            <CustomIcon name='sunrise' size={30} color={theme.colors.onPrimary} />
+                            <Image source={require("../../../assets/icons/moon.svg")} style={{ ...styles.tabIcon }} />
                         </LinearGradient>
                     </FBox>
 
-                    <SideSwipe data={Array(maxCards).fill(0)} index={curCard}
+                    <SideSwipe
+                        data={Array(maxCards).fill(0)} index={curCard}
                         itemWidth={width}
                         style={{ width: '100%' }}
                         threshold={0}
                         contentOffset={0}
                         renderItem={ScheduleTabs}
-                        onIndexChange={(e) => setCurCard(e)} />
+                        onIndexChange={(e) => setCurCard(e)}
+                    />
                 </Card.Content>
             </Card>
         </>
@@ -302,6 +329,10 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         height: 45
     },
+    tabIcon: {
+        width: 28,
+        height: 28
+    },
     tabDate: {
         height: 40,
         display: 'flex',
@@ -331,6 +362,9 @@ const styles = StyleSheet.create({
         position: 'relative',
         padding: 20,
         borderBottomWidth: 1,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
         borderColor: colors.textSemiDark
     },
     modalContainer: {

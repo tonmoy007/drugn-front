@@ -1,6 +1,5 @@
 import { StyleSheet, Image } from 'react-native';
 import { useTheme, Text } from 'react-native-paper';
-import { colors } from '../../utils/settings';
 import { FBox } from '../globals/fbox';
 
 export default function UserProfileHeader() {
@@ -15,7 +14,7 @@ export default function UserProfileHeader() {
                 <FBox style={styles.profileContainer}>
                     <Image source={require("../../../assets/images/Face.svg")} style={styles.profilePic} />
                     <Text style={{ ...styles.name, color: theme.colors.primary }}>Laura Burke</Text>
-                    <Image source={require("../../../assets/icons/first_nft.svg")} style={styles.headerSVG} />
+                    <Image source={require("../../../assets/icons/hand_case.svg")} style={styles.headerSVG} />
                 </FBox>
             </FBox>
         </FBox>

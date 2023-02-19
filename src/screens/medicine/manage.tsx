@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   },
   slider: {
     display: 'flex',
-    height: 200,
-    paddingTop: 20,
+    height: 150,
+    paddingTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.background2

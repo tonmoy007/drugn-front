@@ -5,6 +5,7 @@ export type RootParamList = {
     signin: any,
     otp: {redirectUri:string,sessionID:string},
     accountComplete: any,
+    passcode: {redirectUri:string},
     storeRegistration: any
     storeRegistrationSuccess:any,
     addMedicine: any,
@@ -13,6 +14,8 @@ export type RootParamList = {
     recordMedicine: any,
     deleteMedicine: any
     profile: any,
+    wallet: any,
+    freeNFT: any
 }
 export type BottomTab={
     Home:any;
@@ -47,7 +50,7 @@ export const ourTheme = {
         "outline": "rgb(88, 88, 88)",
         "outlineVariant": "rgb(45, 43, 60)",
         "shadow": "rgb(0, 0, 0)",
-        "scrim": "rgb(0, 0, 0)",
+        "scrim": "#d4d600",
         "inverseSurface": "rgb(226, 226, 229)",
         "inverseOnSurface": "rgb(47, 48, 51)",
         "inversePrimary": "rgb(0, 99, 153)",
@@ -61,7 +64,7 @@ export const ourTheme = {
         },
         "surfaceDisabled": "rgba(226, 226, 229, 0.12)",
         "onSurfaceDisabled": "rgba(226, 226, 229, 0.38)",
-        "backdrop": "rgba(43, 49, 55, 0.1)"
+        "backdrop": "rgba(43, 49, 55, 0.1)",
     }
 }
 export const colors = {

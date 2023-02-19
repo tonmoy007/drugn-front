@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
     },
     tabContent: {
         height: 'calc(100% - 70px)',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingHorizontal: 20,
         paddingBottom: 70
     },
     tab: {

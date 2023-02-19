@@ -1,14 +1,13 @@
-import {Dimensions, StyleSheet, TouchableOpacity} from "react-native";
-import {useEffect, useRef, useState} from "react";
-import {Button, Text} from "react-native-paper";
-import {FBox} from "../../globals/fbox";
-import {colors, RootParamList} from "../../../utils/settings";
-import {SliderLists} from "./slider-lists";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Button, Text } from "react-native-paper";
+import { FBox } from "../../globals/fbox";
+import { colors, RootParamList } from "../../../utils/settings";
+import { SliderLists } from "./slider-lists";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import SideSwipe from 'react-native-sideswipe'
 
-const windowDimensions = Dimensions.get('window');
 
 const scheduleData = [
     {
@@ -46,13 +45,14 @@ export const SliderPagination = (props: SliderPaginationProps) => {
         <FBox style={styles.dotContainer}>
             {Array(props.length).fill(0).map((item, index) => {
                 return <TouchableOpacity onPress={() => props.onClick(index)} key={"page_" + index}
-                                         style={index == props.currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
+                    style={index == props.currentIndex ? { ...styles.dot, ...styles.dotActive } : styles.dot}></TouchableOpacity>
             })}
         </FBox>
     )
 }
 
 export const DashboardSlider = () => {
+    const windowDimensions = Dimensions.get('window');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [windowDimension, setWindowDimension] = useState(windowDimensions)
     const data = Array(2).fill(0)
@@ -61,42 +61,42 @@ export const DashboardSlider = () => {
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
             'change',
-            ({window}) => {
+            ({ window }) => {
                 setWindowDimension(window);
             },
         );
         return () => subscription?.remove();
     });
 
-    const renderItem = ({itemIndex, currentIndex, item, animatedValue}) => {
+    const renderItem = ({ itemIndex, currentIndex, item, animatedValue }) => {
         const index = itemIndex;
         const key = itemIndex + currentIndex;
         return (
             <FBox style={{
                 ...styles.card, width: windowDimension.width - 36
             }}
-                  key={`item-${index}${key}`}
+                key={`item-${index}${key}`}
             >
-                <FBox style={{padding: 0, margin: 0, flex: 1, width: '100%'}}>
+                <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%' }}>
                     {index == 0 && (
-                        <FBox style={{flex: 1, alignItems: "center", justifyContent: "center", padding: 20}}>
+                        <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}>
                             <FBox style={{
                                 flex: 1,
                                 flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text style={{fontFamily: 'Montserrat_700Bold', marginBottom: 5}}>今日 11/30(水)
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 11/30(水)
                                     朝</Text>
                                 <Button icon={"plus-circle-outline"}
-                                        labelStyle={{fontSize: 30, fontWeight: "bold", lineHeight: 40}}
-                                        mode={"text"} textColor={colors.white}
-                                        onPress={() => nav.navigate("addMedicine")}>薬を新規登録する</Button>
+                                    labelStyle={{ fontSize: 30, fontWeight: "bold", lineHeight: 40 }}
+                                    mode={"text"} textColor={colors.white}
+                                    onPress={() => nav.navigate("addMedicine")}>薬を新規登録する</Button>
                             </FBox>
                         </FBox>
                     )}
                     {index == 1 && (
-                        <SliderLists data={scheduleData}/>
+                        <SliderLists data={scheduleData} />
                     )}
                 </FBox>
             </FBox>
@@ -109,13 +109,13 @@ export const DashboardSlider = () => {
     }
 
     return (
-        <FBox style={{flex: 1, minHeight: windowDimension.height / 4}}>
+        <FBox style={{ flex: 1, minHeight: windowDimension.height / 4 }}>
             <SideSwipe data={data} index={currentIndex} itemWidth={windowDimension.width - 18}
-                       style={{width: windowDimension.width}}
-                       threshold={windowDimension.width - 100}
-                       contentOffset={18}
-                       renderItem={renderItem} onIndexChange={handleCarouselScrollEnd}/>
-            <SliderPagination currentIndex={currentIndex} length={data.length} onClick={(i) => setCurrentIndex(i)}/>
+                style={{ width: windowDimension.width }}
+                threshold={windowDimension.width - 100}
+                contentOffset={18}
+                renderItem={renderItem} onIndexChange={handleCarouselScrollEnd} />
+            <SliderPagination currentIndex={currentIndex} length={data.length} onClick={(i) => setCurrentIndex(i)} />
         </FBox>
     )
 }
