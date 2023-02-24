@@ -14,7 +14,7 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
         handleSubmit,
         control,
         formState: {errors, isValid},
-    } = useForm<FormData>({mode: "onBlur", defaultValues: {name: "", email: ""}})
+    } = useForm<FormData>({mode: "onBlur", defaultValues: {username: "", email: ""}})
     return (
         <FBox style={{paddingHorizontal: 18, paddingVertical: 60}}>
             <FBox style={{display: "flex", flexDirection: "column"}}>
@@ -37,12 +37,12 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
                                                        mode={"outlined"}
                                                        value={form.field.value}
                                                        placeholder={"好きなニックネームを入力してください"}
-                                                       right={!Boolean(errors.username)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
+                                                       right={!Boolean(errors.username)&&form.fieldState.isTouched?<TextInput.Icon focusable={false} icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
                                             />
                                             <HelperText type={"error"}>{errors.username?.message as string}</HelperText>
                                         </>
                                     )
-                                }} name="name"/>
+                                }} name="username"/>
                 </FBox>
                 <FBox style={{paddingBottom: 20}}>
                     <FormLabel title={"Eメールアドレス"}/>
@@ -61,7 +61,7 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
                                        onChangeText={(val) => form.field.onChange(val)}
                                        onBlur={form.field.onBlur}
                                        ref={form.field.ref}
-                                       right={!Boolean(form.fieldState.error)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
+                                       right={!Boolean(form.fieldState.error)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} focusable={false} size={12} iconColor={colors.primary}/>:<></>}
                                        placeholder={"メールを受け取れるアドレスを入力してください"}/>
 
                             <HelperText type={"error"}>{errors.email?.message as string}</HelperText>

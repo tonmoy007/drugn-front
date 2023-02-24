@@ -6,14 +6,17 @@ import {DashboardHeader} from "../../components/home/dashboard/dashboard-header"
 import {StyleSheet} from "react-native";
 import {DashboardActions} from "../../components/home/dashboard/dashboard-actions";
 import {DashboardNft} from "../../components/home/dashboard/dashboard-nft";
+import {useSelector} from "react-redux";
+import {User} from "../../utils/types/user";
 
 export const Home = () => {
+    const user=useSelector((state:any)=>state.user)
     return (
         <LinearGradient style={{flex: 1, justifyContent: "space-between"}} colors={[colors.primary2, colors.background]}
                         start={{x: 0.1, y: 0.3}}
                         end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
             <FBox>
-                <DashboardHeader title={"Laura Brooke"} wallet={300}/>
+                <DashboardHeader title={user?.name} wallet={300}/>
                 <DashboardSlider/>
                 <DashboardActions/>
             </FBox>

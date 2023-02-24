@@ -6,19 +6,20 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../utils/settings";
 import {ConfirmCode} from "../../services/auth";
-import {globalStore} from "../../utils/store/global";
 import {setNewUser} from "../../utils/store/user";
+import {useDispatch} from "react-redux";
 
 export const OtpScreen = ({route}) => {
-    const sessionID=route.params.sessionID
+    const sessionID = route.params.sessionID
     const [otp, setOtp] = useState<string>("")
+    const dispatch = useDispatch()
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onPinReady = useCallback((status) => {
         if (status) {
-            ConfirmCode({code: otp,sessionID}).then(res => {
-                globalStore.dispatch(setNewUser(res.result))
+            ConfirmCode({code: otp, sessionID}).then(res => {
+                dispatch(setNewUser(res.result))
                 if (!res.error)
-                    nav.navigate(route.params.redirectUri)
+                    nav.replace(route.params.redirectUri)
                 else
                     alert(res.message)
             }).catch(err => alert(err))
