@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 git pull
 set -a # automatically export all variables
-source .env
+source "$(pwd)/.env"
 set +a
 docker build --no-cache --label drugn -t drugn:latest .
 docker rm -f drugn
