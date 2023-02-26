@@ -1,5 +1,5 @@
 import {Image} from "react-native"
-import {Button, Text} from "react-native-paper"
+import {Button} from "react-native-paper"
 import {LinearGradient} from 'expo-linear-gradient';
 import {useNavigation} from "@react-navigation/native";
 import {RootParamList} from "../../utils/settings";

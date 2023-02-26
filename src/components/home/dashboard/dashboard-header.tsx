@@ -2,8 +2,12 @@ import {FBox} from "../../globals/fbox";
 import {Image} from "react-native";
 import {IconButton, Text} from "react-native-paper";
 import {CustomIcon} from "../../../utils/custom-icon";
-import {colors} from "../../../utils/settings";
+import {colors, RootParamList} from "../../../utils/settings";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {logout} from "../../../utils/store/user";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 interface Props {
     title: string;
@@ -13,6 +17,12 @@ interface Props {
 
 export const DashboardHeader = (props: Props) => {
     const [hasNoti, setHasNoti] = useState(true)
+    const dispatch = useDispatch()
+    const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
+    const onNotiPress = async () => {
+        dispatch(logout())
+        await navigation.navigate( "signin")
+    }
     return (
         <FBox style={{flexDirection: "row", padding: 18, alignItems: "center", paddingBottom: 10}}>
             <FBox style={{paddingRight: 10}}><Image source={require("../../../../assets/images/Face.svg")}
@@ -30,11 +40,11 @@ export const DashboardHeader = (props: Props) => {
                 </FBox>
             </FBox>
             <FBox>
-                {hasNoti ? (<IconButton onPress={()=>{}}
-                    icon={({size, color}) => (<Image source={require("../../../../assets/icons/bell-badge.svg")}
-                                                     style={{width: 32, height: 32}}/>)}/>) : (
-                    <IconButton icon={"bell"} onPress={() => {
-                    }} iconColor={colors.white}/>)}
+                {hasNoti ? (<IconButton onPress={onNotiPress}
+                                        icon={({size, color}) => (
+                                            <Image source={require("../../../../assets/icons/bell-badge.svg")}
+                                                   style={{width: 32, height: 32}}/>)}/>) : (
+                    <IconButton icon={"bell"} onPress={onNotiPress} iconColor={colors.white}/>)}
             </FBox>
         </FBox>
     )

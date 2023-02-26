@@ -1,7 +1,8 @@
 export interface User {
     name?: string;
+    accountName?:string;
     email?: string;
-    token?: string;
+    accessToken?: string;
     avatar?: string;
     loggedIn:boolean
 }

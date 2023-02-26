@@ -4,7 +4,6 @@ MAINTAINER tonmoy
 WORKDIR /app
 COPY . /app
 RUN yarn install
-RUN  rm -rf node_modules/expo-camera/node_modules/react
 CMD ["yarn","run","web"]
 
 #FROM node:16-alpine3.17 as main

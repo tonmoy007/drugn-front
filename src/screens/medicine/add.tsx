@@ -99,7 +99,9 @@ export default function AddMedicine({ route, navigation }) {
         </>
         :
         <>
-          <Camera style={styles.camera} type={type} ref={cameraRef} />
+          <Camera style={styles.camera} type={type} ref={cameraRef} onBarCodeScanned={(res)=>{
+            console.log(res)
+          }} />
           <FBox style={styles.photoType}>
             {!medicine[1] ?
               <Text style={styles.cameraText}>フロント</Text>

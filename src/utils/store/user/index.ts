@@ -11,14 +11,17 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setNewUser: (state, action: PayloadAction<User>) => {
-            state = {...state, ...action.payload, loggedIn: true}
+            return {...state, ...action.payload, loggedIn: true}
         },
         updateUser: (state, action: PayloadAction<AnyUser>) => {
-            state = {...state, ...action.payload}
+            return {...state, ...action.payload, loggedIn: true}
+        },
+        logout: (state) => {
+            return initialState
         }
     }
 })
-export const {setNewUser, updateUser} = userSlice.actions
+export const {setNewUser, updateUser, logout} = userSlice.actions
 const UserReducer = userSlice.reducer
 const persistConfig = {
     key: 'root',
