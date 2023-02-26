@@ -3,8 +3,9 @@ LABEL app="drugn"
 MAINTAINER tonmoy
 WORKDIR /app
 COPY . /app
-RUN yarn install
-CMD ["yarn","run","web"]
+RUN npm install
+RUN  rm -rf node_modules/expo-camera/node_modules/react
+CMD ["npm","run","web"]
 
 #FROM node:16-alpine3.17 as main
 #WORKDIR /web-build
