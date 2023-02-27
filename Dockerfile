@@ -4,7 +4,7 @@ MAINTAINER tonmoy
 WORKDIR /app
 COPY . /app
 RUN npm install
-RUN cp -R ./external/expo-camer /app/node_modules/expo-camera
+RUN cp -R ./external/expo-camera /app/node_modules/expo-camera
 CMD ["npm","run","web"]
 
 #FROM node:16-alpine3.17 as main
