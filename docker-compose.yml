@@ -1,0 +1,14 @@
+version: "3.6"
+services:
+  app:
+    container_name: drugn
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./external/expo-camera:/app/node_modules/expo-camera
+    env_file:
+      - .env
+    network_mode: host

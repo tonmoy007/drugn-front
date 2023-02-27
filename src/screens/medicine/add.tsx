@@ -41,7 +41,7 @@ export default function AddMedicine({route, navigation}) {
     }, [medicine]);
     useEffect(() => {
         if (!permission?.granted) {
-            requestPermission().catch(err=>alert(err))
+            requestPermission().catch(err => alert(err))
         }
     }, [])
 
@@ -68,7 +68,8 @@ export default function AddMedicine({route, navigation}) {
             <FBox style={styles.container}>
                 <FBox>
                     <Text style={{...styles.text, color: colors.white}}>Permission to use Camera</Text>
-                    <Button onPress={requestPermission} style={styles.button}>Grant permission</Button>
+                    <Button onPress={() => requestPermission().catch(err => alert(err))} style={styles.button}>Grant
+                        permission</Button>
                 </FBox>
             </FBox>
         );
@@ -126,10 +127,11 @@ export default function AddMedicine({route, navigation}) {
                             'upc_e',
                             'upc_e_e',
                             'rss14',
-                            'maxicode'
-                        ]
+                            'maxicode',
+                            'rssExpanded'
+                        ], interval: 10
                     }} onBarCodeScanned={(res) => {
-                        if (res.data){
+                        if (res.data) {
                             alert(res.data)
                         }
                     }}/>

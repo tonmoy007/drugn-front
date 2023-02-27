@@ -45,6 +45,7 @@ const barcodeWorkerMethod = (barCodeTypes, { data, width, height }) => {
                 barCodeTypes.includes('upc_e_e') && BarcodeFormat.UPC_EAN_EXTENSION,
                 barCodeTypes.includes('maxicode') && BarcodeFormat.MAXICODE,
             ].filter((e) => e));
+            console.log(hints);
             const reader = new MultiFormatReader();
             const result = reader.decode(binaryBitmap, null);
             console.log(result);

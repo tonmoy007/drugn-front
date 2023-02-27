@@ -1,9 +1,12 @@
 export interface User {
     name?: string;
-    accountName?:string;
+    username?: string;
+    accountName?: string;
     email?: string;
     accessToken?: string;
     avatar?: string;
-    loggedIn:boolean
+    loggedIn: boolean;
+    wallet?:number;
 }
-export type AnyUser = { [Property in keyof User]?:User[Property] }
+
+export type AnyUser = { [Property in keyof User]?: User[Property] }

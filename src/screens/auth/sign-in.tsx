@@ -13,7 +13,7 @@ export const SignInScreen = () => {
             if (res.error) return alert(res.message)
             nav.navigate("otp", {redirectUri: 'dashboard', sessionID: res.sessionID})
         }).catch(err => {
-            console.log(err)
+            alert(err.data?.message??"Server Error Response")
         })
 
     }

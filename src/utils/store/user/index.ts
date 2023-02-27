@@ -1,7 +1,7 @@
 import {AnyUser, User} from "../../types/user";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {persistReducer, persistStore} from "redux-persist";
+import {persistReducer} from "redux-persist";
 
 const initialState: User = {
     loggedIn: false
