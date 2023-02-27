@@ -4,5 +4,6 @@
     "strict": true,
     "noImplicitAny": false,
     "typeRoots": ["types"]
-  }
+  },
+  "exclude": ["node_modules","external"]
 }
