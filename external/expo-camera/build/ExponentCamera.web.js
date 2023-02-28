@@ -31,7 +31,7 @@ const ExponentCamera = React.forwardRef(({ type, pictureSize, poster, ...props }
                 props.onBarCodeScanned(event);
             }
         },
-        // onError: props.onMountError,
+        onError: props.onMountError,
     });
     // const [pause, setPaused]
     React.useImperativeHandle(ref, () => ({

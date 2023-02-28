@@ -45,9 +45,8 @@ const barcodeWorkerMethod = (barCodeTypes, { data, width, height }) => {
                 barCodeTypes.includes('upc_e_e') && BarcodeFormat.UPC_EAN_EXTENSION,
                 barCodeTypes.includes('maxicode') && BarcodeFormat.MAXICODE,
             ].filter((e) => e));
-            console.log(hints);
-            const reader = new MultiFormatReader();
-            const result = reader.decode(binaryBitmap, null);
+            const reader = new MultiFormatReader(hints);
+            const result = reader.decode(binaryBitmap, hints);
             console.log(result);
             const type = result.getBarcodeFormat() === BarcodeFormat.AZTEC
                 ? 'aztec'
@@ -161,4 +160,5 @@ export function useWebZXingBarcodeScanner(video, { barCodeTypes, isEnabled, capt
         };
     }, []);
 }
+//# sourceMappingURL=useWebZXingBarcodeScanner.js.map
 //# sourceMappingURL=useWebZXingBarcodeScanner.js.map

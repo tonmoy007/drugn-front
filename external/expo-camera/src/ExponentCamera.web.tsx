@@ -52,7 +52,7 @@ const ExponentCamera = React.forwardRef(
           props.onBarCodeScanned(event);
         }
       },
-      // onError: props.onMountError,
+      onError: props.onMountError,
     });
 
     // const [pause, setPaused]

@@ -86,15 +86,15 @@ export declare enum VideoQuality {
     '480p' = "480p",
     '4:3' = "4:3"
 }
-export declare type ImageParameters = {
+export type ImageParameters = {
     imageType: ImageType;
     quality: number | null;
 };
-export declare type ImageSize = {
+export type ImageSize = {
     width: number;
     height: number;
 };
-export declare type WebCameraSettings = Partial<{
+export type WebCameraSettings = Partial<{
     autoFocus: string;
     flashMode: string;
     whiteBalance: string;
@@ -108,14 +108,14 @@ export declare type WebCameraSettings = Partial<{
     focusDistance: number;
     zoom: number;
 }>;
-export declare type CameraCapturedPicture = {
+export type CameraCapturedPicture = {
     width: number;
     height: number;
     uri: string;
     base64?: string;
     exif?: Partial<MediaTrackSettings> | any;
 };
-export declare type CameraPictureOptions = {
+export type CameraPictureOptions = {
     /**
      * Specify the quality of compression, from 0 to 1. 0 means compress for small size, 1 means compress for maximum quality.
      */
@@ -175,7 +175,7 @@ export declare type CameraPictureOptions = {
      */
     fastMode?: boolean;
 };
-export declare type CameraRecordingOptions = {
+export type CameraRecordingOptions = {
     /**
      * Maximum video duration in seconds.
      */
@@ -211,24 +211,24 @@ export declare type CameraRecordingOptions = {
      */
     codec?: VideoCodec;
 };
-export declare type PictureSavedListener = (event: {
+export type PictureSavedListener = (event: {
     nativeEvent: {
         data: CameraCapturedPicture;
         id: number;
     };
 }) => void;
-export declare type CameraReadyListener = () => void;
-export declare type MountErrorListener = (event: {
+export type CameraReadyListener = () => void;
+export type MountErrorListener = (event: {
     nativeEvent: CameraMountError;
 }) => void;
-export declare type CameraMountError = {
+export type CameraMountError = {
     message: string;
 };
-export declare type Point = {
+export type Point = {
     x: number;
     y: number;
 };
-export declare type BarCodeSize = {
+export type BarCodeSize = {
     /**
      * The height value.
      */
@@ -242,8 +242,8 @@ export declare type BarCodeSize = {
  * These coordinates are represented in the coordinate space of the camera source (e.g. when you
  * are using the camera view, these values are adjusted to the dimensions of the view).
  */
-export declare type BarCodePoint = Point;
-export declare type BarCodeBounds = {
+export type BarCodePoint = Point;
+export type BarCodeBounds = {
     /**
      * The origin point of the bounding box.
      */
@@ -253,7 +253,7 @@ export declare type BarCodeBounds = {
      */
     size: BarCodeSize;
 };
-export declare type BarCodeScanningResult = {
+export type BarCodeScanningResult = {
     /**
      * The barcode type.
      */
@@ -276,7 +276,7 @@ export declare type BarCodeScanningResult = {
      */
     bounds: BarCodeBounds;
 };
-export declare type Face = {
+export type Face = {
     faceID: number;
     bounds: {
         origin: Point;
@@ -301,10 +301,10 @@ export declare type Face = {
     rightMouthPosition: Point;
     noseBasePosition: Point;
 };
-export declare type FaceDetectionResult = {
+export type FaceDetectionResult = {
     faces: Face[];
 };
-export declare type ConstantsType = {
+export type ConstantsType = {
     Type: CameraType;
     FlashMode: FlashMode;
     AutoFocus: AutoFocus;
@@ -313,7 +313,7 @@ export declare type ConstantsType = {
     VideoStabilization: VideoStabilization;
     VideoCodec: VideoCodec;
 };
-export declare type CameraProps = ViewProps & {
+export type CameraProps = ViewProps & {
     /**
      * Camera facing. Use one of `CameraType`. When `CameraType.front`, use the front-facing camera.
      * When `CameraType.back`, use the back-facing camera.
@@ -419,7 +419,7 @@ export declare type CameraProps = ViewProps & {
      */
     poster?: string;
 };
-export declare type CameraNativeProps = {
+export type CameraNativeProps = {
     pointerEvents?: any;
     style?: any;
     ref?: Function;
@@ -450,7 +450,7 @@ export declare type CameraNativeProps = {
     useCamera2Api?: boolean;
     poster?: string;
 };
-export declare type BarCodeSettings = {
+export type BarCodeSettings = {
     barCodeTypes: string[];
     interval?: number;
 };

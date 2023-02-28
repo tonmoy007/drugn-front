@@ -1,4 +1,4 @@
-import {Camera, CameraType} from 'expo-camera';
+import {Camera, CameraType} from '../../../external/expo-camera';
 import {useEffect, useRef, useState} from 'react';
 import {ImageBackground, StyleSheet, TouchableOpacity} from 'react-native';
 import {Button, IconButton, Text, useTheme} from "react-native-paper";
