@@ -40,6 +40,7 @@ export default function AddMedicine({route, navigation}) {
         });
     }, [medicine]);
     useEffect(() => {
+        console.log(permission?.granted)
         if (!permission?.granted) {
             requestPermission().catch(err => alert(err))
         }
@@ -68,7 +69,11 @@ export default function AddMedicine({route, navigation}) {
             <FBox style={styles.container}>
                 <FBox>
                     <Text style={{...styles.text, color: colors.white}}>Permission to use Camera</Text>
-                    <Button onPress={() => requestPermission().catch(err => alert(err))} style={styles.button}>Grant
+                    <Button onPress={() => requestPermission().catch(err => alert(err)).then(res=>{
+                        if (res?.status==="denied"){
+                            alert("Sorry We can not show camera as the permission is denied by the browser ")
+                        }
+                    })} style={styles.button}>Grant
                         permission</Button>
                 </FBox>
             </FBox>
