@@ -44,6 +44,8 @@ export default function AddMedicine({route, navigation}) {
         if (!permission?.granted) {
             requestPermission().catch(err => alert(err))
         }
+        console.log(permission)
+        console.log("Hello")
     }, [])
 
     const handleBackNav = () => {
