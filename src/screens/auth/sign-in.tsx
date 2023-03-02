@@ -20,7 +20,7 @@ export const SignInScreen = () => {
 
     return (
         <>
-            <AuthForm submitText={"ログイン"} onSubmit={handleSubmit} submitting={isLoading} extra={(
+            <AuthForm hideName={true} submitText={"ログイン"} onSubmit={handleSubmit} submitting={isLoading} extra={(
                 <Text style={{textAlign: "center", padding: 10}}>アカウントをお持ちですか？ <Link
                     style={{fontFamily: "Montserrat_700Bold"}} to={"/signup"}><Text
                     style={{color: colors.primary}}>サインアップ</Text></Link></Text>

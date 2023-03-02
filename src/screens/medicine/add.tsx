@@ -150,8 +150,7 @@ export default function AddMedicine({route, navigation}) {
                         }
                     </FBox>
                     <FBox style={{flex: 2}}>
-                        <Text style={styles.text}>服用するお薬を撮影してください。
-                            ※お薬飲み忘れで時間が異なる場合も同様に撮影ください。</Text>
+                        <Text style={styles.text}>服用するお薬を撮影してください。</Text>
                         <FBox style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.circle} onPress={takePic}>
                                 <IconButton icon={"camera"} iconColor={colors.black} size={35}/>

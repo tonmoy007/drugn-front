@@ -7,6 +7,7 @@ import { SliderLists } from "./slider-lists";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import SideSwipe from 'react-native-sideswipe'
+import moment from "moment";
 
 
 const scheduleData = [
@@ -57,6 +58,7 @@ export const DashboardSlider = () => {
     const [windowDimension, setWindowDimension] = useState(windowDimensions)
     const data = Array(2).fill(0)
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+    const today=moment().format('MM/DD')
 
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
@@ -86,7 +88,7 @@ export const DashboardSlider = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 11/30(水)
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 {today}(水)
                                     朝</Text>
                                 <Button icon={"plus-circle-outline"}
                                     labelStyle={{ fontSize: 30, fontWeight: "bold", lineHeight: 40 }}

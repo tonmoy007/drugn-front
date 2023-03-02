@@ -5,7 +5,15 @@ import {Button, HelperText, Text, TextInput} from "react-native-paper";
 import {colors} from "../../utils/settings";
 import {ReactNode} from "react";
 
-export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>void,submitting:boolean,submitText:string,extra:ReactNode})=>{
+interface Props {
+    onSubmit: (data) => void,
+    submitting: boolean,
+    submitText: string,
+    extra: ReactNode,
+    hideName?: boolean
+}
+
+export const AuthForm = ({onSubmit, submitting, submitText, extra, hideName}: Props) => {
     type FormData = {
         username: string,
         email: string
@@ -18,32 +26,38 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
     return (
         <FBox style={{paddingHorizontal: 18, paddingVertical: 60}}>
             <FBox style={{display: "flex", flexDirection: "column"}}>
-                <FBox style={{paddingBottom: 20}}>
-                    <FormLabel title={"好きな名前で登録できます(本名以外推奨)"}/>
-                    <Controller control={control}
-                                rules={{
-                                    required: "Name is required",
-                                    minLength: {value: 4, message: "minimum 4 character"}
-                                }}
+                {!hideName ? (
+                    <FBox style={{paddingBottom: 20}}>
+                        <FormLabel title={"好きな名前で登録できます(本名以外推奨)"}/>
+                        <Controller control={control}
+                                    rules={{
+                                        required: "Name is required",
+                                        minLength: {value: 4, message: "minimum 4 character"}
+                                    }}
 
-                                render={(form) => {
-                                    return (
-                                        <>
-                                            <TextInput returnKeyType={"next"}
-                                                       error={Boolean(errors.username)}
-                                                       ref={form.field.ref}
-                                                       onChangeText={(val) => form.field.onChange(val)}
-                                                       onBlur={form.field.onBlur}
-                                                       mode={"outlined"}
-                                                       value={form.field.value}
-                                                       placeholder={"好きなニックネームを入力してください"}
-                                                       right={!Boolean(errors.username)&&form.fieldState.isTouched?<TextInput.Icon focusable={false} icon={"check"} size={12} iconColor={colors.primary}/>:<></>}
-                                            />
-                                            <HelperText type={"error"}>{errors.username?.message as string}</HelperText>
-                                        </>
-                                    )
-                                }} name="username"/>
-                </FBox>
+                                    render={(form) => {
+                                        return (
+                                            <>
+                                                <TextInput returnKeyType={"next"}
+                                                           error={Boolean(errors.username)}
+                                                           ref={form.field.ref}
+                                                           onChangeText={(val) => form.field.onChange(val)}
+                                                           onBlur={form.field.onBlur}
+                                                           mode={"outlined"}
+                                                           value={form.field.value}
+                                                           placeholder={"好きなニックネームを入力してください"}
+                                                           right={!Boolean(errors.username) && form.fieldState.isTouched ?
+                                                               <TextInput.Icon focusable={false} icon={"check"}
+                                                                               size={12}
+                                                                               iconColor={colors.primary}/> : <></>}
+                                                />
+                                                <HelperText
+                                                    type={"error"}>{errors.username?.message as string}</HelperText>
+                                            </>
+                                        )
+                                    }} name="username"/>
+                    </FBox>
+                ) : null}
                 <FBox style={{paddingBottom: 20}}>
                     <FormLabel title={"Eメールアドレス"}/>
                     <Controller rules={{
@@ -61,7 +75,9 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
                                        onChangeText={(val) => form.field.onChange(val)}
                                        onBlur={form.field.onBlur}
                                        ref={form.field.ref}
-                                       right={!Boolean(form.fieldState.error)&&form.fieldState.isTouched?<TextInput.Icon icon={"check"} focusable={false} size={12} iconColor={colors.primary}/>:<></>}
+                                       right={!Boolean(form.fieldState.error) && form.fieldState.isTouched ?
+                                           <TextInput.Icon icon={"check"} focusable={false} size={12}
+                                                           iconColor={colors.primary}/> : <></>}
                                        placeholder={"メールを受け取れるアドレスを入力してください"}/>
 
                             <HelperText type={"error"}>{errors.email?.message as string}</HelperText>
@@ -71,16 +87,12 @@ export const AuthForm=({onSubmit,submitting,submitText,extra}:{onSubmit:(data)=>
 
                 </FBox>
                 <FBox style={{paddingTop: 60}}>
-
                     <Button loading={submitting} mode="contained" onPress={handleSubmit(onSubmit)}
                             disabled={!isValid || submitting}
                             style={{width: "100%", marginBottom: 12, borderRadius: 5}}>{submitText}</Button>
                 </FBox>
                 {extra}
-                {/*<Text style={{textAlign: "center", padding: 10}}>既に登録している方はこちら <Link*/}
-                {/*    style={{fontFamily: "Montserrat_700Bold"}} to={"/sign-in"}>ログインする</Link></Text>*/}
             </FBox>
-
         </FBox>
     )
 }
