@@ -17,15 +17,16 @@ export const linking = {
             accountComplete: "/account-complete",
             passcode: "/passcode",
             storeRegistration: "/store-registration",
-            storeRegistrationSuccess: "store-registration/success",
-            addMedicine: "add-medicine",
-            editMedicine: "edit-medicine",
-            manageMedicine: "manage-medicine",
+            storeRegistrationSuccess: "/store-registration/success",
+            addMedicine: "/add-medicine",
+            editMedicine: "/edit-medicine",
+            manageMedicine: "/manage-medicine",
             recordMedicine: "/record-medicine",
             deleteMedicine: "/delete-medicine",
-            profile: "profile",
-            wallet: "wallet",
-            freeNFT: "free-nft"
+            profile: "/profile",
+            wallet: "/wallet",
+            freeNFT: "/free-nft",
+            addedMed:"/added-medicine"
         }
     },
     prefixes: []

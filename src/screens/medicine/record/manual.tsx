@@ -20,7 +20,7 @@ export const RecordMedManual = ({ navigation }) => {
     const [completed, setCompleted] = useState<boolean>(false)
 
     useEffect(() => {
-        setCompleted(doseTime && dose && control._formValues.medName ? true : false);
+        setCompleted(!!(doseTime && dose && control._formValues.medName));
     }, [doseTime, dose, control._formValues.medName])
 
     useEffect(() => {

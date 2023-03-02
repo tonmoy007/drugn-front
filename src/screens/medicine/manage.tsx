@@ -30,7 +30,7 @@ export default function ManageMedicine({ route, navigation }) {
       headerLeft: () => { },
       headerRight: () => {
         return (
-          <Text style={{
+          <Text onPress={()=>nav.navigate("recordMedicine")} style={{
             ...styles.text, color: theme.colors.primary
           }}> 次へ</Text >
         )
@@ -49,9 +49,7 @@ export default function ManageMedicine({ route, navigation }) {
         <FBox style={{ marginRight: 10, flex: 2 }}>
           <DoseList list={list} />
           <FBox style={{ marginLeft: 10 }}>
-            <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => setErrorModal(true)}>
-              Show Error
-            </Text>
+
             <FBox style={styles.reshoot}>
               <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => nav.navigate("addMedicine")}>
                 <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 撮り直し</Text>

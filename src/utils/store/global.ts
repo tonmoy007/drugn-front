@@ -10,7 +10,6 @@ export const globalStore = configureStore({
         [authApi.reducerPath]: authApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([authApi.middleware,logger])
-
 })
 export const globalPersistedStore = persistStore(globalStore)
 export type GlobalState = ReturnType<typeof globalStore.getState>

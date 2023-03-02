@@ -88,8 +88,7 @@ export const DashboardSlider = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 {today}(水)
-                                    朝</Text>
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 {today}</Text>
                                 <Button icon={"plus-circle-outline"}
                                     labelStyle={{ fontSize: 30, fontWeight: "bold", lineHeight: 40 }}
                                     mode={"text"} textColor={colors.white}

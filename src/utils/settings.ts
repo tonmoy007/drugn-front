@@ -3,11 +3,11 @@ export type RootParamList = {
     dashboard: undefined,
     signup: any,
     signin: any,
-    otp: {redirectUri:string,sessionID:string},
+    otp: { redirectUri: string, sessionID: string },
     accountComplete: any,
-    passcode: {redirectUri:string},
+    passcode: { redirectUri: string },
     storeRegistration: any
-    storeRegistrationSuccess:any,
+    storeRegistrationSuccess: any,
     addMedicine: any,
     editMedicine: any,
     manageMedicine: any,
@@ -15,13 +15,14 @@ export type RootParamList = {
     deleteMedicine: any
     profile: any,
     wallet: any,
-    freeNFT: any
+    freeNFT: any,
+    addedMed:any
 }
-export type BottomTab={
-    Home:any;
-    Account:any;
-    Nft:any;
-    MedicineList:any
+export type BottomTab = {
+    Home: any;
+    Account: any;
+    Nft: any;
+    MedicineList: any
 }
 export const ourTheme = {
     "colors": {
@@ -69,7 +70,7 @@ export const ourTheme = {
 }
 export const colors = {
     white: "#FFFFFF",
-    mutedWhite:"#F8F4F4",
+    mutedWhite: "#F8F4F4",
     black: '#000000',
     primary: "#48A8EF",
     background: "#0A062B",
@@ -81,10 +82,10 @@ export const colors = {
     blue: "#2222DD",
     grayBorder: "#585858",
     primaryBorder: "#47C3E8",
-    textInputIconBackground:"#1B192E",
-    textSemiDark:"#C1C1C1",
-    navBackground:"#131426",
-    inactive:"rgb(112,112,112)",
-    primary2:"#4BA9BE",
-    onBackgroundSpace:"#293658"
+    textInputIconBackground: "#1B192E",
+    textSemiDark: "#C1C1C1",
+    navBackground: "#131426",
+    inactive: "rgb(112,112,112)",
+    primary2: "#4BA9BE",
+    onBackgroundSpace: "#293658"
 }

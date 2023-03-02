@@ -4,24 +4,21 @@ import {IconButton, Text} from "react-native-paper";
 import {CustomIcon} from "../../../utils/custom-icon";
 import {colors, RootParamList} from "../../../utils/settings";
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../utils/store/user";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {GlobalState} from "../../../utils/store/global";
 
-interface Props {
-    title: string;
-    wallet: number;
-    icon?: string;
-}
 
-export const DashboardHeader = (props: Props) => {
+export const DashboardHeader = () => {
+    const user = useSelector((state: GlobalState) => state.user)
     const [hasNoti, setHasNoti] = useState(true)
     const dispatch = useDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onNotiPress = async () => {
         dispatch(logout())
-        await navigation.navigate( "signin")
+        await navigation.navigate("signin")
     }
     return (
         <FBox style={{flexDirection: "row", padding: 18, alignItems: "center", paddingBottom: 10}}>
@@ -33,10 +30,10 @@ export const DashboardHeader = (props: Props) => {
                     fontSize: 12,
                     fontWeight: "500",
                     lineHeight: 17
-                }}>{props.title}</Text>
+                }}>{user?.name ?? user?.username ?? ""}</Text>
                 <FBox style={{flexDirection: "row", marginTop: 2, alignItems: "center"}}>
                     <CustomIcon name={"nft"} size={20} color={colors.white} style={{paddingRight: 10}}/>
-                    <Text style={{fontFamily: "Montserrat_700Bold", fontSize: 18, lineHeight: 22}}>{props.wallet}</Text>
+                    <Text style={{fontFamily: "Montserrat_700Bold", fontSize: 18, lineHeight: 22}}>{user?.wallet??0}</Text>
                 </FBox>
             </FBox>
             <FBox>

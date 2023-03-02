@@ -12,12 +12,35 @@ import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const data = [{ value: "朝：食前 1", label: "朝：食前 1" }, {
-    label: "朝：食前 2",
-    value: "朝：食前2"
-}, { label: "朝：食前 3", value: "朝：食前3" }]
+const data = [
+    {label:"朝：食直後",value:"朝：食直後"},
+    {label:"朝：食後",value:"朝：食後"},
+    {label:"食間(午前）",value:"食間(午前）"},
+    {label:"昼：食前",value:"昼：食前"},
+    {label:"昼：食直前",value:"昼：食直前"},
+    {label:"昼：食直後",value:"昼：食直後"},
+    {label:"昼：食後",value:"昼：食後"},
+    {label:"食間(午後）",value:"食間(午後）"},
+    {label:"夜：食前",value:"夜：食前"},
+    {label:"夜：食直前",value:"夜：食直前"},
+    {label:"夜：食直後",value:"夜：食直後"},
+    {label:"夜：食後",value:"夜：食後"},
+    {label:"起床時",value:"起床時"},
+    {label:"寝る前",value:"寝る前"},
+    {label:"頓服",value:"頓服"},
+    {label:"発熱時",value:"発熱時"},
+]
 
-const dosages = [{ value: '1', label: '1' }, { value: '2', label: '2' }];
+const dosages = [
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '4', label: '4' },
+    { value: '5', label: '5' },
+    { value: '6', label: '6' },
+    { value: '7', label: '7' },
+    { value: '8', label: '8' },
+];
 const initDose = { value: '', label: '' }
 const initTime = { value: "", label: "" }
 export const EditMedicine = ({ route, navigation }) => {
@@ -47,7 +70,7 @@ export const EditMedicine = ({ route, navigation }) => {
             ),
             headerRight: () => {
                 return (
-                    <Text style={{ ...styles.navText, color: theme.colors.primary }}> 次へ</Text >
+                    <Text onPress={()=>nav.navigate("addedMed")} style={{ ...styles.navText, color: theme.colors.primary }}> 次へ</Text >
                 )
             }
         });
@@ -129,7 +152,7 @@ export const EditMedicine = ({ route, navigation }) => {
                                     />
                                 </FBox>
                                 <FBox style={{ paddingLeft: 20 }}>
-                                    <Text style={{ color: colors.text }}>錠 / 袋</Text>
+                                    <Text style={{ color: colors.text }}>錠/包(袋)</Text>
                                 </FBox>
                             </FBox>
                         </FBox>

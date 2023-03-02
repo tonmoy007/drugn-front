@@ -1,18 +1,18 @@
-import { colors } from "../../utils/settings";
-import { IconButton, Text, useTheme } from "react-native-paper";
-import { FBox } from "../../components/globals/fbox";
-import { useEffect, useState } from "react";
-import { StyleSheet } from 'react-native'
-import { RecordHeader } from "../../components/medicine/header";
-import { DoseList } from "../../components/medicine/dose-list";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { MaterialIcons } from "@expo/vector-icons";
+import {colors} from "../../utils/settings";
+import {IconButton, Text, useTheme} from "react-native-paper";
+import {FBox} from "../../components/globals/fbox";
+import {useEffect, useState} from "react";
+import {StyleSheet} from 'react-native'
+import {RecordHeader} from "../../components/medicine/header";
+import {DoseList} from "../../components/medicine/dose-list";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {MaterialIcons} from "@expo/vector-icons";
 
-export const DeleteMedicine = ({ navigation }) => {
+export const DeleteMedicine = ({navigation}) => {
     const [list, setList] = useState([...Array(3).keys()].map((item, index) => {
         return {
             title: <Text>{index + 1} ダイアモックス錠250mg</Text>,
-            description: <FBox><Text>三和化学研究テキストテキスト</Text><Text style={{ marginTop: 10 }}>朝食前/2錠</Text></FBox>,
+            description: <FBox><Text>三和化学研究テキストテキスト</Text><Text style={{marginTop: 10}}>朝食前/2錠</Text></FBox>,
             id: item,
             selected: false,
         }
@@ -26,13 +26,14 @@ export const DeleteMedicine = ({ navigation }) => {
             headerLeft: () => (
                 <TouchableOpacity
                     style={styles.navBack} onPress={handleBackNav}
-                ><MaterialIcons name='keyboard-arrow-left' size={28} color={colors.white} /> <Text>戻る</Text></TouchableOpacity>
+                ><MaterialIcons name='keyboard-arrow-left' size={28} color={colors.white}/>
+                    <Text>戻る</Text></TouchableOpacity>
             ),
             headerRight: () => {
                 return (
                     <Text style={{
                         ...styles.text, color: theme.colors.primary
-                    }} onPress={handleNextNav}>次へ</Text >
+                    }} onPress={handleNextNav}>次へ</Text>
                 )
             }
         });
@@ -46,6 +47,7 @@ export const DeleteMedicine = ({ navigation }) => {
     }
 
     const handleNextNav = () => {
+        navigation.navigate("dashboard")
     }
 
     const deleteMedicine = (itemID) => {
@@ -54,11 +56,11 @@ export const DeleteMedicine = ({ navigation }) => {
 
     const rightSwipeAction = (itemID) => {
         return (<>
-            <FBox style={{ alignItems: 'center', justifyContent: 'center', marginRight: 20 }}>
+            <FBox style={{alignItems: 'center', justifyContent: 'center', marginRight: 20}}>
                 <TouchableOpacity onPress={() => deleteMedicine(itemID)}>
                     <IconButton icon={"trash-can"} iconColor={colors.red}
-                        style={{ width: 'inherit', height: 'inherit', margin: 0 }} />
-                    <Text style={{ color: colors.red }}>消去</Text>
+                                style={{width: 'inherit', height: 'inherit', margin: 0}}/>
+                    <Text style={{color: colors.red}}>消去</Text>
                 </TouchableOpacity>
             </FBox>
         </>)
@@ -66,9 +68,9 @@ export const DeleteMedicine = ({ navigation }) => {
 
     return (
         <FBox style={styles.container}>
-            <RecordHeader />
+            <RecordHeader/>
             <FBox>
-                <DoseList list={list} swipeable={true} rightSwipeAction={rightSwipeAction} />
+                <DoseList list={list} swipeable={true} rightSwipeAction={rightSwipeAction}/>
             </FBox>
 
         </FBox>

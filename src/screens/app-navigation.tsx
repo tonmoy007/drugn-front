@@ -24,14 +24,15 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
+import {AddedList} from "./medicine/added-list";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
 export const AppNavigation = (props) => {
     const user = useSelector((state: GlobalState) => state.user)
-    useEffect(()=>{
+    useEffect(() => {
         console.log(user)
-    },[user])
+    }, [user])
     return (
         <NavigationContainer linking={linking} theme={navTheme}>
             <Stack.Navigator
@@ -43,7 +44,7 @@ export const AppNavigation = (props) => {
                     animation: "fade_from_bottom",
                     headerBackImageSource: require("../../assets/icons/back.svg")
                 }}>
-                {user.loggedIn?(
+                {user.loggedIn ? (
                     <>
                         <Stack.Screen component={Dashboard} name="dashboard" navigationKey={"dashboard"}
                                       options={{title: "Dashboard", headerShown: false}}/>
@@ -82,8 +83,10 @@ export const AppNavigation = (props) => {
                         <Stack.Screen name={"wallet"} component={NewWallet}
                                       options={{title: "NFT受け取りWalletを作成"}}/>
                         <Stack.Screen name={"freeNFT"} component={FreeNFT} options={{title: "マーケットプレイス"}}/>
+                        <Stack.Screen name={"addedMed"} component={AddedList}
+                                      options={{headerShown: false, title: "Added Medicines"}}/>
                     </>
-                ):(
+                ) : (
                     <>
 
                         <Stack.Screen component={SignUpScreen} name="signup" navigationKey={"signup"}

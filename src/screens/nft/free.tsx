@@ -66,7 +66,7 @@ export default function FreeNFT({ navigation }) {
                 <ClaimNFT nft={confirmation} navigation={navigation} setConfirmation={setConfirmation} />
                 :
                 <>
-                    <Card theme={{ elevation: 1 }} style={styles.card}>
+                    <Card elevation={1} style={styles.card}>
                         <Card.Content style={{ padding: 0 }}>
                             <FBox style={styles.tabs}>
                                 {Object.keys(nfts).map((key, index) =>

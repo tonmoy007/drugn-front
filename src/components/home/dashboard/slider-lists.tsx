@@ -1,16 +1,20 @@
 import {FBox} from "../../globals/fbox";
 import {Divider, List, Text} from "react-native-paper";
-import {colors} from "../../../utils/settings";
+import {colors, RootParamList} from "../../../utils/settings";
 import {CustomIcon} from "../../../utils/custom-icon";
 import {LinearGradient} from "expo-linear-gradient";
 import {TouchableOpacity} from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 export const SliderLists = ({data}) => {
+    const navigation=useNavigation<NativeStackNavigationProp<RootParamList>>()
     return (
         <FBox style={{}}>
             {data.map((item, i) => {
                 return item.active ? (
                     <TouchableOpacity key={`slider_list-item${i}`} onPress={() => {
+                        navigation.navigate("manageMedicine")
                     }} activeOpacity={.9}>
                         <LinearGradient colors={['#47C3E8', '#48A8EF']} start={{x: 0, y: 1}} end={{x: 1, y: 0}} style={{
                             borderTopLeftRadius: 20,
