@@ -25,6 +25,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {AddedList} from "./medicine/added-list";
+import {AccountScreen} from "./dashboard/account";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
@@ -78,8 +79,6 @@ export const AppNavigation = (props) => {
                                       options={{title: "薬を飲む"}}/>
                         <Stack.Screen component={RecordMedicine} name="recordMedicine"
                                       options={{title: 'お薬を飲む'}}/>
-                        <Stack.Screen name={"profile"} component={UserProfile}
-                                      options={{title: "Profile Page"}}/>
                         <Stack.Screen name={"wallet"} component={NewWallet}
                                       options={{title: "NFT受け取りWalletを作成"}}/>
                         <Stack.Screen name={"freeNFT"} component={FreeNFT} options={{title: "マーケットプレイス"}}/>
@@ -107,6 +106,9 @@ export const AppNavigation = (props) => {
                                 return <StepOf total={2} current={2}/>
                             },
                         }}/>
+
+                        <Stack.Screen name={"profile"} component={AccountScreen}
+                                      options={{title: "Profile Page"}}/>
                     </>
                 )}
             </Stack.Navigator>
