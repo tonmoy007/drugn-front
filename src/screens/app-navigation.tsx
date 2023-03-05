@@ -106,9 +106,6 @@ export const AppNavigation = (props) => {
                                 return <StepOf total={2} current={2}/>
                             },
                         }}/>
-
-                        <Stack.Screen name={"profile"} component={AccountScreen}
-                                      options={{title: "Profile Page"}}/>
                     </>
                 )}
             </Stack.Navigator>
