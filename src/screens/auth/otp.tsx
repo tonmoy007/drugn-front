@@ -21,12 +21,12 @@ export const OtpScreen = ({route}) => {
             confirmCode({code: otp, sessionID}).unwrap().then(res => {
                 if (!res.error){
                     dispatch(setNewUser(res))
-                    nav.replace(route.params.redirectUri)
+                    nav.navigate(route.params.redirectUri)
                 }
                 else
                     alert(res.message)
             }).catch(err => {
-                alert(err.status+' : '+err.data.message);
+                alert(err.status+' : '+err.data?.message??err.message);
             })
         }
     }, [otp])

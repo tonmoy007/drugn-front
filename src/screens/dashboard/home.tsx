@@ -14,6 +14,7 @@ export const Home = () => {
                         end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
             <FBox>
                 <DashboardHeader/>
+
                 <DashboardSlider/>
                 <DashboardActions/>
             </FBox>
