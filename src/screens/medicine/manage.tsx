@@ -20,7 +20,7 @@ export default function ManageMedicine({ route, navigation }) {
       selected: false,
     }
   }))
-  const { medicine = { 1: {} } } = route.params ?? {}
+  const { medicine = {} } = route.params ?? {}
   const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
   const theme = useTheme();
 
@@ -30,7 +30,7 @@ export default function ManageMedicine({ route, navigation }) {
       headerLeft: () => { },
       headerRight: () => {
         return (
-          <Text onPress={()=>nav.navigate("recordMedicine")} style={{
+          <Text onPress={() => nav.navigate("recordMedicine")} style={{
             ...styles.text, color: theme.colors.primary
           }}> 次へ</Text >
         )
@@ -42,17 +42,17 @@ export default function ManageMedicine({ route, navigation }) {
   return (
     <FBox style={styles.container}>
       <FBox style={styles.imageContainer}>
-        <Image source={{ uri: medicine[1].uri }} style={styles.image} />
+        <Image source={{ uri: medicine.uri }} style={styles.image} />
       </FBox>
 
       <FBox style={{ flex: 2 }}>
         <FBox style={{ marginRight: 10, flex: 2 }}>
-          <DoseList list={list} />
+          {/* <DoseList list={list} /> */}
           <FBox style={{ marginLeft: 10 }}>
 
             <FBox style={styles.reshoot}>
               <Text style={{ color: theme.colors.primary, fontSize: 20 }} onPress={() => nav.navigate("addMedicine")}>
-                <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 撮り直し</Text>
+                <IconButton style={styles.icon} icon={"camera"} iconColor={theme.colors.primary} size={20} /> 写真を撮る</Text>
             </FBox>
           </FBox>
         </FBox>

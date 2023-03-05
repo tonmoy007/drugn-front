@@ -62,13 +62,14 @@ export default function HomeNFT() {
 
     return (
         <FBox style={styles.container}>
-            <FlatList
+            <Text style={{ textAlign: 'center' }}>Coming Soon</Text>
+            {/* <FlatList
                 data={nfts}
                 renderItem={renderList}
                 numColumns={2}
                 scrollEnabled
                 keyExtractor={(item) => `${item.id}`}
-            />
+            /> */}
         </FBox >
     );
 }

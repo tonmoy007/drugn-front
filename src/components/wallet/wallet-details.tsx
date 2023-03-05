@@ -1,13 +1,16 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { useTheme, Text, Button, Card, Divider } from 'react-native-paper';
+import { StyleSheet, Image } from 'react-native';
+import { useTheme, Text, Button } from 'react-native-paper';
 import { FBox } from '../globals/fbox';
 import { useEffect, useState } from 'react'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { copyToClipboard } from '../../utils/clipboard';
-import QRCode from 'react-native-qrcode-svg';
+import { updateUser } from '../../utils/store/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { GlobalState } from '../../utils/store/global';
 
 interface Props {
+    userWallet: { address: string, privateKey: string, base64Qr: any },
     setCompleted: (val: boolean) => void
     setStep: (val: number) => void
     navigation
@@ -15,9 +18,17 @@ interface Props {
 
 export default function WalletDetails(props: Props) {
     const [copied, setCopied] = useState<boolean>(false)
-    const walletAddress = 'N12QWEI12138OIH0DOIHQ21IFOUSHFW3HDAKJ'
-    const privateKey = '8192841209710QHDQ213010HEWQHE12H112EJMPOEJQWOWJEPOQJW1'
+    const user = useSelector((state: GlobalState) => state.user)
+    const dispatch = useDispatch();
+
+    const QRIMG = props.userWallet.base64Qr;
+    const walletAddress = props.userWallet.address;
+    const privateKey = props.userWallet.privateKey
     const theme = useTheme()
+
+    useEffect(() => {
+        dispatch(updateUser({ ...user, wallet: props.userWallet.address }))
+    }, [])
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -40,6 +51,8 @@ export default function WalletDetails(props: Props) {
             }
         });
     }, [props.setCompleted, copied]);
+
+
 
     return (
         <FBox style={styles.container}>
@@ -65,13 +78,10 @@ export default function WalletDetails(props: Props) {
 
                 <Text style={{ color: theme.colors.primary, fontWeight: '700', marginVertical: 20 }} variant={"titleMedium"}>保管が必要なプライベートキー</Text>
                 <TouchableOpacity
-                    onLongPress={() => copyToClipboard({ text: walletAddress, msg: `Wallet address copied successfully` })}>
-                    <QRCode
-                        value={walletAddress}
-                        logo={require('../../../assets/icon.png')}
-                        logoSize={50}
-                        size={250}
-                    />
+                    onLongPress={() => copyToClipboard({ text: privateKey, msg: `Private key copied successfully` })}>
+
+                    <Image source={{ uri: QRIMG }} style={{ width: 250, height: 250 }} />
+
                 </TouchableOpacity>
 
                 <FBox style={{ width: '100%', padding: 10, marginTop: 20, backgroundColor: theme.colors.backdrop }}>
@@ -84,7 +94,8 @@ export default function WalletDetails(props: Props) {
                 <Text style={{ color: theme.colors.background, fontWeight: '700', marginVertical: 10 }}
                     variant={"titleMedium"}>又は</Text>
                 <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
-                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}>本画面をスクリーンショットで保管する</Button>
+                    labelStyle={{ ...styles.text, color: theme.colors.onPrimary }}
+                >本画面をスクリーンショットで保管する</Button>
 
                 <FBox style={{ width: '100%', paddingBottom: 30 }}>
                     <Button icon={"help-circle-outline"} mode={"outlined"}

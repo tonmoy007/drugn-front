@@ -6,6 +6,7 @@ import {persistReducer} from "redux-persist";
 const initialState: User = {
     loggedIn: false
 }
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -27,4 +28,5 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
 }
+
 export const UserPersistedReducer = persistReducer(persistConfig, UserReducer)

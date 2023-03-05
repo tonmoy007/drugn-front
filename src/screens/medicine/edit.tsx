@@ -11,55 +11,52 @@ import { CustomIcon } from "../../utils/custom-icon";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
-
-const data = [
-    {label:"朝：食直後",value:"朝：食直後"},
-    {label:"朝：食後",value:"朝：食後"},
-    {label:"食間(午前）",value:"食間(午前）"},
-    {label:"昼：食前",value:"昼：食前"},
-    {label:"昼：食直前",value:"昼：食直前"},
-    {label:"昼：食直後",value:"昼：食直後"},
-    {label:"昼：食後",value:"昼：食後"},
-    {label:"食間(午後）",value:"食間(午後）"},
-    {label:"夜：食前",value:"夜：食前"},
-    {label:"夜：食直前",value:"夜：食直前"},
-    {label:"夜：食直後",value:"夜：食直後"},
-    {label:"夜：食後",value:"夜：食後"},
-    {label:"起床時",value:"起床時"},
-    {label:"寝る前",value:"寝る前"},
-    {label:"頓服",value:"頓服"},
-    {label:"発熱時",value:"発熱時"},
-]
+import { medIcons, medTime } from "../../utils/constants";
+import { useSelector } from "react-redux";
+import { GlobalState } from "../../utils/store/global";
 
 const dosages = [
-    { value: '1', label: '1' },
-    { value: '2', label: '2' },
-    { value: '3', label: '3' },
-    { value: '4', label: '4' },
-    { value: '5', label: '5' },
-    { value: '6', label: '6' },
-    { value: '7', label: '7' },
-    { value: '8', label: '8' },
+    { value: '1', label: '1', id: 1 },
+    { value: '2', label: '2', id: 2 },
+    { value: '3', label: '3', id: 3 },
+    { value: '4', label: '4', id: 4 },
+    { value: '5', label: '5', id: 5 },
+    { value: '6', label: '6', id: 6 },
+    { value: '7', label: '7', id: 7 },
+    { value: '8', label: '8', id: 8 },
 ];
-const initDose = { value: '', label: '' }
-const initTime = { value: "", label: "" }
+const initDose = { value: '', label: '', id: 0 }
+const initTime = { value: "", label: "", id: 0 }
+
 export const EditMedicine = ({ route, navigation }) => {
+    const [medName, setMedName] = useState<string>('NONE')
     const { handleSubmit, control, setValue } = useForm()
-    const [medIcon, setMedIcon] = useState(0)
-    const [doseTime, setDoseTime] = useState([{ dosage: initDose, time: initTime, id: 0 }])
+    const [medIcon, setMedIcon] = useState<number>(1)
+    const [doseTime, setDoseTime] = useState<any>([{ dosage: initDose, time: initTime, id: 0 }])
+    const user = useSelector((state: GlobalState) => state.user)
 
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const theme = useTheme();
-    const medIconsColors = [colors.white, colors.primary2, theme.colors.error, theme.colors.primary, colors.textSemiDark, colors.red]
-
-    const MedicineIcons = ({ index }) => {
-        return (
-            <Button style={{ ...styles.iconContainer, borderWidth: medIcon === index ? 1 : 0, borderColor: theme.colors.onPrimary }}
-                onPress={() => setMedIcon(index)}>
-                <CustomIcon name="pill" color={medIconsColors[index]} size={30} style={{ lineHeight: 30 }} />
-            </Button>
-        )
-    }
+    const { allMeds = {} } = route.params ?? {}
+    const { editID = '' } = route.params ?? ''
+    useEffect(() => {
+        if (route.params?.medData) {
+            setMedName(route.params.medData['CYOUZAI_HOUSOU_UNIT_NAME'])
+        }
+        if (editID !== '') {
+            setMedName(allMeds[editID][0].medicineName);
+            let tempDoseTime: any[] = [];
+            for (let i = 0; i < allMeds[editID].length; i++) {
+                tempDoseTime.push({
+                    dosage: { value: dosages[allMeds[editID][i].dose - 1].value, label: dosages[allMeds[editID][i].dose - 1].label, id: allMeds[editID][i].dose },
+                    time: { value: medTime[allMeds[editID][i].takeMedicineTimeType].value, label: medTime[allMeds[editID][i].takeMedicineTimeType].label, id: allMeds[editID][i].takeMedicineTimeType },
+                    id: i
+                });
+            }
+            setDoseTime(tempDoseTime);
+            setMedIcon(+allMeds[editID][0].takeMedicineIconType)
+        }
+    }, [editID, allMeds])
 
     useEffect(() => {
         navigation.setOptions({
@@ -70,17 +67,38 @@ export const EditMedicine = ({ route, navigation }) => {
             ),
             headerRight: () => {
                 return (
-                    <Text onPress={()=>nav.navigate("addedMed")} style={{ ...styles.navText, color: theme.colors.primary }}> 次へ</Text >
+                    <Text onPress={handleNext} style={{ ...styles.navText, color: theme.colors.primary }}> 次へ</Text >
+                    // <Text onPress={() => nav.navigate("addedMed")} style={{ ...styles.navText, color: theme.colors.primary }}> 次へ</Text >
                 )
             }
         });
-    }, []);
+    }, [doseTime, editID, medIcon]);
+
 
     const handleBackNav = () => {
         if (navigation.canGoBack())
             navigation.goBack()
         else
             navigation.replace('addMedicine')
+    }
+
+    const handleNext = () => {
+        if (doseTime.length > 0 && doseTime[0].dosage.id !== 0 && doseTime[0].time.id !== 0) {
+            let finalDosages: object[] = [];
+            for (let i = 0; i < doseTime.length; i++) {
+                if (doseTime[i].dosage.id !== 0 && doseTime[i].time.id !== 0) {
+                    finalDosages.push({
+                        "userId": user.id,
+                        "medicineId": editID !== '' ? editID : route.params.medData.id,
+                        "takeMedicineIconType": +medIcon,
+                        "takeMedicineTimeType": +doseTime[i].time.id,
+                        "dose": +doseTime[i].dosage.id,
+                        "medicineName": medName,
+                    })
+                }
+            }
+            nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
+        }
     }
 
     const handleDoseChange = (item, index, type) => {
@@ -91,6 +109,21 @@ export const EditMedicine = ({ route, navigation }) => {
     const removeDosage = (dose) => {
         setDoseTime(doseTime.filter(item => item.id !== dose.id))
     }
+
+    const MedicineIcons = ({ index, id }) => {
+        return (
+            <Button key={id} style={{ ...styles.iconContainer, borderWidth: medIcon === id ? 1 : 0, borderColor: theme.colors.onPrimary }}
+                onPress={() => setMedIcon(id)}>
+                <CustomIcon name="pill" color={medIcons[id]} size={30} style={{ lineHeight: 30 }} />
+            </Button>
+        )
+    }
+    const renderMedIcons = ({ itemIndex, item }) => {
+        return (
+            <MedicineIcons index={itemIndex} id={item} />
+        )
+    }
+
 
     return (
         <ScrollView>
@@ -108,28 +141,27 @@ export const EditMedicine = ({ route, navigation }) => {
                             <>
                                 <Text style={styles.label}>薬の名前</Text>
                                 <TextInput mode={"outlined"}
+                                    editable={false}
                                     outlineStyle={{ borderWidth: 0, backgroundColor: "rgba(255,255,255,.07)" }}
-                                    onChangeText={field.onChange} onBlur={field.onBlur} value={field.value}
+                                    onChangeText={field.onChange} onBlur={field.onBlur} value={medName}
                                     ref={field.ref} error={Boolean(fieldState.error)} placeholder={"薬の名前"} />
                             </>
                         )
                     }} name={"query"} control={control} />
                 </FBox>
                 <Text style={{ ...styles.label, marginBottom: 5 }}>薬のアイコンを設定する</Text>
-                <SideSwipe data={medIconsColors}
+                <SideSwipe data={Object.keys(medIcons)}
                     itemWidth={100}
                     style={{ width: '100%' }}
-                    renderItem={({ itemIndex }) => (
-                        <MedicineIcons index={itemIndex} />
-                    )} />
+                    renderItem={renderMedIcons} />
 
-                {doseTime.map((dose, index) =>
-                    <FBox key={dose.id}>
+                {doseTime.map((dose, index) => {
+                    return <FBox key={dose.id}>
                         <Divider style={{ marginTop: 25 }} />
                         <FBox>
                             <Text style={styles.label}>服用時間 {index + 1}</Text>
                             <FPaperSelect name={"dist"} title={"選択してください"}
-                                selectItems={data}
+                                selectItems={Object.values(medTime)}
                                 mode={"outlined"}
                                 onChange={(item) => handleDoseChange(item, index, 'time')}
                                 outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
@@ -165,6 +197,7 @@ export const EditMedicine = ({ route, navigation }) => {
                             </TouchableOpacity>
                         </FBox>}
                     </FBox>
+                }
                 )}
 
                 <Text style={{ ...styles.addDoseText, color: theme.colors.primary }} onPress={() =>

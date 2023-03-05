@@ -14,6 +14,7 @@ import Animated, {
     useSharedValue,
 } from 'react-native-reanimated';
 import HomeNFT from "./nft";
+import { toastMessage } from "../../../utils/toast";
 
 const { height: windowHeight } = Dimensions.get('window');
 
@@ -76,15 +77,15 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
                     <Card theme={{ elevation: 1 }} style={styles.card}>
                         <Card.Content>
                             <FBox style={styles.cardWrapper}>
-                                <FBox style={styles.cardIcon}>
+                                <TouchableOpacity style={styles.cardIcon} onPress={() => toastMessage({ msg: 'Coming soon' })}>
                                     <CustomIcon color={colors.white} name={"nft-up"} size={smallScreen ? 20 : 60} />
                                     <Text style={styles.cardIconText}>NFT売買</Text>
-                                </FBox>
+                                </TouchableOpacity>
                                 <FBox style={styles.cardIconDivider}></FBox>
-                                <FBox style={{ flex: 1, alignItems: "center", flexDirection: "column" }}>
+                                <TouchableOpacity onPress={() => toastMessage({ msg: 'Coming soon' })} style={{ flex: 1, alignItems: "center", flexDirection: "column" }}>
                                     <CustomIcon color={colors.white} name={"nft-down"} size={smallScreen ? 20 : 60} />
                                     <Text style={styles.cardIconText}>NFT受取</Text>
-                                </FBox>
+                                </TouchableOpacity>
                             </FBox>
                         </Card.Content>
                     </Card>

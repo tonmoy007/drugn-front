@@ -4,7 +4,7 @@ export const AccountComplete = (props) => {
     return (
         <MessageWithImage
             imageUrl={require("../../../assets/icons/account_create_success.svg")} title={"Your Account has been created"}
-            buttonText={"お薬を受け取る薬局を指定します"} navigationPath={"passcode"} />
+            buttonText={"お薬を受け取る薬局を指定します"} navigationPath={"wallet"} />
     )
 
 }

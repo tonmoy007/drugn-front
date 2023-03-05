@@ -50,10 +50,10 @@ export default function StepTracker(props: Props) {
             )
     }
 
-    const handleStepSwitch = (i) => {
-        if (props.setStep && i < props.step)
-            props.setStep(i);
-    }
+    // const handleStepSwitch = (i) => {
+    //     if (props.setStep && i < props.step)
+    //         props.setStep(i);
+    // }
 
     return (
         <View style={styles.container}>
@@ -64,7 +64,7 @@ export default function StepTracker(props: Props) {
                     currentPosition={props.step}
                     renderStepIndicator={redenderIndicator}
                     labels={[]}
-                    onPress={handleStepSwitch}
+                // onPress={handleStepSwitch}
                 />
             </View>
 

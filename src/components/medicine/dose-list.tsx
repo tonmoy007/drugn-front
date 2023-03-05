@@ -1,27 +1,44 @@
 import { ScrollView, Image, StyleSheet } from "react-native";
 import { Divider, List, useTheme } from "react-native-paper";
-import { colors } from "../../utils/settings";
+import { colors, RootParamList } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
-import { Swipeable } from "react-native-gesture-handler";
+import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
 import { ReactNode, useState } from "react";
+import { CustomIcon } from "../../utils/custom-icon";
+import { medIcons, medTime } from "../../utils/constants";
+import { useNavigation } from "@react-navigation/core";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export interface Medicine {
     id: string | number;
-    title: any;
+    name: any;
     selected?: boolean;
-    description: any;
+    user_id: number;
+    medicine_id: number;
+    medicine_icon_type: number;
+    take_medicine_time_type: number;
+    dose: number;
+    medicine_name?: string;
 }
 
 interface Props {
     list: Medicine[];
     swipeable?: boolean;
+    recordMed?: boolean;
     rightSwipeAction?: (itemID: any) => ReactNode;
     onLocationSelect?: (index: number, medicine?: Medicine) => void;
 }
 
-export const DoseList = ({ list, swipeable, rightSwipeAction, onLocationSelect }: Props) => {
+export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocationSelect }: Props) => {
     const theme = useTheme()
     const [swiped, setSwiped] = useState<object>({})
+    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+
+    const takeMed = (medData) => {
+        if (!swipeable && !recordMed) {
+            nav.navigate('recordMedicine', { medData })
+        }
+    }
 
     return <FBox style={{ flex: 1, position: "relative" }}>
         <ScrollView style={{ maxHeight: "100%" }}>
@@ -35,28 +52,26 @@ export const DoseList = ({ list, swipeable, rightSwipeAction, onLocationSelect }
                         enabled={swipeable}
                         childrenContainerStyle={{ opacity: swiped[item.id] ? 0.5 : 1 }}
                     >
-                        <FBox><List.Item
-                            key={`data_${item.id}`}
-                            style={{
-                                ...styles.list,
-                                borderWidth: onLocationSelect ? 1 : 0,
-                                borderColor: !item.selected ? theme.colors.outline : theme.colors.primary,
-                            }}
-                            title={item.title}
+                        <TouchableOpacity onPress={() => takeMed(item)}>
+                            <List.Item
+                                key={`data_${item.id}`}
+                                style={{
+                                    ...styles.list,
+                                    borderWidth: onLocationSelect ? 1 : 0,
+                                    borderColor: !item.selected ? theme.colors.outline : theme.colors.primary,
+                                }}
+                                title={item.medicine_name}
 
-                            description={item.description}
-                            onPress={() => onLocationSelect ? onLocationSelect(index, item) : null}
-                            descriptionStyle={[styles.desc, {
-                                color: theme.colors.onPrimary,
-                            }]}
-                            left={props => <Image style={[styles.listImage, {
-                                backgroundColor: theme.colors.onSecondary
-                            }]}
-                                source={require("../../../assets/images/Drugn_logo_white.png")} />
-                            }
-                        />
+                                description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
+                                onPress={() => onLocationSelect ? onLocationSelect(index, item) : null}
+                                descriptionStyle={[styles.desc, {
+                                    color: theme.colors.onPrimary,
+                                }]}
+                                left={props => <CustomIcon color={medIcons[item.medicine_icon_type]} name={"pill"}
+                                    size={16} />}
+                            />
                             {index < list.length - 1 && !onLocationSelect && <Divider key={`divider_${item.id}`} style={{ borderColor: colors.textDark }} />}
-                        </FBox>
+                        </TouchableOpacity>
                     </Swipeable>
                 })}
             </List.Section>

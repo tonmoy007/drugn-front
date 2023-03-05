@@ -1,9 +1,12 @@
-import {FBox} from "../../components/globals/fbox";
+import { DashboardHeader } from "../../components/home/dashboard/dashboard-header";
+import { ManageUserMeds } from "../../components/medicine/manage";
 
-export const MedicineListScreen=()=>{
+export const MedicineListScreen = () => {
+
     return (
         <>
-            <FBox>Medicine List</FBox>
+            <DashboardHeader />
+            <ManageUserMeds delMed={false} />
         </>
     )
 }
