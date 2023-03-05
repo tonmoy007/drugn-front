@@ -14,6 +14,7 @@ import { useFetchMedsMutation } from "../../../api/okusuri";
 import { userMedTime } from "../../../utils/functions/medicines";
 import { FlatList } from "react-native-gesture-handler";
 import { useBalanceMutation } from "../../../api/account";
+import { DashboardNftHealth } from "./dashboard-nft-health";
 interface SliderPaginationProps {
     currentIndex: number,
     length: number,
@@ -51,12 +52,6 @@ export const DashboardSlider = () => {
 
     const theme = useTheme();
 
-    const barColors = {
-        'Efficiency': theme.colors.scrim,
-        'Luck': theme.colors.primary,
-        'Comfort': '#FF0080',
-        'Resilience': '#8a00c2'
-    }
     const freeNFT = {
         id: 1, image: require('../../../../assets/icons/pills/blue_primary_eye.svg'), name: 'drug name',
         bars: [{ 'name': 'Efficiency', 'value': 0.8 }, { 'name': 'Luck', 'value': 0.8 },
@@ -108,15 +103,6 @@ export const DashboardSlider = () => {
             nav.navigate('freeNFT')
         }
     }
-    const progressBar = ({ item }) => {
-
-        return (<>
-            <FBox style={{ flex: 1, margin: 5 }}>
-                <Text style={{ fontSize: 12 }}>{item.name}</Text>
-                <ProgressBar style={{ height: 5, borderRadius: 20 }} progress={item.value} color={barColors[item.name]} />
-            </FBox>
-        </>)
-    }
 
     const renderItem = ({ itemIndex, currentIndex, item, animatedValue }) => {
         const index = itemIndex;
@@ -128,25 +114,7 @@ export const DashboardSlider = () => {
                 key={`item-${index}${key}`}
             >
                 <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%' }}>
-                    {index === 0 &&
-                        <FBox style={{
-                            flex: 1, margin: 3, borderRadius: 10, borderWidth: 0
-                        }} key={`${freeNFT.id}`}>
-                            <TouchableOpacity style={{ padding: 10, opacity: balance > 0 ? 1 : 0.5 }}
-                                onPress={handleFreeNFT}>
-                                <FBox style={{ alignItems: 'center' }}>
-                                    <Text style={{ ...styles.itemText, fontWeight: '700', marginBottom: 10 }}>#333333333</Text>
-                                    <Image source={freeNFT.image} style={{ width: 100, height: 100 }} />
-                                </FBox>
-                                <FlatList
-                                    data={freeNFT.bars}
-                                    renderItem={progressBar}
-                                    numColumns={2}
-                                    keyExtractor={(freeNFT) => `${freeNFT.name}`}
-                                />
-                            </TouchableOpacity>
-                        </FBox>
-                    }
+                    {index === 0 && <DashboardNftHealth active={balance > 0} />}
                     {index == 1 && (
                         <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}>
                             <FBox style={{

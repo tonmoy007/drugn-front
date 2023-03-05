@@ -2,6 +2,7 @@ import { Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { colors } from '../../../utils/settings';
 import { Text, useTheme, ProgressBar } from 'react-native-paper';
 import { FBox } from '../../../components/globals/fbox';
+import { NftProgress } from '../../globals/nft-progress';
 
 const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 
@@ -27,15 +28,6 @@ export default function HomeNFT() {
         'Resilience': '#8a00c2'
     }
 
-    const progressBar = ({ item }) => {
-
-        return (<>
-            <FBox style={{ flex: 1, margin: 5 }}>
-                <Text style={{ fontSize: 12 }}>{item.name}</Text>
-                <ProgressBar style={{ height: 5, borderRadius: 20 }} progress={item.value} color={barColors[item.name]} />
-            </FBox>
-        </>)
-    }
 
     const renderList = ({ item }) => {
         return (
@@ -44,14 +36,16 @@ export default function HomeNFT() {
                 borderColor: colors.grayBorder, borderRadius: 10, borderWidth: 1
             }} key={`${item.id}`}>
                 <TouchableOpacity style={{ padding: 10 }}
-                    onPress={() => { }}>
+                    onPress={() => {
+                    }}>
                     <FBox style={{ alignItems: 'center' }}>
                         <Text style={{ ...styles.itemText, fontWeight: '700', marginBottom: 10 }}>#333333333</Text>
                         <Image source={item.image} style={{ width: 100, height: 100 }} />
+
                     </FBox>
                     <FlatList
                         data={item.bars}
-                        renderItem={progressBar}
+                        renderItem={({ item }) => <NftProgress item={item} active={true} />}
                         numColumns={2}
                         keyExtractor={(item) => `${item.name}`}
                     />

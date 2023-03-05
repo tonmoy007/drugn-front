@@ -1,0 +1,33 @@
+import { FBox } from "../../globals/fbox";
+import { NftProgress } from "../../globals/nft-progress";
+import { FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
+
+export const DashboardNftHealth = ({ active }) => {
+    const bars = [{ 'name': 'Efficiency', 'value': 0.8 }, { 'name': 'Luck', 'value': 0.8 },
+    { 'name': 'Comfort', 'value': 0.4 }, { 'name': 'Resilience', 'value': 0.6 }]
+    return (
+        <TouchableOpacity activeOpacity={.8} style={styles.med_container}>
+            <FBox style={{ flex: 1 }}>
+                <FlatList data={bars} renderItem={({ item }) => {
+                    return <NftProgress item={item} active={active} />
+                }} />
+            </FBox>
+            <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Image source={require("../../../../assets/icons/medicine-add.svg")} style={styles.add_med} />
+            </FBox>
+        </TouchableOpacity>
+    )
+}
+const styles = StyleSheet.create({
+    add_med: {
+        width: 150 * .8,
+        height: 106 * .8
+    },
+    med_container: {
+        flexDirection: "row",
+        margin: 16,
+        padding: 16,
+        borderRadius: 20,
+        backgroundColor: "rgba(255,255,255,.01)"
+    }
+})

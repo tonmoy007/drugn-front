@@ -4,7 +4,7 @@ import { FBox } from "../../components/globals/fbox";
 import { useEffect, useState } from "react";
 import { StyleSheet } from 'react-native'
 import { RecordHeader } from "../../components/medicine/header";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ManageUserMeds } from "../../components/medicine/manage";
 
@@ -45,9 +45,9 @@ export const DeleteMedicine = ({ navigation }) => {
     return (
         <FBox style={styles.container}>
             <RecordHeader />
-            <FBox style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 <ManageUserMeds delMed={true} />
-            </FBox>
+            </ScrollView>
 
         </FBox>
     )

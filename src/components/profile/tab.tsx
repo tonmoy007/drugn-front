@@ -7,7 +7,7 @@ import { Entypo, FontAwesome } from '@expo/vector-icons';
 export default function UserProfileTabs() {
     const theme = useTheme();
     return (
-        <Card theme={{ elevation: 1 }} style={styles.card}>
+        <Card elevation={1} style={styles.card}>
             <Card.Content>
                 <FBox style={styles.tabs}>
                     <FBox style={styles.tabContainer}>

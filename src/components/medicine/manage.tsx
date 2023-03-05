@@ -114,9 +114,10 @@ export const ManageUserMeds = ({ delMed }) => {
                     }
                     {(showAll || delMed) && <>
                         {medList.length > 0 ?
-                            <>
+                            <FBox style={{ marginTop: 10 }}>
+                                {!delMed && <Text style={{ marginTop: 20, textAlign: 'center' }}>すべての薬</Text>}
                                 <DoseList list={medList} swipeable={delMed} rightSwipeAction={rightSwipeAction} recordMed={true} />
-                            </>
+                            </FBox>
                             :
                             <FBox style={{ justifyContent: 'center', flex: 1, flexDirection: 'column' }}>
                                 <Text style={{ textAlign: 'center' }}>あなたは薬を持っていません</Text>
