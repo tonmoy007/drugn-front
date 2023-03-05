@@ -1,5 +1,5 @@
 export interface User {
-    id?:number,
+    id?: number,
     name?: string;
     username?: string;
     accountName?: string;
@@ -7,7 +7,8 @@ export interface User {
     accessToken?: string;
     avatar?: string;
     loggedIn: boolean;
-    wallet?:number;
+    wallet?: number;
+    new?: boolean;
 }
 
 export type AnyUser = { [Property in keyof User]?: User[Property] }

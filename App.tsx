@@ -34,8 +34,7 @@ export default function App(props) {
                 <StoreProvider store={globalStore}>
                     <PersistGate persistor={globalPersistedStore} loading={<Text>Loading...</Text>}>
                         <PaperProvider theme={theme}>
-                            <AppNavigation
-                                { ...props}/>
+                            <AppNavigation/>
                         </PaperProvider>
                     </PersistGate>
                 </StoreProvider>

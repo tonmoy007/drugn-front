@@ -20,20 +20,19 @@ import {RecordMedicine} from "./medicine/record";
 import UserProfile from "./account/profie";
 import {NewWallet} from "./wallet";
 import FreeNFT from "./nft/free";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useSelector} from "react-redux";
+import {NavigationContainer, useNavigation} from "@react-navigation/native";
+import {createNativeStackNavigator, NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {AddedList} from "./medicine/added-list";
 import {AccountScreen} from "./dashboard/account";
+import {updateUser} from "../utils/store/user";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
-export const AppNavigation = (props) => {
-    const user = useSelector((state: GlobalState) => state.user)
-    useEffect(() => {
-        console.log(user)
-    }, [user])
+export const AppNavigation = () => {
+    const user = useSelector((state: GlobalState) => state.user);
+
     return (
         <NavigationContainer linking={linking} theme={navTheme}>
             <Stack.Navigator

@@ -1,31 +1,50 @@
-import {StyleSheet, Image} from 'react-native';
-import {colors} from '../../utils/settings';
+import {StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {colors, RootParamList} from '../../utils/settings';
 import {Card, useTheme, Text, Button} from 'react-native-paper';
 import {FBox} from '../globals/fbox';
 import React from "react";
 import {ScreenWidth} from "../../utils/constants";
+import {useSelector} from "react-redux";
+import {GlobalState} from "../../utils/store/global";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 export default function UserProfileUpperSection() {
     const theme = useTheme();
-
+    const user = useSelector((state: GlobalState) => state.user);
+    const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     return (
         <Card style={styles.card}>
             <Card.Content>
-                <FBox>
-                    <FBox style={{flexDirection: "column", alignItems: "center", paddingBottom: 16}}>
-                        <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>アカウント</Text>
-                    </FBox>
+                <FBox style={{flexGrow: 1}}>
+                    <Text variant={"bodyLarge"} style={{
+                        color: theme.colors.onPrimary,
+                        textAlign: "center",
+                        paddingBottom: 16,
+                    }}>アカウント</Text>
+
 
                     <FBox style={{...styles.cardWidthDivider, marginBottom: 16, marginLeft: -20}}></FBox>
                     <FBox style={styles.rowContainer}>
-                        <Image source={require("../../../assets/images/Face.svg")} style={{marginLeft: 10, width: 60, height: 60}}/>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate("Account")
+                        }}> <Image
+                            source={require("../../../assets/images/Face.svg")}
+                            style={{marginLeft: 10, width: 60, height: 60}}/></TouchableOpacity>
 
                         <FBox style={{...styles.columnContainer, marginLeft: 10}}>
-                            <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>Laura Burke</Text>
+                            <Text style={{
+                                ...styles.upperLabelText,
+                                color: theme.colors.onPrimary
+                            }}>{user.name ?? user.username}</Text>
                             <Text style={{...styles.tabLabelSecondText, color: colors.textSemiDark}}>Token
                                 Balance</Text>
                             <Text
-                                style={{...styles.upperLabelText, marginTop: 4, color: theme.colors.onPrimary}}>300</Text>
+                                style={{
+                                    ...styles.upperLabelText,
+                                    marginTop: 4,
+                                    color: theme.colors.onPrimary
+                                }}>{user.wallet ?? 0}</Text>
                         </FBox>
 
                         <Button labelStyle={styles.label} icon={"history"} mode={"outlined"}

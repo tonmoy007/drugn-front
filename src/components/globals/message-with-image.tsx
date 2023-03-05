@@ -38,7 +38,7 @@ export const MessageWithImage = (props: Props) => {
             </FBox>
             <FBox style={{minHeight: 120, width: "100%", alignItems: "center", justifyContent: "center"}}>
                 <Button theme={{roundness: 1}} mode={props.buttonMode??"contained"} onPress={() => {
-                    nav.navigate(props.navigationPath)
+                    nav.navigate(props.navigationPath as any)
                 }}>{props.buttonText}</Button>
             </FBox>
         </FBox>

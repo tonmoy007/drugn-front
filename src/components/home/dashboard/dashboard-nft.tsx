@@ -73,7 +73,7 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
                             fontFamily: "Montserrat_700Bold",
                             paddingBottom: smallScreen ? 10 : 20, textAlign: hideHeader ? 'center' : 'left'
                         }}>NFT</Text>
-                    <Card theme={{ elevation: 1 }} style={styles.card}>
+                    <Card elevation={1} style={styles.card}>
                         <Card.Content>
                             <FBox style={styles.cardWrapper}>
                                 <FBox style={styles.cardIcon}>

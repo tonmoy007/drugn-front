@@ -1,6 +1,6 @@
 export type RootParamList = {
     landing: undefined,
-    dashboard: undefined,
+    dashboard: { redirectUri?: string },
     signup: any,
     signin: any,
     otp: { redirectUri: string, sessionID: string },
@@ -16,7 +16,11 @@ export type RootParamList = {
     profile: any,
     wallet: any,
     freeNFT: any,
-    addedMed:any
+    addedMed: any,
+    Home: any,
+    Nft: any,
+    Account: any,
+    MedicineList: any
 }
 export type BottomTab = {
     Home: any;

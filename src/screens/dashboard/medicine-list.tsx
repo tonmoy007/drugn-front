@@ -1,9 +1,9 @@
-import {FBox} from "../../components/globals/fbox";
+import UserProfile from "../account/profie";
 
-export const MedicineListScreen=()=>{
+export const MedicineListScreen = (props) => {
     return (
         <>
-            <FBox>Medicine List</FBox>
+            <UserProfile {...props}/>
         </>
     )
 }

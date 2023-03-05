@@ -1,7 +1,8 @@
-import { Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { colors } from '../../../utils/settings';
-import { Text, useTheme, ProgressBar } from 'react-native-paper';
-import { FBox } from '../../../components/globals/fbox';
+import {Image, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {colors} from '../../../utils/settings';
+import {Text, useTheme} from 'react-native-paper';
+import {FBox} from '../../../components/globals/fbox';
+import {NftProgress} from "../../globals/nft-progress";
 
 const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 
@@ -9,49 +10,33 @@ const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 const nfts = Array.apply(null, Array(20)).map((v, i) => {
     return {
         id: i, image: drugImage, name: 'drug name',
-        bars: [{ 'name': 'Efficiency', 'value': 0.8 }, { 'name': 'Luck', 'value': 0.8 },
-        { 'name': 'Comfort', 'value': 0.4 }, { 'name': 'Resilience', 'value': 0.6 }]
+        bars: [{'name': 'Efficiency', 'value': 0.8}, {'name': 'Luck', 'value': 0.8},
+            {'name': 'Comfort', 'value': 0.4}, {'name': 'Resilience', 'value': 0.6}]
     };
 });
-
 
 
 export default function HomeNFT() {
 
     const theme = useTheme();
 
-    const barColors = {
-        'Efficiency': theme.colors.scrim,
-        'Luck': theme.colors.primary,
-        'Comfort': '#FF0080',
-        'Resilience': '#8a00c2'
-    }
 
-    const progressBar = ({ item }) => {
-
-        return (<>
-            <FBox style={{ flex: 1, margin: 5 }}>
-                <Text style={{ fontSize: 12 }}>{item.name}</Text>
-                <ProgressBar style={{ height: 5, borderRadius: 20 }} progress={item.value} color={barColors[item.name]} />
-            </FBox>
-        </>)
-    }
-
-    const renderList = ({ item }) => {
+    const renderList = ({item}) => {
         return (
             <FBox style={{
                 flex: 1, margin: 3,
                 borderColor: colors.grayBorder, borderRadius: 10, borderWidth: 1
             }} key={`${item.id}`}>
-                <TouchableOpacity style={{ padding: 10 }}
-                    onPress={() => { }}>
-                    <FBox style={{ alignItems: 'center' }}>
-                        <Text style={{ ...styles.itemText, fontWeight: '700', marginBottom: 10 }}>#333333333</Text>
-                        <Image source={item.image} style={{ width: 100, height: 100 }} />
+                <TouchableOpacity style={{padding: 10}}
+                                  onPress={() => {
+                                  }}>
+                    <FBox style={{alignItems: 'center'}}>
+                        <Text style={{...styles.itemText, fontWeight: '700', marginBottom: 10}}>#333333333</Text>
+                        <Image source={item.image} style={{width: 100, height: 100}}/>
                     </FBox>
                     <FlatList
                         data={item.bars}
-                        renderItem={progressBar}
+                        renderItem={({item}) => <NftProgress item={item} active={true}/>}
                         numColumns={2}
                         keyExtractor={(item) => `${item.name}`}
                     />
@@ -69,7 +54,7 @@ export default function HomeNFT() {
                 scrollEnabled
                 keyExtractor={(item) => `${item.id}`}
             />
-        </FBox >
+        </FBox>
     );
 }
 
@@ -90,7 +75,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         position: 'relative'
     },
-    cardIcon: { flex: 1, alignItems: "center", flexDirection: "column" },
+    cardIcon: {flex: 1, alignItems: "center", flexDirection: "column"},
     cardIconDivider: {
         width: 1,
         backgroundColor: colors.textDark,

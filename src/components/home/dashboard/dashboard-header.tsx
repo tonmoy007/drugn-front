@@ -1,5 +1,5 @@
 import {FBox} from "../../globals/fbox";
-import {Image} from "react-native";
+import {Image, TouchableOpacity} from "react-native";
 import {IconButton, Text} from "react-native-paper";
 import {CustomIcon} from "../../../utils/custom-icon";
 import {colors, RootParamList} from "../../../utils/settings";
@@ -16,14 +16,16 @@ export const DashboardHeader = () => {
     const [hasNoti, setHasNoti] = useState(true)
     const dispatch = useDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
-    const onNotiPress = async () => {
+    const onNotiPress =  () => {
         dispatch(logout())
-        await navigation.navigate("signin")
+        navigation.navigate("signin")
     }
     return (
         <FBox style={{flexDirection: "row", padding: 18, alignItems: "center", paddingBottom: 10}}>
-            <FBox style={{paddingRight: 10}}><Image source={require("../../../../assets/images/Face.svg")}
-                                                    style={{width: 32, height: 32}}/></FBox>
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate("Account")
+            }} style={{paddingRight: 10}}><Image source={require("../../../../assets/images/Face.svg")}
+                                                    style={{width: 32, height: 32}}/></TouchableOpacity>
             <FBox style={{flexDirection: "column", flex: 1}}>
                 <Text style={{
                     color: colors.mutedWhite,
