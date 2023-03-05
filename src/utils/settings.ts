@@ -87,5 +87,6 @@ export const colors = {
     navBackground: "#131426",
     inactive: "rgb(112,112,112)",
     primary2: "#4BA9BE",
-    onBackgroundSpace: "#293658"
+    onBackgroundSpace: "#293658",
+    grey_background: "#1C2037"
 }
