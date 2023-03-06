@@ -81,7 +81,6 @@ export default function UserProfile2({navigation}) {
             <ScrollView>
                 <UserProfileUpperSection/>
                 <UserProfileUpperTabs/>
-
                 <FBox style={{paddingBottom: 40}}/>
                 {profileListItem.map((item) => {
                     return <UserProfileLowerListItem item={item}/>;
