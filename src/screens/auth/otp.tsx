@@ -14,19 +14,22 @@ export const OtpScreen = ({route}) => {
     const sessionID = route.params.sessionID
     const [otp, setOtp] = useState<string>("")
     const dispatch = useDispatch();
-    const [confirmCode,{isLoading}]=useConfirmCodeMutation()
+    const [confirmCode, {isLoading}] = useConfirmCodeMutation()
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onPinReady = useCallback((status) => {
         if (status) {
             confirmCode({code: otp, sessionID}).unwrap().then(res => {
-                if (!res.error){
-                    dispatch(setNewUser(res))
-                    nav.replace(route.params.redirectUri)
-                }
-                else
+                if (!res.error) {
+                    dispatch(setNewUser({...res, new: true}))
+                    if (route.params.redirectUri !== "dashboard") {
+                        nav.navigate("dashboard", {redirectUri: route.params.redirectUri})
+                    } else {
+                        nav.navigate(route.params.redirectUri)
+                    }
+                } else
                     alert(res.message)
             }).catch(err => {
-                alert(err.status+' : '+err.data.message);
+                alert(err.status + ' : ' + err.data?.message ?? err.message);
             })
         }
     }, [otp])
@@ -45,7 +48,7 @@ export const OtpScreen = ({route}) => {
                     できます。
                     Emailが間違っている場合は修正してください。
                 </Text>
-                {isLoading&&<ActivityIndicator/>}
+                {isLoading && <ActivityIndicator/>}
             </FBox>
         </FBox>
     )

@@ -18,23 +18,20 @@ import ManageMedicine from "./medicine/manage";
 import { DeleteMedicine } from "./medicine/delete";
 import { NewWallet } from "./wallet";
 import FreeNFT from "./nft/free";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { AddedList } from "./medicine/added-list";
 import RecordMedicine from "./medicine/record";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {useSelector} from "react-redux";
+import {useEffect} from "react";
+import {AddedList} from "./medicine/added-list";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
-export const AppNavigation = (props) => {
+export const AppNavigation = () => {
     const user = useSelector((state: GlobalState) => state.user)
-
     useEffect(() => {
-        console.log(user);
+        console.log(user)
     }, [user])
-
-
     return (
         <NavigationContainer linking={linking} theme={navTheme}>
             <Stack.Navigator
@@ -79,7 +76,10 @@ export const AppNavigation = (props) => {
                         <Stack.Screen name={"deleteMedicine"} component={DeleteMedicine}
                             options={{ title: "薬の編集" }} />
                         <Stack.Screen component={RecordMedicine} name="recordMedicine"
-                            options={{ title: 'お薬を飲む' }} />
+                                      options={{title: 'お薬を飲む'}}/>
+                        <Stack.Screen name={"wallet"} component={NewWallet}
+                                      options={{title: "NFT受け取りWalletを作成"}}/>
+
                         <Stack.Screen name={"wallet"} options={{ title: "NFT受け取りWalletを作成" }} component={NewWallet}
                         />
                         <Stack.Screen name={"freeNFT"} component={FreeNFT} options={{ title: "マーケットプレイス" }} />

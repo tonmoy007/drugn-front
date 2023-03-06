@@ -54,8 +54,10 @@ export const DashboardHeader = () => {
 
     return (
         <FBox style={{ flexDirection: "row", padding: 18, alignItems: "center", paddingBottom: 10 }}>
-            <FBox style={{ paddingRight: 10 }}><Image source={require("../../../../assets/images/Face.svg")}
-                style={{ width: 32, height: 32 }} /></FBox>
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate("Account")
+            }} style={{ paddingRight: 10 }}><Image source={require("../../../../assets/images/Face.svg")}
+                style={{ width: 32, height: 32 }} /></TouchableOpacity>
             <FBox style={{ flexDirection: "column", flex: 1 }}>
                 <Text style={{
                     color: colors.mutedWhite,

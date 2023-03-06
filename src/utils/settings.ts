@@ -1,6 +1,6 @@
 export type RootParamList = {
     landing: undefined,
-    dashboard: undefined,
+    dashboard: { redirectUri?: string },
     signup: any,
     signin: any,
     otp: { redirectUri: string, sessionID: string },
@@ -16,7 +16,11 @@ export type RootParamList = {
     profile: any,
     wallet: any,
     freeNFT: any,
-    addedMed:any
+    addedMed: any,
+    Home: any,
+    Nft: any,
+    Account: any,
+    MedicineList: any
 }
 export type BottomTab = {
     Home: any;
@@ -87,5 +91,6 @@ export const colors = {
     navBackground: "#131426",
     inactive: "rgb(112,112,112)",
     primary2: "#4BA9BE",
-    onBackgroundSpace: "#293658"
+    onBackgroundSpace: "#293658",
+    grey_background: "#1C2037"
 }
