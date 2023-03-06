@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useEffect, useRef, useState } from "react";
-import { Button, Text } from "react-native-paper";
+import { Button, ProgressBar, Text, useTheme } from "react-native-paper";
 import { FBox } from "../../globals/fbox";
 import { colors, RootParamList } from "../../../utils/settings";
 import { SliderLists } from "./slider-lists";
@@ -8,33 +8,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import SideSwipe from 'react-native-sideswipe'
 import moment from "moment";
-
-
-const scheduleData = [
-    {
-        time: '今日 11/30(水) 朝',
-        title: '１ダイアモックス錠250mg',
-        description: '三和化学研究テキストテキスト',
-        rightIcon: 'sunrise',
-        active: true,
-    },
-    {
-        time: '朝食前 / 2錠',
-        title: '１ダイアモックス錠250mg',
-        description: '三和化学研究テキストテキスト',
-        rightIcon: '',
-        active: false,
-        color: '#FFA5FB'
-    },
-    {
-        time: '朝食前 / 2錠',
-        title: '１ダイアモックス錠250mg',
-        description: '三和化学研究テキストテキスト',
-        rightIcon: '',
-        active: false,
-    }
-]
-
+import { useSelector } from "react-redux";
+import { GlobalState } from "../../../utils/store/global";
+import { useFetchMedsMutation } from "../../../api/okusuri";
+import { userMedTime } from "../../../utils/functions/medicines";
+import { FlatList } from "react-native-gesture-handler";
+import { useBalanceMutation } from "../../../api/account";
+import { DashboardNftHealth } from "./dashboard-nft-health";
 interface SliderPaginationProps {
     currentIndex: number,
     length: number,
@@ -56,9 +36,57 @@ export const DashboardSlider = () => {
     const windowDimensions = Dimensions.get('window');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [windowDimension, setWindowDimension] = useState(windowDimensions)
-    const data = Array(2).fill(0)
+    const [activeTime, setActiveTime] = useState<string>('morning');
+    const [timeIDs, setTimeIDs] = useState<object>({
+        morning: [],
+        afternoon: [],
+        night: [],
+        any: []
+    });
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
-    const today=moment().format('MM/DD')
+    const today = moment().format('MM/DD');
+    const user = useSelector((state: GlobalState) => state.user)
+    const [fetchMeds, { isLoading }] = useFetchMedsMutation()
+    const [getBalance, { }] = useBalanceMutation()
+    const [balance, setBalance] = useState<number>(0);
+
+    const theme = useTheme();
+
+    const freeNFT = {
+        id: 1, image: require('../../../../assets/icons/pills/blue_primary_eye.svg'), name: 'drug name',
+        bars: [{ 'name': 'Efficiency', 'value': 0.8 }, { 'name': 'Luck', 'value': 0.8 },
+        { 'name': 'Comfort', 'value': 0.4 }, { 'name': 'Resilience', 'value': 0.6 }]
+    };
+
+    useEffect(() => {
+        if (user.id) {
+            fetchMeds({ userId: user.id }).unwrap().then(async (res) => {
+                if (res.error) {
+                    // toastMessage({ msg: res.message });
+                    return;
+                }
+                getAllUserMeds(res.medicines)
+            }).catch(err => {
+                console.log(err)
+            })
+            getBalance({ address: user.wallet }).unwrap().then(async (res) => {
+                if (res.error) {
+                    return;
+                }
+                setBalance(res.amount)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }, [user])
+
+
+    async function getAllUserMeds(meds) {
+        const allMeds = await userMedTime({ medicines: meds })
+        setActiveTime(allMeds.activeTime)
+        setTimeIDs(allMeds.timeIDs)
+    }
+
 
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
@@ -70,6 +98,12 @@ export const DashboardSlider = () => {
         return () => subscription?.remove();
     });
 
+    const handleFreeNFT = () => {
+        if (balance === 0) {
+            nav.navigate('freeNFT')
+        }
+    }
+
     const renderItem = ({ itemIndex, currentIndex, item, animatedValue }) => {
         const index = itemIndex;
         const key = itemIndex + currentIndex;
@@ -80,7 +114,8 @@ export const DashboardSlider = () => {
                 key={`item-${index}${key}`}
             >
                 <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%' }}>
-                    {index == 0 && (
+                    {index === 0 && <DashboardNftHealth active={balance > 0} />}
+                    {index == 1 && (
                         <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}>
                             <FBox style={{
                                 flex: 1,
@@ -96,27 +131,25 @@ export const DashboardSlider = () => {
                             </FBox>
                         </FBox>
                     )}
-                    {index == 1 && (
-                        <SliderLists data={scheduleData} />
+                    {index == 2 && (
+                        <SliderLists data={timeIDs[activeTime]} time={activeTime} />
                     )}
                 </FBox>
-            </FBox>
+            </FBox >
         );
     }
     const handleCarouselScrollEnd = (index) => {
-        console.log("hello")
         setCurrentIndex(index)
-        console.log(index)
     }
 
     return (
         <FBox style={{ flex: 1, minHeight: windowDimension.height / 4 }}>
-            <SideSwipe data={data} index={currentIndex} itemWidth={windowDimension.width - 18}
+            <SideSwipe data={Array(timeIDs[activeTime]?.length > 0 ? 3 : 2).fill(0)} index={currentIndex} itemWidth={windowDimension.width - 18}
                 style={{ width: windowDimension.width }}
                 threshold={windowDimension.width - 100}
                 contentOffset={18}
                 renderItem={renderItem} onIndexChange={handleCarouselScrollEnd} />
-            <SliderPagination currentIndex={currentIndex} length={data.length} onClick={(i) => setCurrentIndex(i)} />
+            <SliderPagination currentIndex={currentIndex} length={timeIDs[activeTime]?.length > 0 ? 3 : 2} onClick={(i) => setCurrentIndex(i)} />
         </FBox>
     )
 }
@@ -158,5 +191,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         width: 12,
         borderRadius: 10,
+    },
+    itemText: {
+        textAlign: 'center'
     }
 });

@@ -1,8 +1,8 @@
-import {Image, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {colors} from '../../../utils/settings';
-import {Text, useTheme} from 'react-native-paper';
-import {FBox} from '../../../components/globals/fbox';
-import {NftProgress} from "../../globals/nft-progress";
+import { Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { colors } from '../../../utils/settings';
+import { Text, useTheme, ProgressBar } from 'react-native-paper';
+import { NftProgress } from '../../globals/nft-progress';
+import {FBox} from "../../globals/fbox";
 
 const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 
@@ -20,6 +20,13 @@ export default function HomeNFT() {
 
     const theme = useTheme();
 
+    const barColors = {
+        'Efficiency': theme.colors.scrim,
+        'Luck': theme.colors.primary,
+        'Comfort': '#FF0080',
+        'Resilience': '#8a00c2'
+    }
+
 
     const renderList = ({item}) => {
         return (
@@ -27,16 +34,16 @@ export default function HomeNFT() {
                 flex: 1, margin: 3,
                 borderColor: colors.grayBorder, borderRadius: 10, borderWidth: 1
             }} key={`${item.id}`}>
-                <TouchableOpacity style={{padding: 10}}
-                                  onPress={() => {
+                <TouchableOpacity style={{ padding: 10 }}
+                    onPress={() => {
                                   }}>
-                    <FBox style={{alignItems: 'center'}}>
-                        <Text style={{...styles.itemText, fontWeight: '700', marginBottom: 10}}>#333333333</Text>
-                        <Image source={item.image} style={{width: 100, height: 100}}/>
+                    <FBox style={{ alignItems: 'center' }}>
+                        <Text style={{ ...styles.itemText, fontWeight: '700', marginBottom: 10 }}>#333333333</Text>
+                        <Image source={item.image} style={{ width: 100, height: 100 }} />
                     </FBox>
                     <FlatList
                         data={item.bars}
-                        renderItem={({item}) => <NftProgress item={item} active={true}/>}
+                        renderItem={({ item }) => <NftProgress item={item} active={true} />}
                         numColumns={2}
                         keyExtractor={(item) => `${item.name}`}
                     />
@@ -47,13 +54,14 @@ export default function HomeNFT() {
 
     return (
         <FBox style={styles.container}>
-            <FlatList
+            <Text style={{ textAlign: 'center' }}>Coming Soon</Text>
+            {/* <FlatList
                 data={nfts}
                 renderItem={renderList}
                 numColumns={2}
                 scrollEnabled
                 keyExtractor={(item) => `${item.id}`}
-            />
+            /> */}
         </FBox>
     );
 }

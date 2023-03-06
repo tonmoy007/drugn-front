@@ -3,17 +3,10 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from 'react-native'
 import { IconButton, Text, useTheme } from "react-native-paper";
 import { DoseList } from "../../../components/medicine/dose-list";
+import { ManageUserMeds } from "../../../components/medicine/manage";
 
 export const RecordMed = ({ navigation }) => {
     const [selected, setSelected] = useState<number>(0)
-    const [list, setList] = useState([...Array(10).keys()].map((item) => {
-        return {
-            title: `${item + 1} ダイアモックス錠250mg`,
-            description: <FBox><Text>三和科学研究</Text><Text style={{ marginTop: 10 }}>朝食前/2錠</Text></FBox>,
-            id: item,
-            selected: false
-        }
-    }))
     const theme = useTheme()
 
     useEffect(() => {
@@ -32,14 +25,6 @@ export const RecordMed = ({ navigation }) => {
         });
     }, [selected]);
 
-    const onLocationSelect = (index) => {
-        const l = list.map(data => {
-            return { ...data, selected: false }
-        })
-        l[index].selected = true
-        setSelected(index + 1)
-        setList(l)
-    }
 
     const handleBackNav = () => {
         if (navigation.canGoBack())
@@ -52,9 +37,12 @@ export const RecordMed = ({ navigation }) => {
         if (selected)
             navigation.push('deleteMedicine')
     }
-
+    // onLocationSelect={onLocationSelect}
     return (
-        <DoseList list={list} onLocationSelect={onLocationSelect} />
+        <>
+            {/* <ManageUserMeds delMed={false} /> */}
+        </>
+
     )
 }
 

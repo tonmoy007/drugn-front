@@ -12,7 +12,7 @@ const drugBoxImage = require('../../../assets/icons/store_location_icon.svg')
 
 const nfts = {
     drug: {
-        data: Array.apply(null, Array(20)).map((v, i) => {
+        data: Array.apply(null, Array(1)).map((v, i) => {
             return { id: i, image: drugImage, name: 'テストユーザー限定', free: true };
         }),
         name: "Drug"
@@ -33,7 +33,7 @@ const nfts = {
 }
 export default function FreeNFT({ navigation }) {
     const [curTab, setCurTab] = useState<string>('drug')
-    const [confirmation, setConfirmation] = useState(null)
+    const [confirmation, setConfirmation] = useState<any>(null)
 
     const theme = useTheme();
 
@@ -44,19 +44,28 @@ export default function FreeNFT({ navigation }) {
     }, []);
 
 
-    const renderList = ({ item }) => {
+    const renderList = ({ item, index }) => {
         return (
-            <FBox style={{
-                flex: 1, margin: 3, justifyContent: 'center', alignItems: 'center',
-                backgroundColor: colors.background2, borderRadius: 10
-            }} key={`${curTab}-${item.id}`}>
-                <TouchableOpacity style={{ alignItems: 'center', padding: 10, }}
-                    onPress={() => setConfirmation(item)}>
-                    <Image source={item.image} style={{ width: 100, height: 100 }} />
-                    <Text style={styles.itemText}>{item.name}</Text>
-                    {item.free && <Text variant='titleMedium' style={{ ...styles.itemText, fontWeight: '700' }}>You can get it for FREE!</Text>}
-                </TouchableOpacity>
-            </FBox>
+            <>
+                <FBox style={{
+                    flex: 1, margin: 3, justifyContent: 'center', alignItems: 'center',
+                    backgroundColor: colors.background2, borderRadius: 10
+                }} key={`${curTab}-${item.id}`}>
+                    <TouchableOpacity style={{ alignItems: 'center', padding: 10, }}
+                        onPress={() => setConfirmation(item)}>
+                        <Image source={item.image} style={{ width: 100, height: 100 }} />
+                        <Text style={styles.itemText}>{item.name}</Text>
+                        {item.free && <Text variant='titleMedium' style={{ ...styles.itemText, fontWeight: '700' }}>You can get it for FREE!</Text>}
+                    </TouchableOpacity>
+                </FBox>
+                {nfts[curTab].data.length % 2 !== 0 && index === nfts[curTab].data.length - 1 && <FBox style={{
+                    flex: 1, margin: 3, justifyContent: 'center', alignItems: 'center',
+                    backgroundColor: colors.navBackground, borderRadius: 10
+                }} key={`${curTab}-${item.id}`}>
+
+                </FBox>
+                }
+            </>
         );
     };
 
@@ -86,12 +95,15 @@ export default function FreeNFT({ navigation }) {
                         </Card.Content>
                     </Card>
                     <FBox style={{ ...styles.subContainer }}>
-                        <FlatList
+                        {curTab === 'drug' ? <FlatList
                             data={nfts[curTab].data}
                             renderItem={renderList}
                             numColumns={2}
                             keyExtractor={(item, index) => `${curTab}-${index}`}
                         />
+                            :
+                            <Text variant='titleMedium' style={{ textAlign: 'center', marginTop: 50 }}>Coming Soon</Text>
+                        }
                     </FBox>
                 </>
             }

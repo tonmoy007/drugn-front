@@ -1,5 +1,5 @@
 export interface User {
-    id?: number,
+    id?: number|string,
     name?: string;
     username?: string;
     accountName?: string;
@@ -7,7 +7,7 @@ export interface User {
     accessToken?: string;
     avatar?: string;
     loggedIn: boolean;
-    wallet?: number;
+    wallet?:string;
     new?: boolean;
 }
 

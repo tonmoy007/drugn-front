@@ -3,15 +3,25 @@ import { useTheme, Text, TextInput } from 'react-native-paper';
 import { colors } from '../../utils/settings';
 import { FBox } from '../globals/fbox';
 import { useState, useEffect } from 'react'
+import { useNewAccountMutation } from '../../api/account';
+import { toastMessage } from '../../utils/toast';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '../../utils/store/global';
 
 interface Props {
+    user: any,
+    setUserWallet: (val: object) => void,
     nextStep: number;
-    setStep: (val: number) => void
+    setStep: (val: number) => void,
     navigation
 }
 
 export default function WalletName(props: Props) {
-    const [walletName, setWalletName] = useState<string>('')
+    const [walletName, setWalletName] = useState<string>(props.user?.username)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [newSymbolAcct, { isLoading }] = useNewAccountMutation()
+    const user = useSelector((state: GlobalState) => state.user)
+
 
     const theme = useTheme()
 
@@ -23,15 +33,29 @@ export default function WalletName(props: Props) {
             },
             headerRight: () => {
                 return (
-                    <Text style={{ ...styles.navText, color: walletName.length > 0 ? theme.colors.primary : theme.colors.onSurfaceDisabled }}
+                    <Text style={{ ...styles.navText, color: walletName.length > 0 && !loading ? theme.colors.primary : theme.colors.onSurfaceDisabled }}
                         onPress={handleNextNav}>登録</Text >
                 )
             }
         });
     }, [props.nextStep, walletName]);
 
-    const handleNextNav = () => {
-        props.setStep(props.nextStep)
+    const handleNextNav = async () => {
+        if (walletName.length > 0 && !loading) {
+            setLoading(true);
+            //create Account here
+            newSymbolAcct({ userId: user.id }).unwrap().then(async (res) => {
+                if (res.error) {
+                    toastMessage({ msg: res.message });
+                    return;
+                }
+                props.setUserWallet({ address: res.address, privateKey: res.privateKey, base64Qr: res.base64Qr });
+                props.setStep(props.nextStep);
+            }).catch(err => {
+                console.log(err)
+                toastMessage({ msg: err.message ?? "Server Error Response" })
+            })
+        }
     }
 
     return (
@@ -39,6 +63,7 @@ export default function WalletName(props: Props) {
             <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20 }}>Walletの表示名を設定してください</Text>
             <TextInput
                 style={{ width: '100%' }}
+                editable={false}
                 onChangeText={setWalletName}
                 mode={"outlined"}
                 value={walletName}
@@ -46,9 +71,8 @@ export default function WalletName(props: Props) {
                 right={walletName.length > 0 ? <TextInput.Icon icon={"check"} size={12} iconColor={colors.primary} />
                     : <></>}
             />
-            <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>英数字8文字以上、使えない記号は______です。
-                Walletの表示名は後から編集できません。
-                テキスト仮</Text>
+            <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>本名や個人を特定できるような名前はトラブルに繋がります。
+                避けてください。記号の使用はできません。</Text>
 
             <FBox style={{ marginTop: 50 }}>
                 <Image source={require("../../../assets/icons/bag.svg")} style={{ width: 100, height: 100 }} />

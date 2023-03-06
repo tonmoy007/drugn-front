@@ -245,7 +245,7 @@ export default function UserMedicineSchedule() {
             <DatePicker open={open} date={date} onChange={onConfirmSingle} startYear={2022} endYear={new Date().getFullYear()}
                 onDismiss={onDismissSingle} validRange={{ startDate: new Date('2022-12-09T00:00:00+00:00'), endDate: new Date() }}
             />
-            <Card theme={{ elevation: 1 }} style={styles.card}>
+            <Card elevation={1} style={styles.card}>
                 <Card.Content style={{ paddingHorizontal: 5 }}>
 
                     <FBox style={styles.header}>

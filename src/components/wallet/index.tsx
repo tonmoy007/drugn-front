@@ -35,11 +35,11 @@ export default function Wallet(props: Props) {
                 labelStyle={styles.btnText} style={styles.button}>
                 <TouchableOpacity style={styles.innerBTN}><Text style={{ ...styles.text, color: theme.colors.onPrimary }}>おすすめ</Text></TouchableOpacity> 新規Wallet作成</Button>
             <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>●●●●●●●なのでおすすめです。（なぜオススメ?）</Text>
-            <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20, marginTop: 80 }}>既にお持ちのWalletを使いますか?</Text>
+            {/* <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20, marginTop: 80 }}>既にお持ちのWalletを使いますか?</Text>
             <Button labelStyle={styles.btnText} style={{ ...styles.button, borderColor: theme.colors.surfaceVariant, marginBottom: 15 }}>
                 Mnemonic</Button>
             <Button labelStyle={styles.btnText} style={{ ...styles.button, borderColor: theme.colors.surfaceVariant }}>
-                Private Key</Button>
+                Private Key</Button> */}
         </FBox>
     );
 }

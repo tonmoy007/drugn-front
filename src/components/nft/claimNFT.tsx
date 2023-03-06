@@ -1,9 +1,13 @@
 import { StyleSheet, Image } from 'react-native';
-import { useTheme, Text, TextInput, Card, Button } from 'react-native-paper';
+import { useTheme, Text, TextInput, Card, Button, ActivityIndicator } from 'react-native-paper';
 import { colors } from '../../utils/settings';
 import { FBox } from '../globals/fbox';
 import { useState, useEffect } from 'react'
 import { MessageWithImage } from '../globals/message-with-image';
+import { useInitialNFTMutation } from '../../api/account';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '../../utils/store/global';
+import { toastMessage } from '../../utils/toast';
 
 interface Props {
     nft: { name: string, id: string, free: boolean, image: any };
@@ -13,6 +17,8 @@ interface Props {
 
 export default function ClaimNFT(props: Props) {
     const [claimed, setClaimed] = useState<boolean>(false)
+    const [claimNFT, { isLoading }] = useInitialNFTMutation()
+    const user = useSelector((state: GlobalState) => state.user)
 
     const theme = useTheme()
 
@@ -30,6 +36,23 @@ export default function ClaimNFT(props: Props) {
                 navigationPath={"dashboard"} />
         )
 
+    const claimFreeNFT = () => {
+        if (!user.wallet) {
+            toastMessage({ msg: 'Error - Wallet not linked to account' })
+            return;
+        }
+        claimNFT({ user: user.id, address: user.wallet }).unwrap().then(async (res) => {
+            if (res.error) {
+                toastMessage({ msg: res.message });
+                return;
+            }
+            setClaimed(true);
+        }).catch(err => {
+            console.log(err)
+            toastMessage({ msg: err.data?.error ?? err.message ?? "Server Error Response" })
+        })
+    }
+
     return (
         <FBox style={styles.container}>
             <FBox style={{ ...styles.card, borderColor: theme.colors.primary }}>
@@ -41,13 +64,16 @@ export default function ClaimNFT(props: Props) {
                     <Text style={{ ...styles.itemText, marginTop: 20 }}>{props.nft.name}</Text>
                     {props.nft.free && <Text variant='titleLarge' style={{ ...styles.itemText, marginTop: 10, fontWeight: '700' }}>You can get it for FREE!</Text>}
                 </FBox>
-                <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
-                    labelStyle={{ color: theme.colors.onPrimary }} onPress={() => setClaimed(true)}
-                >購入する</Button>
+                {isLoading ?
+                    <ActivityIndicator size={'large'} color={colors.primary} />
+                    :
+                    <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
+                        labelStyle={{ color: theme.colors.onPrimary }} onPress={() => claimFreeNFT()}
+                    >購入する</Button>}
             </FBox>
             <FBox>
                 <Text style={{ ...styles.itemText, color: theme.colors.primary, marginBottom: 50, marginTop: 30 }}
-                    onPress={() => props.setConfirmation(null)}>Go Back</Text>
+                    onPress={() => props.setConfirmation(null)}>戻る</Text>
             </FBox>
         </FBox>
     );
