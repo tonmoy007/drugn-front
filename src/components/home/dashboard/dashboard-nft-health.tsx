@@ -5,7 +5,7 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../../utils/settings";
 
-export const DashboardNftHealth = ({active}) => {
+export const DashboardNftHealth = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const bars = [{'name': 'Efficiency', 'value': 0.8}, {'name': 'Luck', 'value': 0.8},
         {'name': 'Comfort', 'value': 0.4}, {'name': 'Resilience', 'value': 0.6}]

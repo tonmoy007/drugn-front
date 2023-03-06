@@ -8,33 +8,30 @@ export const accountAPI = createApi({
     baseQuery: BaseQuery,
     tagTypes: ['Account'],
     endpoints: (builder) => ({
-        newAccount: builder.mutation<AccountResponse, Partial<AccountPayLoad>>({
+        newAccount: builder.query<AccountResponse, Partial<AccountPayLoad>>({
             query: (arg: AccountPayLoad) => ({
                 url: `/account/generate-symbol-account/user=${+arg.userId}`,
                 method: "GET",
                 responseHandler: (res) => res.json()
-            }),
-            invalidatesTags: ["Account"],
+            })
         }),
-        initialNFT: builder.mutation<InitialNFTResponse, Partial<InitialNFTPayLoad>>({
+        initialNFT: builder.query<InitialNFTResponse, Partial<InitialNFTPayLoad>>({
             query: (arg: InitialNFTPayLoad) => ({
                 url: `/account/initial-nft?user=${arg.user}&address=${arg.address}`,
                 method: "GET",
                 responseHandler: (res) => res.json()
-            }),
-            invalidatesTags: ["Account"],
+            })
         }),
-        balance: builder.mutation<BalanceResponse, Partial<BalancePayLoad>>({
+        balance: builder.query<BalanceResponse, Partial<BalancePayLoad>>({
             query: (arg: BalancePayLoad) => ({
                 url: `/account/amount/address=${arg.address}`,
                 method: "GET",
                 responseHandler: (res) => res.json()
-            }),
-            invalidatesTags: ["Account"],
+            })
         }),
     })
 })
-export const {useNewAccountMutation, useInitialNFTMutation, useBalanceMutation} = accountAPI
+export const {useNewAccountQuery, useInitialNFTQuery, useBalanceQuery} = accountAPI
 export const ApiStore = configureStore({
     reducer: {
         [accountAPI.reducerPath]: accountAPI.reducer,

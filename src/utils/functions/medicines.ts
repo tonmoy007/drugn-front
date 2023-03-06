@@ -8,7 +8,7 @@ if(time>=24){
 }
 return time;
 }
-export const userMedTime = async (props: Props) => {
+export const userMedTime =  (props: Props) => {
 let rtMeds: any = {
     medList: [],
     activeTime: '',
