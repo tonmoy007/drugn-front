@@ -5,16 +5,19 @@ import {FBox} from '../globals/fbox';
 import {FontAwesome} from '@expo/vector-icons';
 import React from "react";
 import {ScreenWidth} from "../../utils/constants";
+import {useSelector} from "react-redux";
+import {GlobalState} from "../../utils/store/global";
 
 export default function UserProfileUpperTabs() {
     const theme = useTheme();
+    const user = useSelector((state: GlobalState) => state.user);
     return (
         <Card style={styles.card}>
             <Card.Content>
                 <FBox style={styles.tabs}>
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
-                            <Text style={{...styles.upperLabelText,color: theme.colors.onPrimary}}>
+                            <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>
                                 <Image source={require("../../../assets/icons/coins.svg")}
                                        style={{width: 18, height: 18}}/> Coins
                             </Text>
@@ -57,7 +60,7 @@ export default function UserProfileUpperTabs() {
                     fontSize: 12,
                     marginTop: 4,
                     color: theme.colors.onPrimary
-                }}>NSHD9823E01HQW012H0H208113</Text>
+                }}>{user.wallet ?? "N/A"}</Text>
             </FBox>
         </Card>
     );

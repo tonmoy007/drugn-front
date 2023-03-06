@@ -1,18 +1,17 @@
-import {StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {colors, RootParamList} from '../../utils/settings';
+import {StyleSheet, Image} from 'react-native';
+import {colors} from '../../utils/settings';
 import {Card, useTheme, Text, Button} from 'react-native-paper';
 import {FBox} from '../globals/fbox';
 import React from "react";
 import {ScreenWidth} from "../../utils/constants";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {useBalanceQuery} from "../../api/account";
 
 export default function UserProfileUpperSection() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
-    const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
+    const {data: balance} = useBalanceQuery({address: user.wallet})
     return (
         <Card style={styles.card}>
             <Card.Content>
@@ -22,15 +21,11 @@ export default function UserProfileUpperSection() {
                         textAlign: "center",
                         paddingBottom: 16,
                     }}>アカウント</Text>
-
-
                     <FBox style={{...styles.cardWidthDivider, marginBottom: 16, marginLeft: -20}}></FBox>
                     <FBox style={styles.rowContainer}>
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate("Account")
-                        }}> <Image
+                        <Image
                             source={require("../../../assets/images/Face.svg")}
-                            style={{marginLeft: 10, width: 60, height: 60}}/></TouchableOpacity>
+                            style={{marginLeft: 10, width: 60, height: 60}}/>
 
                         <FBox style={{...styles.columnContainer, marginLeft: 10}}>
                             <Text style={{
@@ -44,7 +39,7 @@ export default function UserProfileUpperSection() {
                                     ...styles.upperLabelText,
                                     marginTop: 4,
                                     color: theme.colors.onPrimary
-                                }}>{user.wallet ?? 0}</Text>
+                                }}>{balance?.amount ?? 0}</Text>
                         </FBox>
 
                         <Button labelStyle={styles.label} icon={"history"} mode={"outlined"}

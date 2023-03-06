@@ -1,17 +1,65 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
-import UserMedicineSchedule from '../../components/profile/medicine-shedule';
-import UserProfileTabs from '../../components/profile/tab';
-import {colors, RootParamList} from '../../utils/settings';
+import {colors} from '../../utils/settings';
 import {IconButton} from 'react-native-paper';
-import {DownloadShare} from '../../components/globals/download-share';
 import {FBox} from '../../components/globals/fbox';
 import UserProfileUpperTabs from "../../components/profile2/tab_2";
 import UserProfileUpperSection from "../../components/profile2/profile-upper";
 import UserProfileLowerListItem from "../../components/profile2/profile-lower-list-item";
+import {useSelector} from "react-redux";
+import {GlobalState} from "../../utils/store/global";
 
 export default function UserProfile2({navigation}) {
-
+    const user = useSelector((state: GlobalState) => state.user);
+    const [profileListItem, setProfileListItem] = useState([
+        {
+            title: "Mail",
+            subTitle: user?.email
+        },
+        {
+            title: "Member Type",
+            subTitle: "HARMACY SUPPOTER",
+        },
+        {
+            title: "Activation Code",
+            subTitle: "",
+        },
+        {
+            title: "Total Take medicine’s Day (連続)",
+            subTitle: "120days"
+        },
+        {
+            title: "Total Take medicine’s Day (始めてから)",
+            subTitle: "120days",
+        },
+        {
+            title: "Chain Type ",
+            subTitle: "Symbol",
+        },
+        {
+            title: "Daily Donation",
+            progress: .40
+        },
+        {
+            title: "Fee Donation",
+            progress: .60
+        },
+        {
+            title: "Google Authenticateor"
+        },
+        {
+            title: "利用規約"
+        },
+        {
+            title: "プライバシーポリシー"
+        },
+        {
+            title: "オープンデータ"
+        },
+        {
+            title: "バージョン"
+        },
+    ]);
     useEffect(() => {
         navigation.setOptions({
             headerTitleAlign: 'center',
@@ -35,7 +83,7 @@ export default function UserProfile2({navigation}) {
                 <UserProfileUpperTabs/>
 
                 <FBox style={{paddingBottom: 40}}/>
-                {profileItem.map((item) => {
+                {profileListItem.map((item) => {
                     return <UserProfileLowerListItem item={item}/>;
                 })}
             </ScrollView>
@@ -54,53 +102,3 @@ const styles = StyleSheet.create({
         marginTop: 10
     }
 });
-
-const profileItem = [
-    {
-        title: "Mail",
-        subTitle: "owodqq@drugnn.life"
-    },
-    {
-        title: "Member Type",
-        subTitle: "HARMACY SUPPOTER",
-    },
-    {
-        title: "Activation Code",
-        subTitle: "1",
-    },
-    {
-        title: "Total Take medicine’s Day (連続)",
-        subTitle: "120days"
-    },
-    {
-        title: "Total Take medicine’s Day (始めてから)",
-        subTitle: "120days",
-    },
-    {
-        title: "Chain Type ",
-        subTitle: "Symbol",
-    },
-    {
-        title: "Daily Donation",
-        progress: .40
-    },
-    {
-        title: "Fee Donation",
-        progress: .60
-    },
-    {
-        title: "Google Authenticateor"
-    },
-    {
-        title: "利用規約"
-    },
-    {
-        title: "プライバシーポリシー"
-    },
-    {
-        title: "オープンデータ"
-    },
-    {
-        title: "バージョン"
-    },
-];
