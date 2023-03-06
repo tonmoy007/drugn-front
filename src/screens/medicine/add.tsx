@@ -7,16 +7,17 @@ import { colors, RootParamList } from '../../utils/settings';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FBox } from '../../components/globals/fbox';
-import { useGs1codeMutation } from '../../api/okusuri';
+import { useGs1codeQuery } from '../../api/okusuri';
 import { toastMessage } from '../../utils/toast';
 
 export default function AddMedicine({ route, navigation }) {
     let cameraRef = useRef<any>()
     const [medData, setMedData] = useState<object>({})
-    const [gs1code, { isLoading }] = useGs1codeMutation()
+    const [medImage, setMedImage] = useState<any>(null)
+    const [scannedGS1Code, setScannedGS1Code] = useState<string>('');
+    const { data: med, isLoading, isFetching, error } = useGs1codeQuery({ gs1code: scannedGS1Code })
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [medicine, setMedicine] = useState<any>(null);
-    const [scannedGS1Code, setScannedGS1Code] = useState<string>('');
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const theme = useTheme();
     const { allMeds = {} } = route.params ?? {}
@@ -49,6 +50,7 @@ export default function AddMedicine({ route, navigation }) {
             }
         });
     }, [medicine]);
+
     useEffect(() => {
         console.log(permission?.granted)
         if (!permission?.granted) {
@@ -57,6 +59,20 @@ export default function AddMedicine({ route, navigation }) {
         console.log(permission)
         console.log("Hello")
     }, [])
+
+    useEffect(() => {
+        if (error && scannedGS1Code !== '')
+            toastMessage({ msg: `Error getting medicine data` })
+    }, [error])
+
+    useEffect(() => {
+        console.log(med)
+        if (med?.id) {
+            setMedData(med)
+            setMedicine(medImage);
+        }
+    }, [med])
+
 
     const handleBackNav = () => {
         if (navigation.canGoBack())
@@ -72,26 +88,10 @@ export default function AddMedicine({ route, navigation }) {
             exif: false
         };
         if (gsCode) {
+            setMedImage(await cameraRef.current.takePictureAsync(options));
             setScannedGS1Code(gsCode)
-            const newMedicine = await cameraRef.current.takePictureAsync(options);
-            // api call to verify gs1Code
-            gs1code({ gs1code: gsCode }).unwrap().then(async (res) => {
-                if (res.error) {
-                    toastMessage({ msg: res.message });
-                    return;
-                }
-                setMedData(res)
-                setMedicine(newMedicine);
-            }).catch(err => {
-                console.log(err)
-                toastMessage({ msg: err.message ?? "Server Error Response" })
-            })
-        } else {
-            let newMedicine = await cameraRef.current.takePictureAsync(options);
-            setMedicine(newMedicine);
-        }
-
-    };
+        };
+    }
 
     if (!permission?.granted) {
         return (
@@ -129,7 +129,7 @@ export default function AddMedicine({ route, navigation }) {
                 </>
                 :
                 <>
-                    {isLoading ?
+                    {isLoading && scannedGS1Code !== '' ?
                         <FBox style={{ ...styles.camera }}>
                             <FBox>
                                 <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -165,9 +165,6 @@ export default function AddMedicine({ route, navigation }) {
                     <FBox style={{ flex: 2 }}>
                         <Text style={styles.text}>服用中のお薬のバーコードをスキャンしてください。</Text>
                         <FBox style={styles.buttonContainer}>
-                            {/* <TouchableOpacity style={styles.circle} onPress={() => takePic(null)}>
-                                <IconButton icon={"camera"} iconColor={colors.black} size={35} />
-                            </TouchableOpacity> */}
                         </FBox>
                     </FBox>
                 </>

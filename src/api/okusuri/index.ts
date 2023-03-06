@@ -8,14 +8,12 @@ export const okusuriAPI = createApi({
     baseQuery: BaseQuery,
     tagTypes: ['okusuri'],
     endpoints: (builder) => ({
-        gs1code: builder.mutation<GS1CodeResponse, Partial<GS1CodePayLoad>>({
+        gs1code: builder.query<GS1CodeResponse, Partial<GS1CodePayLoad>>({
             query: (arg: GS1CodePayLoad) => ({
                 url: `/okusuri/gs1code=${arg.gs1code}`,
-                method: "GET",
                 responseHandler: (res) => res.json()
-            }),
-            invalidatesTags: ["okusuri"],
-        }),
+        })
+    }),
         registerMeds: builder.mutation<RegisterResponse, Partial<RegisterPayLoad>>({
             query: (arg: RegisterPayLoad) => ({
                 url: `/okusuri/register`,
@@ -51,7 +49,7 @@ export const okusuriAPI = createApi({
         }),
     })
 })
-export const {useGs1codeMutation, useRegisterMedsMutation, useEditMedMutation, useDeleteMedMutation, useFetchMedsQuery} = okusuriAPI
+export const {useGs1codeQuery, useRegisterMedsMutation, useEditMedMutation, useDeleteMedMutation, useFetchMedsQuery} = okusuriAPI
 export const ApiStore = configureStore({
     reducer: {
         [okusuriAPI.reducerPath]: okusuriAPI.reducer,

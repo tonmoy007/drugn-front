@@ -1,5 +1,5 @@
 import { ScrollView, Image, StyleSheet } from "react-native";
-import { Divider, List, useTheme } from "react-native-paper";
+import { Divider, List, Text, useTheme } from "react-native-paper";
 import { colors, RootParamList } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
 import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
@@ -60,7 +60,7 @@ export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocat
                                     borderWidth: onLocationSelect ? 1 : 0,
                                     borderColor: !item.selected ? theme.colors.outline : theme.colors.primary,
                                 }}
-                                title={item.medicine_name}
+                                title={(props) => <Text {...props} numberOfLines={2} ellipsizeMode={'tail'}>{item.medicine_name}</Text>}
 
                                 description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
                                 onPress={() => onLocationSelect ? onLocationSelect(index, item) : null}
