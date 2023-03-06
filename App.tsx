@@ -1,4 +1,4 @@
-import {Provider as PaperProvider, Text} from 'react-native-paper';
+import {ActivityIndicator, Provider as PaperProvider, Text} from 'react-native-paper';
 import {
     useFonts,
     Montserrat_400Regular,
@@ -7,7 +7,7 @@ import {
     Montserrat_700Bold
 } from "@expo-google-fonts/montserrat";
 import * as serviceWorkerRegistration from "./src/serviceWorkerRegistration";
-import { theme} from "./src/utils/theme";
+import {theme} from "./src/utils/theme";
 import * as Font from "expo-font";
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider as StoreProvider} from "react-redux";
@@ -16,6 +16,8 @@ import {Ionicons} from "@expo/vector-icons";
 import {RootSiblingParent} from 'react-native-root-siblings';
 import {PersistGate} from "redux-persist/integration/react";
 import {AppNavigation} from "./src/screens/app-navigation";
+import {FBox} from "./src/components/globals/fbox";
+
 Ionicons.loadFont().catch(err => {
     console.error(err)
 })
@@ -26,7 +28,15 @@ export default function App(props) {
     Font.loadAsync({IcoMoon: require('./assets/icomoon/icomoon.ttf')}).catch(err => {
         console.log(err)
     })
-    if (!fontsLoaded) return <></>
+    if (!fontsLoaded) return (
+        <>
+            <FBox style={{flex:1,alignItems:"center",justifyContent:"center"}}>
+                <FBox style={{flexDirection:"row"}}>
+                    <ActivityIndicator/> <Text style={{paddingLeft: 20}} variant={"bodySmall"}>Fonts loading</Text>
+                </FBox>
+            </FBox>
+        </>
+    )
 
     return (
         <RootSiblingParent>

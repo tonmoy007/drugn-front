@@ -1,7 +1,6 @@
 import {FBox} from "../../globals/fbox";
 import {NftProgress} from "../../globals/nft-progress";
 import {FlatList, Image, StyleSheet, TouchableOpacity} from "react-native";
-import {useTheme} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../../utils/settings";
