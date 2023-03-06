@@ -3,7 +3,7 @@ import {NftProgress} from "../../globals/nft-progress";
 import {FlatList, Image, StyleSheet, TouchableOpacity} from "react-native";
 import {useTheme} from "react-native-paper";
 
-export const DashboardNftHealth = () => {
+export const DashboardNftHealth = ({active}) => {
     const theme = useTheme();
     const bars = [{'name': 'Efficiency', 'value': 0.8}, {'name': 'Luck', 'value': 0.8},
         {'name': 'Comfort', 'value': 0.4}, {'name': 'Resilience', 'value': 0.6}]

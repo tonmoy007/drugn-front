@@ -19,7 +19,7 @@ export const SliderLists = ({ data, time }) => {
         any: 'dinner'
     }
     return (
-        <FBox style={{}}>
+        <FBox >
             {data.map((item, i) => {
                 return i === 0 ? (
                     <TouchableOpacity key={`slider_list-item${i}`} onPress={() => {

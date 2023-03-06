@@ -77,9 +77,6 @@ export const AppNavigation = () => {
                             options={{ title: "薬の編集" }} />
                         <Stack.Screen component={RecordMedicine} name="recordMedicine"
                                       options={{title: 'お薬を飲む'}}/>
-                        <Stack.Screen name={"wallet"} component={NewWallet}
-                                      options={{title: "NFT受け取りWalletを作成"}}/>
-
                         <Stack.Screen name={"wallet"} options={{ title: "NFT受け取りWalletを作成" }} component={NewWallet}
                         />
                         <Stack.Screen name={"freeNFT"} component={FreeNFT} options={{ title: "マーケットプレイス" }} />
