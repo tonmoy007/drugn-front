@@ -1,11 +1,9 @@
 import { useSelector } from "react-redux";
 import { FBox } from "../../components/globals/fbox";
-import { DashboardHeader } from "../../components/home/dashboard/dashboard-header";
-import { DashboardNft } from "../../components/home/dashboard/dashboard-nft";
 import { DoseList } from "../../components/medicine/dose-list";
 import { GlobalState } from "../../utils/store/global";
 import { useEffect, useState } from 'react'
-import { useDeleteMedMutation, useFetchMedsMutation } from "../../api/okusuri";
+import { useDeleteMedMutation, useFetchMedsQuery } from "../../api/okusuri";
 import { toastMessage } from "../../utils/toast";
 import { colors, RootParamList } from "../../utils/settings";
 import { ActivityIndicator, Button, Divider, IconButton, Text } from "react-native-paper";
@@ -19,7 +17,7 @@ import { jpTime } from "../../utils/constants";
 
 export const ManageUserMeds = ({ delMed }) => {
     const user = useSelector((state: GlobalState) => state.user)
-    const [fetchMeds, { isLoading }] = useFetchMedsMutation()
+    const { data: meds, isLoading, error } = useFetchMedsQuery({ userId: user.id ?? 0 })
     const [deleteMed, { }] = useDeleteMedMutation()
     const [deleting, setDeleting] = useState<boolean>(false)
     const [medList, setMedList] = useState<any>([])
@@ -35,25 +33,15 @@ export const ManageUserMeds = ({ delMed }) => {
     const today = moment().format('MM/DD');
     const day = moment().format('dddd').substring(0, 3)
 
-
-
     useEffect(() => {
-        if (user.id) {
-            fetchMeds({ userId: user.id }).unwrap().then(async (res) => {
-                if (res.error) {
-                    toastMessage({ msg: res.message });
-                    return;
-                }
-                getAllUserMeds(res.medicines)
-                setMedList(res.medicines)
-            }).catch(err => {
-                toastMessage({ msg: err.message ?? "Server Error Response" })
-            })
+        if (meds?.medicines) {
+            getAllUserMeds(meds.medicines);
         }
-    }, [, user])
+    }, [meds])
 
-    async function getAllUserMeds(meds) {
-        const allMeds = await userMedTime({ medicines: meds })
+    async function getAllUserMeds(userMeds) {
+        setMedList(userMeds)
+        const allMeds = await userMedTime({ medicines: userMeds })
         setActiveTime(allMeds.activeTime)
         setTimeIDs(allMeds.timeIDs)
     }
@@ -92,6 +80,14 @@ export const ManageUserMeds = ({ delMed }) => {
                 <ActivityIndicator size={'large'} color={colors.primary} />
             </FBox>
         </>)
+
+    if (error)
+        return (<>
+            <FBox style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                <Text style={{ textAlign: 'center' }}>Server Error Encountered</Text>
+            </FBox>
+        </>)
+
     return (
         <>
             {deleting ?

@@ -20,7 +20,7 @@ export const SliderLists = ({ data, time }) => {
     }
     return (
         <FBox >
-            {data.map((item, i) => {
+            {data.slice(0, 3).map((item, i) => {
                 return i === 0 ? (
                     <TouchableOpacity key={`slider_list-item${i}`} onPress={() => {
                         navigation.navigate("recordMedicine", { medData: item })
@@ -36,7 +36,12 @@ export const SliderLists = ({ data, time }) => {
                             <FBox style={{ padding: 18, flexDirection: "row" }}>
                                 <FBox style={{ flex: 1 }}>
                                     <Text variant={"bodyMedium"} style={{ marginBottom: 10 }}>{`今日 ${today}(${day}) ${jpTime[time]}`}</Text>
-                                    <CustomIcon size={28} color={colors.white} name={"pill-outlined"} />
+                                    <List.Item key={`slider-item-${i}`} style={{ marginHorizontal: 18 }} onPress={() => {
+                                        navigation.navigate("recordMedicine", { medData: item })
+                                    }} titleStyle={{ fontSize: 15, fontWeight: "700", lineHeight: 20 }}
+                                        left={(props) => <CustomIcon size={28} color={colors.white} name={"pill-outlined"} />} title={item.medicine_name}
+                                        description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
+                                        descriptionStyle={{ color: colors.white }} />
                                 </FBox>
                                 <FBox>
                                     {time === 'morning' ? <CustomIcon name={'sunrise'} color={"white"} size={56} />
@@ -57,7 +62,7 @@ export const SliderLists = ({ data, time }) => {
                                 size={16} />} title={item.medicine_name}
                             description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
                             descriptionStyle={{ color: colors.white }} />
-                        {!item.active && i != data.length - 1 ? (<Divider key={`divider_${i}`}
+                        {!item.active && i != data.length - 1 && i < 2 ? (<Divider key={`divider_${i}`}
                             style={{
                                 backgroundColor: colors.white,
                                 width: "90%",
