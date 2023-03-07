@@ -103,7 +103,10 @@ export const ManageUserMeds = ({ delMed }) => {
                                     <DoseList list={timeIDs[activeTime]} swipeable={delMed} rightSwipeAction={rightSwipeAction} />
                                 </>
                                 :
-                                <Text style={{ textAlign: 'center', }}>予定された薬はありません。後で戻ってきてください</Text>
+                                <Text style={{ textAlign: 'center', }}>まだお薬の登録ができていないようです。
+                                    ＋薬を追加登録するから処方された
+                                    お薬を飲むスケジュールを登録してください。
+                                </Text>
                             }
                             <Divider />
                         </>

@@ -1,5 +1,5 @@
 import {createApi, setupListeners} from "@reduxjs/toolkit/query/react";
-import {AccountPayLoad, AccountResponse, BalancePayLoad, BalanceResponse, InitialNFTPayLoad, InitialNFTResponse} from "./types";
+import {AccountPayLoad, AccountResponse, BalancePayLoad, BalanceResponse, InitialNFTPayLoad, InitialNFTResponse, UserDataPayLoad, UserDataResponse} from "./types";
 import {BaseQuery} from "../constants";
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 
@@ -10,10 +10,18 @@ export const accountAPI = createApi({
     endpoints: (builder) => ({
         newAccount: builder.query<AccountResponse, Partial<AccountPayLoad>>({
             query: (arg: AccountPayLoad) => ({
-                url: `/account/generate-symbol-account/user=${+arg.userId}`,
+                url: `/account/generate-symbol-account/user=${arg.userId}`,
                 method: "GET",
                 responseHandler: (res) => res.json()
             })
+        }),
+        userData: builder.query<UserDataResponse, Partial<UserDataPayLoad>>({
+            query: (arg: UserDataPayLoad) => ({
+                url: `/account/user=${arg.userId}`,
+                method: "GET",
+                responseHandler: (res) => res.json()
+            }),
+            providesTags:['Account']
         }),
         initialNFT: builder.query<InitialNFTResponse, Partial<InitialNFTPayLoad>>({
             query: (arg: InitialNFTPayLoad) => ({
@@ -27,11 +35,12 @@ export const accountAPI = createApi({
                 url: `/account/amount/address=${arg.address}`,
                 method: "GET",
                 responseHandler: (res) => res.json()
-            })
+            }),
+            providesTags:['Account']
         }),
     })
 })
-export const {useNewAccountQuery, useInitialNFTQuery, useBalanceQuery} = accountAPI
+export const {useNewAccountQuery, useUserDataQuery, useInitialNFTQuery, useBalanceQuery} = accountAPI
 export const ApiStore = configureStore({
     reducer: {
         [accountAPI.reducerPath]: accountAPI.reducer,

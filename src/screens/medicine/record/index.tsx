@@ -8,15 +8,19 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StepOf } from '../../../components/globals/step-of';
 import { FBox } from '../../../components/globals/fbox';
 import { DoseList } from '../../../components/medicine/dose-list';
-import { useEditMedMutation } from '../../../api/okusuri';
+import { useEditMedMutation, useRewardUserMutation } from '../../../api/okusuri';
 import { toastMessage } from '../../../utils/toast';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '../../../utils/store/global';
 
 export default function RecordMedicine({ route, navigation }) {
     let cameraRef = useRef<any>()
     const [medData, setMedData] = useState<any>({})
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [editMed, { isLoading }] = useEditMedMutation()
+    const [rewardUser, { isLoading: isRewarding }] = useRewardUserMutation();
     const [medicine, setMedicine] = useState<any>({});
+    const user = useSelector((state: GlobalState) => state.user)
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const theme = useTheme();
 
@@ -35,7 +39,7 @@ export default function RecordMedicine({ route, navigation }) {
             headerRight: () => {
                 return (
                     curStep === 3 ?
-                        isLoading ?
+                        isLoading || isRewarding ?
                             <ActivityIndicator size={'small'} color={colors.white} />
                             :
                             <Text style={[styles.text, { color: colors.primary }]}
@@ -77,8 +81,19 @@ export default function RecordMedicine({ route, navigation }) {
                 toastMessage({ msg: res.message });
                 return;
             }
-            toastMessage({ msg: `薬が正常に記録されました` })
-            nav.navigate('dashboard')
+            if (user.wallet) {
+                rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
+                    if (res.error) {
+                        toastMessage({ msg: res.message });
+                        return;
+                    }
+                    toastMessage({ msg: `薬が正常に記録されました` })
+                    nav.navigate({ key: 'dashboard' })
+                })
+            } else {
+                toastMessage({ msg: `薬が正常に記録されました` })
+                nav.navigate({ key: 'dashboard' })
+            }
         }).catch(err => {
             toastMessage({ msg: err.message ?? "Server Error Response" })
         })
@@ -117,7 +132,7 @@ export default function RecordMedicine({ route, navigation }) {
                     {Array.from({ length: 2 }).map((_, index) =>
                         <ImageBackground source={{ uri: medicine[index + 1].uri }} style={styles.camera}
                             key={`photo${index + 1}`}>
-                            {!isLoading && <Button icon={"camera"} labelStyle={[styles.text, { fontSize: 16 }]} mode={"outlined"}
+                            {!isLoading && !isRewarding && <Button icon={"camera"} labelStyle={[styles.text, { fontSize: 16 }]} mode={"outlined"}
                                 style={styles.photoPreview}
                                 onPress={() => setMedicine({ ...medicine, [index + 1]: null })}>{index
                                     ? '服用した後の写真を撮ります' : '服用する前の写真を撮ります'} (撮り直し)
@@ -128,7 +143,7 @@ export default function RecordMedicine({ route, navigation }) {
                         <Text style={styles.text}>服用するお薬を撮影してください。
                             ※お薬飲み忘れで時間が異なる場合も同様に撮影ください。</Text>
                     </FBox>
-                    {isLoading && <FBox>
+                    {(isLoading || isRewarding) && <FBox>
                         <ActivityIndicator size={'large'} color={colors.primary} />
                         <Text style={{ fontStyle: 'italic', textAlign: 'center' }}> Recording Medicine...</Text>
                     </FBox>}
