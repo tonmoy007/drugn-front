@@ -1,7 +1,7 @@
 import {StyleProp, View, ViewProps, ViewStyle} from "react-native";
-import {ReactNode} from "react";
+import {ReactNode, Ref} from "react";
 
-export const FBox = (props: ViewProps) => {
+export const FBox = (props: ViewProps&{ref?:Ref<any>}) => {
     return (
         <>
             <View {...props} />
