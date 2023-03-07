@@ -4,6 +4,8 @@ import {captureImageContext, captureImageData} from './WebCameraUtils';
 import {BarcodeReader} from "dynamsoft-javascript-barcode";
 import {useRef} from "react";
 
+BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNzM2MzA2LVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxNzM2MzA2IiwiY2hlY2tDb2RlIjo1MzUzNjc5MzF9';
+BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/";
 export const toLuminanceBuffer = (imageBuffer, width, height) => {
     const luminanceBuffer = new Uint8ClampedArray(width * height);
     for (let i = 0, j = 0, length = imageBuffer.length; i < length; i += 4, j++) {
@@ -121,6 +123,7 @@ export function useWebZXingBarcodeScanner(video, {
     const timeout = React.useRef(undefined);
 
     const scanner = useRef<BarcodeReader | null>(null)
+    const [decode, clearWorker] = useRemoteJavascriptBarcodeReader();
 
     async function scanAsync() {
         // If interval is 0 then only scan once.
@@ -129,9 +132,18 @@ export function useWebZXingBarcodeScanner(video, {
             return;
         }
         try {
-            const data = captureImageContext(video.current, captureOptions);
-            if (scanner.current && data) {
-                const res = await scanner.current?.decode(data)
+            const data = captureImageData(video, captureOptions)
+            if (data) {
+                const nativeEvent: any = await decode(barCodeTypes, data);
+                if (nativeEvent?.data) {
+                    onScanned({
+                        nativeEvent,
+                    });
+                }
+            }
+            const d = captureImageContext(video.current, captureOptions);
+            if (scanner.current && d) {
+                const res = await scanner.current?.decode(d)
                 for (let result of res) {
                     onScanned(result.barcodeText);
                 }
@@ -139,7 +151,8 @@ export function useWebZXingBarcodeScanner(video, {
                     alert('No barcode found');
                 }
             }
-            console.log(scanner.current, data)
+            console.log(scanner.current, d)
+
         } catch (error) {
             if (onError) {
                 onError({nativeEvent: error});
@@ -179,6 +192,7 @@ export function useWebZXingBarcodeScanner(video, {
     React.useEffect(() => {
         return () => {
             stop();
+            clearWorker.kill()
         };
     }, []);
 }
