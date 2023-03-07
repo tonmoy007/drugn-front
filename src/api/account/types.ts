@@ -8,6 +8,15 @@ export type AccountResponse={
     base64Qr: any
     error?:string;
 }
+export type UserDataPayLoad={
+    userId: number;
+}
+export type UserDataResponse={
+    id:number;
+    is_initial_nft:boolean;
+    account_name?:string;
+    address?: string;
+}
 export type InitialNFTPayLoad={
     user: number;
     address: string;
