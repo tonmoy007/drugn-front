@@ -1,5 +1,5 @@
 import {createApi, setupListeners} from "@reduxjs/toolkit/query/react";
-import {DeletePayLoad, DeleteResponse, EditPayLoad, EditResponse, FetchPayLoad, FetchResponse, GS1CodePayLoad, GS1CodeResponse, RegisterPayLoad, RegisterResponse,} from "./types";
+import {DeletePayLoad, DeleteResponse, EditPayLoad, EditResponse, FetchPayLoad, FetchResponse, GS1CodePayLoad, GS1CodeResponse, RegisterPayLoad, RegisterResponse, RewardPayLoad, RewardResponse,} from "./types";
 import {BaseQuery} from "../constants";
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -32,6 +32,14 @@ export const okusuriAPI = createApi({
             }),
             invalidatesTags: ["okusuri"],
         }),
+        rewardUser: builder.mutation<RewardResponse, Partial<RewardPayLoad>>({
+            query: (arg: RewardPayLoad) => ({
+                url: `/okusuri/reward`,
+                method: "POST",
+                body: arg,
+                responseHandler: (res) => res.json()
+            }),
+        }),
         deleteMed: builder.mutation<DeleteResponse, Partial<DeletePayLoad>>({
             query: (arg: DeletePayLoad) => ({
                 url: `/okusuri/delete`,
@@ -45,11 +53,12 @@ export const okusuriAPI = createApi({
             query: (arg: FetchPayLoad) => ({
                 url: `/okusuri/fetch=${arg.userId}`,
                 responseHandler: (res) => res.json()
-            })
+            }),
+            providesTags:['okusuri']
         }),
     })
 })
-export const {useGs1codeQuery, useRegisterMedsMutation, useEditMedMutation, useDeleteMedMutation, useFetchMedsQuery} = okusuriAPI
+export const {useGs1codeQuery, useRegisterMedsMutation, useEditMedMutation, useRewardUserMutation, useDeleteMedMutation, useFetchMedsQuery} = okusuriAPI
 export const ApiStore = configureStore({
     reducer: {
         [okusuriAPI.reducerPath]: okusuriAPI.reducer,

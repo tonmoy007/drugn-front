@@ -13,13 +13,15 @@ import {BarcodeReader} from "dynamsoft-javascript-barcode";
 
 BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNzM2MzA2LVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxNzM2MzA2IiwiY2hlY2tDb2RlIjo1MzUzNjc5MzF9';
 BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/";
-export default function AddMedicine({route, navigation}) {
+
+
+export default function AddMedicine({ route, navigation }) {
     let cameraRef = useRef<any>()
-    const [medData, setMedData] = useState<object>({})
+    const [medData, setMedData] = useState<any>({})
     const [medImage, setMedImage] = useState<any>(null)
     const [scannedGS1Code, setScannedGS1Code] = useState<string>('');
     const [inputGS1Code, setInputGS1Code] = useState<string>('');
-    const {data: med, isLoading, isFetching, error} = useGs1codeQuery({gs1code: scannedGS1Code})
+    const { data: med, isLoading, isFetching, error } = useGs1codeQuery({ gs1code: scannedGS1Code })
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [medicine, setMedicine] = useState<any>(null);
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
@@ -27,7 +29,7 @@ export default function AddMedicine({route, navigation}) {
     const isRunning = React.useRef(false)
     const scanner = useRef<BarcodeReader | null>(null)
     const theme = useTheme();
-    const {allMeds = {}} = route.params ?? {}
+    const { allMeds = {} } = route.params ?? {}
 
 
     useEffect(() => {
@@ -44,18 +46,18 @@ export default function AddMedicine({route, navigation}) {
         navigation.setOptions({
             headerTitleAlign: 'center',
             headerLeft: () => (
-                <IconButton icon={"close"} iconColor={colors.white} onPress={handleBackNav}/>
+                <IconButton icon={"close"} iconColor={colors.white} onPress={handleBackNav} />
             ),
             headerRight: () => {
                 return (
                     curStep === 2 ?
-                        <Text style={[styles.text, {color: colors.primary}]}
-                              onPress={() => nav.navigate("editMedicine", {
-                                  medData: medData,
-                                  allMeds: allMeds
-                              })}>次へ</Text>
+                        <Text style={[styles.text, { color: colors.primary }]}
+                            onPress={() => nav.navigate("editMedicine", {
+                                medData: medData,
+                                allMeds: allMeds
+                            })}>次へ</Text>
                         :
-                        <StepOf total={2} current={curStep}/>
+                        <StepOf total={2} current={curStep} />
                 )
             }
         });
@@ -72,11 +74,10 @@ export default function AddMedicine({route, navigation}) {
 
     useEffect(() => {
         if (error && scannedGS1Code !== '')
-            toastMessage({msg: `Error getting medicine data`})
+            toastMessage({ msg: `Error getting medicine data` })
     }, [error])
 
     useEffect(() => {
-        console.log(med)
         if (med?.id) {
             setMedData(med)
             setMedicine(medImage);
@@ -95,7 +96,8 @@ export default function AddMedicine({route, navigation}) {
             navigation.replace('dashboard')
     }
     const onSubmitManual = () => {
-        setScannedGS1Code(inputGS1Code);
+        takePic(inputGS1Code);
+        // setMedicine({ manual: true })
     }
     const takePic = async (gsCode) => {
         let options = {
@@ -110,11 +112,17 @@ export default function AddMedicine({route, navigation}) {
         ;
     }
 
+    const retake = () => {
+        setMedicine(null);
+        setScannedGS1Code('');
+        setInputGS1Code('');
+    }
+
     if (!permission?.granted) {
         return (
             <FBox style={styles.container}>
                 <FBox>
-                    <Text style={{...styles.text, color: colors.white}}>Permission to use Camera</Text>
+                    <Text style={{ ...styles.text, color: colors.white }}>Permission to use Camera</Text>
                     <Button onPress={() => requestPermission().catch(err => alert(err)).then(res => {
                         if (res?.status === "denied") {
                             alert("Sorry We can not show camera as the permission is denied by the browser ")
@@ -130,15 +138,15 @@ export default function AddMedicine({route, navigation}) {
         <FBox style={styles.container}>
             {medicine ?
                 <>
-                    <ImageBackground source={{uri: medicine.uri}} style={styles.camera}
-                                     key={`medPhoto`}>
-                        <Button icon={"camera"} labelStyle={[styles.text, {fontSize: 16}]} mode={"outlined"}
-                                style={styles.photoPreview}
-                                onPress={() => setMedicine(null)}>バーコードをスキャン</Button>
+                    <ImageBackground source={{ uri: medicine.uri }} style={styles.camera}
+                        key={`medPhoto`}>
+                        <Button icon={"camera"} labelStyle={[styles.text, { fontSize: 16 }]} mode={"outlined"}
+                            style={styles.photoPreview}
+                            onPress={retake}>バーコードをスキャン</Button>
                     </ImageBackground>
                     <FBox style={styles.photoType}>
                         <Text style={styles.cameraText}>{scannedGS1Code}</Text>
-                        <Text style={{textAlign: 'center'}}>{medData['CYOUZAI_HOUSOU_UNIT_NAME']}</Text>
+                        <Text style={{ textAlign: 'center' }}>{medData['CYOUZAI_HOUSOU_UNIT_NAME']}</Text>
                     </FBox>
                     <FBox style={styles.camera}>
 
@@ -147,10 +155,10 @@ export default function AddMedicine({route, navigation}) {
                 :
                 <>
                     {isLoading && scannedGS1Code !== '' ?
-                        <FBox style={{...styles.camera}}>
+                        <FBox style={{ ...styles.camera }}>
                             <FBox>
-                                <ActivityIndicator size="large" color={theme.colors.primary}/>
-                                <Text style={{fontStyle: 'italic', textAlign: 'center'}}> Verifying Barcode...</Text>
+                                <ActivityIndicator size="large" color={theme.colors.primary} />
+                                <Text style={{ fontStyle: 'italic', textAlign: 'center' }}> Verifying Barcode...</Text>
                             </FBox>
                         </FBox>
                         :
@@ -177,17 +185,18 @@ export default function AddMedicine({route, navigation}) {
                             if (res.data) {
                                 takePic(res.data)
                             }
-                        }}/>
+                        }} />
                     }
-                    <FBox style={{flex: 2}}>
+                    <FBox style={{ flex: 2 }}>
                         <Text style={styles.text}>服用中のお薬のバーコードをスキャンしてください。</Text>
                         <FBox style={styles.buttonContainer}>
                             <TextInput
-                                style={{marginRight: 10}} mode={"outlined"} value={inputGS1Code}
+                                style={{ marginRight: 10 }} mode={"outlined"} value={inputGS1Code}
                                 onChangeText={(value) => setInputGS1Code(value)}
-                                placeholder={"Manually Enter the gs1Code"}/>
+                                placeholder={"Manually Enter the gs1Code"} />
                             <IconButton onPress={onSubmitManual} mode={"outlined"}
-                                        icon={"send"}/>
+
+                                icon={"send"} />
                         </FBox>
                     </FBox>
                 </>
