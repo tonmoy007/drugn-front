@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
         margin: 16,
         padding: 16,
         borderRadius: 20,
-        backgroundColor: "rgba(255,255,255,.01)"
+        backgroundColor: "rgba(0,0,0,.2)"
     }
 })

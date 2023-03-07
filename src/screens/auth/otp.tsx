@@ -20,7 +20,7 @@ export const OtpScreen = ({route}) => {
         if (status) {
             confirmCode({code: otp, sessionID}).unwrap().then(res => {
                 if (!res.error) {
-                    dispatch(setNewUser({...res, new: true}))
+                    dispatch(setNewUser({...res, new: route.params.redirectUri === "accountComplete"}))
                     if (route.params.redirectUri !== "dashboard") {
                         nav.navigate("dashboard", {redirectUri: route.params.redirectUri})
                     } else {

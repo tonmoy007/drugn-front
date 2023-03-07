@@ -6,11 +6,14 @@ import {FBox} from '../../components/globals/fbox';
 import UserProfileUpperTabs from "../../components/profile2/tab_2";
 import UserProfileUpperSection from "../../components/profile2/profile-upper";
 import UserProfileLowerListItem from "../../components/profile2/profile-lower-list-item";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
+import {logout} from "../../utils/store/user";
+import {toastMessage} from "../../utils/toast";
 
 export default function UserProfile2({navigation}) {
     const user = useSelector((state: GlobalState) => state.user);
+    const dispatch = useDispatch();
     const [profileListItem, setProfileListItem] = useState([
         {
             title: "Mail",
@@ -18,18 +21,18 @@ export default function UserProfile2({navigation}) {
         },
         {
             title: "Member Type",
-            subTitle: "HARMACY SUPPOTER",
+            subTitle: "DrugnN Pilot",
         },
         {
             title: "Activation Code",
             subTitle: "",
         },
         {
-            title: "Total Take medicine’s Day (連続)",
+            title: "連続服用日数",
             subTitle: "120days"
         },
         {
-            title: "Total Take medicine’s Day (始めてから)",
+            title: "総服用日数",
             subTitle: "120days",
         },
         {
@@ -38,14 +41,23 @@ export default function UserProfile2({navigation}) {
         },
         {
             title: "Daily Donation",
-            progress: .40
+            progress: 0,
+            onPress: async () => {
+                await toastMessage({msg: "Coming Soon"})
+            }
         },
         {
             title: "Fee Donation",
-            progress: .60
+            progress: 0,
+            onPress: async () => {
+                await toastMessage({msg: "Coming Soon"})
+            }
         },
         {
-            title: "Google Authenticateor"
+            title: "Google Authenticateor",
+            onPress:async()=>{
+                await toastMessage({msg:"Google Authenticator（Google認証システム）とは、Googleが提供する二段階認証（二要素認証）を行うためのトークンソフトウェア（アプリ）です。"})
+            }
         },
         {
             title: "利用規約"
@@ -59,6 +71,13 @@ export default function UserProfile2({navigation}) {
         {
             title: "バージョン"
         },
+        {
+            title: "Logout",
+            type: "button",
+            onPress: () => {
+                dispatch(logout())
+            }
+        }
     ]);
     useEffect(() => {
         navigation.setOptions({

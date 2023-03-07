@@ -9,7 +9,11 @@ export default function UserProfileLowerListItem({item}) {
     const theme = useTheme();
 
     return (
-        <Card style={styles.card}>
+        <Card style={styles.card} onPress={()=>{
+            if (item.onPress){
+                item.onPress(item)
+            }
+        }}>
             <FBox style={styles.rowContainer}>
                 <FBox style={{...styles.columnContainer}}>
                     <Text style={{...styles.tabLabelSecondText, color: colors.white}}>{item.title}</Text>
@@ -40,8 +44,6 @@ export default function UserProfileLowerListItem({item}) {
             </FBox>
 
             <FBox style={{...styles.cardWidthDivider, marginTop: 20, marginLeft: -20}}></FBox>
-
-
         </Card>
     );
 }

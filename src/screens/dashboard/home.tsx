@@ -17,7 +17,6 @@ export const Home = () => {
                         start={{x: 0.1, y: 0.3}}
                         end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
             {user.id ? (
-
                 <>
                     <DashboardHeader/>
                     <ScrollView>

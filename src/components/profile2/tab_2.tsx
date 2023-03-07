@@ -7,6 +7,7 @@ import React from "react";
 import {ScreenWidth} from "../../utils/constants";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
+import {copyToClipboard} from "../../utils/clipboard";
 
 export default function UserProfileUpperTabs() {
     const theme = useTheme();
@@ -48,14 +49,16 @@ export default function UserProfileUpperTabs() {
             </Card.Content>
             <FBox style={styles.cardWidthDivider}></FBox>
 
-            <FBox style={{alignItems: "flex-start", marginLeft: 54, marginTop: 24}}>
+            <FBox style={{alignItems: "flex-start", marginLeft: 20, marginTop: 24}}>
                 <FBox style={styles.tabLabel}>
                     <Text style={{...styles.lowerText, fontWeight: "bold", color: theme.colors.onPrimary}}>
                         <Image source={require("../../../assets/icons/battery.svg")}
                                style={{width: 18, height: 18}}/> Wallet Address
                     </Text>
                 </FBox>
-                <Text style={{
+                <Text onPress={async () => {
+                    await copyToClipboard({text: user.wallet ?? "", msg: `Wallet address copied successfully`})
+                }} style={{
                     ...styles.lowerText,
                     fontSize: 12,
                     marginTop: 4,
