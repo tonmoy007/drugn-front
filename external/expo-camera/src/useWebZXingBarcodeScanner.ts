@@ -1,7 +1,26 @@
 import {useWorker} from '@koale/useworker';
 import * as React from 'react';
-import {captureImageData} from './WebCameraUtils';
+import {captureImageContext, captureImageData} from './WebCameraUtils';
+import {BarcodeReader} from "dynamsoft-javascript-barcode";
+import {useRef} from "react";
 
+export const toLuminanceBuffer = (imageBuffer, width, height) => {
+    const luminanceBuffer = new Uint8ClampedArray(width * height);
+    for (let i = 0, j = 0, length = imageBuffer.length; i < length; i += 4, j++) {
+        let luminance;
+        const alpha = imageBuffer[i + 3];
+        if (alpha === 0) {
+            luminance = 0xff;
+        } else {
+            const r = imageBuffer[i];
+            const g = imageBuffer[i + 1];
+            const b = imageBuffer[i + 2];
+            luminance = (306 * r + 601 * g + 117 * b) >> 10;
+        }
+        luminanceBuffer[j] = luminance;
+    }
+    return luminanceBuffer;
+};
 const barcodeWorkerMethod = (barCodeTypes, {data, width, height}) => {
     return new Promise((resolve, reject) => {
         try {
@@ -13,23 +32,7 @@ const barcodeWorkerMethod = (barCodeTypes, {data, width, height}) => {
                 MultiFormatReader,
                 RGBLuminanceSource,
             } = (self as any).ZXing;
-            const toLuminanceBuffer = (imageBuffer, width, height) => {
-                const luminanceBuffer = new Uint8ClampedArray(width * height);
-                for (let i = 0, j = 0, length = imageBuffer.length; i < length; i += 4, j++) {
-                    let luminance;
-                    const alpha = imageBuffer[i + 3];
-                    if (alpha === 0) {
-                        luminance = 0xff;
-                    } else {
-                        const r = imageBuffer[i];
-                        const g = imageBuffer[i + 1];
-                        const b = imageBuffer[i + 2];
-                        luminance = (306 * r + 601 * g + 117 * b) >> 10;
-                    }
-                    luminanceBuffer[j] = luminance;
-                }
-                return luminanceBuffer;
-            };
+
             const luminanceBuffer = toLuminanceBuffer(data, width, height);
             const luminanceSource = new RGBLuminanceSource(luminanceBuffer, width, height);
             const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
@@ -48,7 +51,6 @@ const barcodeWorkerMethod = (barCodeTypes, {data, width, height}) => {
                 barCodeTypes.includes('upc_a') && BarcodeFormat.UPC_A,
                 barCodeTypes.includes('upc_e') && BarcodeFormat.UPC_E,
                 barCodeTypes.includes('rss14') && BarcodeFormat.RSS_14,
-                barCodeTypes.includes('rssExpanded') && BarcodeFormat.RSS_EXPANDED,
                 barCodeTypes.includes('upc_e_e') && BarcodeFormat.UPC_EAN_EXTENSION,
                 barCodeTypes.includes('maxicode') && BarcodeFormat.MAXICODE,
             ].filter((e) => e));
@@ -117,7 +119,8 @@ export function useWebZXingBarcodeScanner(video, {
 }) {
     const isRunning = React.useRef(false);
     const timeout = React.useRef(undefined);
-    const [decode, clearWorker] = useRemoteJavascriptBarcodeReader();
+
+    const scanner = useRef<BarcodeReader | null>(null)
 
     async function scanAsync() {
         // If interval is 0 then only scan once.
@@ -126,15 +129,17 @@ export function useWebZXingBarcodeScanner(video, {
             return;
         }
         try {
-            const data = captureImageData(video.current, captureOptions);
-            if (data) {
-                const nativeEvent: any = await decode(barCodeTypes, data);
-                if (nativeEvent?.data) {
-                    onScanned({
-                        nativeEvent,
-                    });
+            const data = captureImageContext(video.current, captureOptions);
+            if (scanner.current && data) {
+                const res = await scanner.current?.decode(data)
+                for (let result of res) {
+                    onScanned(result.barcodeText);
+                }
+                if (!res.length) {
+                    alert('No barcode found');
                 }
             }
+            console.log(scanner.current, data)
         } catch (error) {
             if (onError) {
                 onError({nativeEvent: error});
@@ -161,6 +166,11 @@ export function useWebZXingBarcodeScanner(video, {
     React.useEffect(() => {
         if (isEnabled) {
             isRunning.current = true;
+            BarcodeReader.loadWasm().then(() => {
+                BarcodeReader.createInstance().then(res => {
+                    scanner.current = res;
+                })
+            })
             scanAsync();
         } else {
             stop();
@@ -169,7 +179,6 @@ export function useWebZXingBarcodeScanner(video, {
     React.useEffect(() => {
         return () => {
             stop();
-            clearWorker.kill();
         };
     }, []);
 }

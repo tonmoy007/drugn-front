@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@koale/useworker": "^4.0.2",
+    "dynamsoft-javascript-barcode": "^9.6.10",
     "invariant": "^2.2.4"
   },
   "devDependencies": {

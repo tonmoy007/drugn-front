@@ -1,7 +1,6 @@
 const createExpoWebpackConfigAsync = require("@expo/webpack-config");
 const path = require("path");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-
 module.exports = async function (env, argv) {
   // Set by expo-cli during `expo build:web`
   const isEnvProduction = env.mode === "production";

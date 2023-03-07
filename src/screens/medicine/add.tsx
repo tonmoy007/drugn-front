@@ -1,6 +1,6 @@
 import {Camera, CameraType} from '../../../external/expo-camera';
-import {useEffect, useRef, useState} from 'react';
-import {ImageBackground, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {ImageBackground, StyleSheet, View} from 'react-native';
 import {ActivityIndicator, Button, IconButton, Text, TextInput, useTheme} from "react-native-paper";
 import {StepOf} from '../../components/globals/step-of';
 import {colors, RootParamList} from '../../utils/settings';
@@ -9,7 +9,10 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {FBox} from '../../components/globals/fbox';
 import {useGs1codeQuery} from '../../api/okusuri';
 import {toastMessage} from '../../utils/toast';
+import {BarcodeReader} from "dynamsoft-javascript-barcode";
 
+BarcodeReader.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNzM2MzA2LVRYbFhaV0pRY205cVgyUmljZyIsIm9yZ2FuaXphdGlvbklEIjoiMTAxNzM2MzA2IiwiY2hlY2tDb2RlIjo1MzUzNjc5MzF9';
+BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.10/dist/";
 export default function AddMedicine({route, navigation}) {
     let cameraRef = useRef<any>()
     const [medData, setMedData] = useState<object>({})
@@ -20,6 +23,9 @@ export default function AddMedicine({route, navigation}) {
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [medicine, setMedicine] = useState<any>(null);
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+    const timeout = React.useRef(undefined);
+    const isRunning = React.useRef(false)
+    const scanner = useRef<BarcodeReader | null>(null)
     const theme = useTheme();
     const {allMeds = {}} = route.params ?? {}
 
@@ -77,6 +83,10 @@ export default function AddMedicine({route, navigation}) {
         }
     }, [med])
 
+    function stop() {
+        isRunning.current = false;
+        clearTimeout(timeout.current);
+    }
 
     const handleBackNav = () => {
         if (navigation.canGoBack())
@@ -177,7 +187,7 @@ export default function AddMedicine({route, navigation}) {
                                 onChangeText={(value) => setInputGS1Code(value)}
                                 placeholder={"Manually Enter the gs1Code"}/>
                             <IconButton onPress={onSubmitManual} mode={"outlined"}
-                                    icon={"send"}/>
+                                        icon={"send"}/>
                         </FBox>
                     </FBox>
                 </>
