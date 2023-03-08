@@ -8,7 +8,7 @@ module.exports = async function (env, argv) {
   // Create the default config
   const config = await createExpoWebpackConfigAsync(env, argv);
 
-  if (isEnvProduction) {
+  // if (true) {
     config.plugins.push(
         // Generate a service worker script that will precache, and keep up to date,
         // the HTML & assets that are part of the webpack build.
@@ -29,7 +29,7 @@ module.exports = async function (env, argv) {
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         })
     );
-  }
+  // }
 
 
   return config;

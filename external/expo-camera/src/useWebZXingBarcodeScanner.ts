@@ -132,7 +132,7 @@ export function useWebZXingBarcodeScanner(video, {
             return;
         }
         try {
-            const data = captureImageData(video, captureOptions)
+            const data = captureImageData(video.current, captureOptions)
             if (data) {
                 const nativeEvent: any = await decode(barCodeTypes, data);
                 if (nativeEvent?.data) {
@@ -142,21 +142,29 @@ export function useWebZXingBarcodeScanner(video, {
                 }
             }
             const d = captureImageContext(video.current, captureOptions);
-            if (scanner.current && d) {
+            if (scanner.current && d?.height > 0 && d?.width > 0) {
                 const res = await scanner.current?.decode(d)
                 for (let result of res) {
-                    onScanned(result.barcodeText);
+                    const type = result.barcodeFormatString
+                    const nativeEvent = {
+                        type,
+                        data: result.barcodeText,
+                        cornerPoints: result.localizationResult,
+                        bounds: {origin: {x: 0, y: 0}, size: {width: 0, height: 0}},
+                    };
+                    console.log(nativeEvent)
+                    onScanned({nativeEvent});
                 }
                 if (!res.length) {
-                    alert('No barcode found');
+                    console.log(res)
                 }
             }
-            console.log(scanner.current, d)
 
         } catch (error) {
             if (onError) {
                 onError({nativeEvent: error});
             }
+            console.log(error)
         } finally {
             // If interval is 0 then only scan once.
             if (interval === 0) {
@@ -182,6 +190,7 @@ export function useWebZXingBarcodeScanner(video, {
             BarcodeReader.loadWasm().then(() => {
                 BarcodeReader.createInstance().then(res => {
                     scanner.current = res;
+                    console.log(res)
                 })
             })
             scanAsync();
