@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Image, Modal } from 'react-native';
 import { Divider, IconButton, useTheme, Text } from 'react-native-paper';
-import { DoseList } from '../../components/medicine/dose-list';
 import { colors, RootParamList } from '../../utils/settings';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

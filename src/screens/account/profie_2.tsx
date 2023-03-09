@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {FlatList, ScrollView, StyleSheet} from 'react-native';
 import {colors} from '../../utils/settings';
 import {IconButton} from 'react-native-paper';
 import {FBox} from '../../components/globals/fbox';
@@ -11,11 +11,19 @@ import {GlobalState} from "../../utils/store/global";
 import {logout} from "../../utils/store/user";
 import {toastMessage} from "../../utils/toast";
 
+interface ProfileListItem {
+    title: string;
+    subTitle?: string;
+    progress?: number,
+    onPress?: () => void,
+    type?: string;
+}
+
 export default function UserProfile2({navigation}) {
     const user = useSelector((state: GlobalState) => state.user);
     const dispatch = useDispatch();
 
-    const [profileListItem, setProfileListItem] = useState([
+    const [profileListItem, setProfileListItem] = useState<ProfileListItem[]>([
         {
             title: "Mail",
             subTitle: user?.email
@@ -56,13 +64,13 @@ export default function UserProfile2({navigation}) {
         },
         {
             title: "Google Authenticateor",
-            onPress:async()=>{
-                await toastMessage({msg:"Google Authenticator（Google認証システム）とは、Googleが提供する二段階認証（二要素認証）を行うためのトークンソフトウェア（アプリ）です。"})
+            onPress: async () => {
+                await toastMessage({msg: "Google Authenticator（Google認証システム）とは、Googleが提供する二段階認証（二要素認証）を行うためのトークンソフトウェア（アプリ）です。"})
             }
         },
         {
             title: "利用規約（特定商取引法に基づく表示）",
-            onPress:()=>{
+            onPress: () => {
                 navigation.navigate("TermsAndCondition")
             }
         },
@@ -105,9 +113,9 @@ export default function UserProfile2({navigation}) {
                 <UserProfileUpperSection/>
                 <UserProfileUpperTabs/>
                 <FBox style={{paddingBottom: 40}}/>
-                {profileListItem.map((item) => {
-                    return <UserProfileLowerListItem item={item}/>;
-                })}
+                <FlatList keyExtractor={(item) => item.title} data={profileListItem} renderItem={({item, index}) => {
+                    return <UserProfileLowerListItem item={item}/>
+                }}/>
             </ScrollView>
         </FBox>
     );

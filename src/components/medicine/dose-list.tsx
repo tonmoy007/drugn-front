@@ -46,7 +46,11 @@ export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocat
                 {list.map((item, index) => {
                     return <Swipeable
                         renderRightActions={() => rightSwipeAction ? rightSwipeAction(item.id) : null}
-                        onSwipeableRightOpen={() => setSwiped({ ...swiped, [item.id]: true })}
+                        onSwipeableOpen={(direction, swipeable) => {
+                            if (direction==="right"){
+                                setSwiped({ ...swiped, [item.id]: true })
+                            }
+                        }}
                         onSwipeableClose={() => setSwiped({ ...swiped, [item.id]: false })}
                         key={`view_${item.id}`}
                         enabled={swipeable}
