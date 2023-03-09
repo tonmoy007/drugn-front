@@ -33,3 +33,12 @@ export type BalanceResponse={
     amount:number
     error?:string;
 }
+export type RewardPayLoad={
+    userId: number;
+    address: string;
+    medicineId: number;
+  }
+  export type RewardResponse={
+    message:string,
+    error?:string
+  }

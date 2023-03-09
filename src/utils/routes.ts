@@ -22,6 +22,7 @@ export const linking = {
             editMedicine: "/edit-medicine",
             manageMedicine: "/manage-medicine",
             recordMedicine: "/record-medicine",
+            medicineHistory: "/medicine-history",
             deleteMedicine: "/delete-medicine",
             profile: "/profile",
             wallet: "/wallet",

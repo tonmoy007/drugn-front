@@ -79,15 +79,6 @@ export type EditResponse={
   message:string,
   error?:string
 }
-export type RewardPayLoad={
-  userId: number;
-  address: string;
-  medicineId: number;
-}
-export type RewardResponse={
-  message:string,
-  error?:string
-}
 export type DeletePayLoad={
     id: number;
   }

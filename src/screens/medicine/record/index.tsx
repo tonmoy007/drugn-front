@@ -2,16 +2,15 @@ import { Camera, CameraType } from '../../../../external/expo-camera';
 import { useEffect, useRef, useState } from 'react';
 import { ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 import { ActivityIndicator, Button, IconButton, Text, useTheme } from "react-native-paper";
-import { colors, RootParamList } from '../../../utils/settings';
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { colors } from '../../../utils/settings';
 import { StepOf } from '../../../components/globals/step-of';
 import { FBox } from '../../../components/globals/fbox';
 import { DoseList } from '../../../components/medicine/dose-list';
-import { useEditMedMutation, useRewardUserMutation } from '../../../api/okusuri';
+import { useEditMedMutation } from '../../../api/okusuri';
 import { toastMessage } from '../../../utils/toast';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../../utils/store/global';
+import { useRewardUserMutation } from '../../../api/account';
 
 export default function RecordMedicine({ route, navigation }) {
     let cameraRef = useRef<any>()
@@ -21,8 +20,6 @@ export default function RecordMedicine({ route, navigation }) {
     const [rewardUser, { isLoading: isRewarding }] = useRewardUserMutation();
     const [medicine, setMedicine] = useState<any>({});
     const user = useSelector((state: GlobalState) => state.user)
-    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
-    const theme = useTheme();
 
 
     useEffect(() => {
@@ -82,17 +79,17 @@ export default function RecordMedicine({ route, navigation }) {
                 return;
             }
             if (user.wallet) {
-                rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
-                    if (res.error) {
-                        toastMessage({ msg: res.message });
-                        return;
-                    }
-                    toastMessage({ msg: `薬が正常に記録されました` })
-                    nav.navigate({ key: 'dashboard' })
-                })
+                // rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
+                //     if (res.error) {
+                //         toastMessage({ msg: res.message });
+                //         return;
+                //     }
+                await toastMessage({ msg: `薬が正常に記録されました` })
+                navigation.navigate('dashboard')
+                // })
             } else {
-                toastMessage({ msg: `薬が正常に記録されました` })
-                nav.navigate({ key: 'dashboard' })
+                await toastMessage({ msg: `薬が正常に記録されました` })
+                navigation.navigate('dashboard')
             }
         }).catch(err => {
             toastMessage({ msg: err.message ?? "Server Error Response" })

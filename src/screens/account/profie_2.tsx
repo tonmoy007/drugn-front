@@ -1,15 +1,15 @@
-import {useEffect, useState} from 'react';
-import {FlatList, ScrollView, StyleSheet} from 'react-native';
-import {colors} from '../../utils/settings';
-import {IconButton} from 'react-native-paper';
-import {FBox} from '../../components/globals/fbox';
+import { useEffect, useState } from 'react';
+import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import { colors } from '../../utils/settings';
+import { IconButton } from 'react-native-paper';
+import { FBox } from '../../components/globals/fbox';
 import UserProfileUpperTabs from "../../components/profile2/tab_2";
 import UserProfileUpperSection from "../../components/profile2/profile-upper";
 import UserProfileLowerListItem from "../../components/profile2/profile-lower-list-item";
-import {useDispatch, useSelector} from "react-redux";
-import {GlobalState} from "../../utils/store/global";
-import {logout} from "../../utils/store/user";
-import {toastMessage} from "../../utils/toast";
+import { useDispatch, useSelector } from "react-redux";
+import { GlobalState } from "../../utils/store/global";
+import { logout } from "../../utils/store/user";
+import { toastMessage } from "../../utils/toast";
 
 interface ProfileListItem {
     title: string;
@@ -19,7 +19,7 @@ interface ProfileListItem {
     type?: string;
 }
 
-export default function UserProfile2({navigation}) {
+export default function UserProfile2({ navigation }) {
     const user = useSelector((state: GlobalState) => state.user);
     const dispatch = useDispatch();
 
@@ -52,20 +52,20 @@ export default function UserProfile2({navigation}) {
             title: "Daily Donation",
             progress: 0,
             onPress: async () => {
-                await toastMessage({msg: "Coming Soon"})
+                await toastMessage({ msg: "Coming Soon" })
             }
         },
         {
             title: "Fee Donation",
             progress: 0,
             onPress: async () => {
-                await toastMessage({msg: "Coming Soon"})
+                await toastMessage({ msg: "Coming Soon" })
             }
         },
         {
             title: "Google Authenticateor",
             onPress: async () => {
-                await toastMessage({msg: "Google Authenticator（Google認証システム）とは、Googleが提供する二段階認証（二要素認証）を行うためのトークンソフトウェア（アプリ）です。"})
+                await toastMessage({ msg: "Google Authenticator（Google認証システム）とは、Googleが提供する二段階認証（二要素認証）を行うためのトークンソフトウェア（アプリ）です。" })
             }
         },
         {
@@ -95,7 +95,7 @@ export default function UserProfile2({navigation}) {
         navigation.setOptions({
             headerTitleAlign: 'center',
             headerLeft: () => (
-                <IconButton icon={"close"} iconColor={colors.white} onPress={handleBackNav}/>
+                <IconButton icon={"close"} iconColor={colors.white} onPress={handleBackNav} />
             )
         });
     }, []);
@@ -110,12 +110,12 @@ export default function UserProfile2({navigation}) {
     return (
         <FBox style={styles.rowContainer}>
             <ScrollView>
-                <UserProfileUpperSection/>
-                <UserProfileUpperTabs/>
-                <FBox style={{paddingBottom: 40}}/>
-                <FlatList keyExtractor={(item) => item.title} data={profileListItem} renderItem={({item, index}) => {
-                    return <UserProfileLowerListItem item={item}/>
-                }}/>
+                <UserProfileUpperSection />
+                <UserProfileUpperTabs />
+                <FBox style={{ paddingBottom: 40 }} />
+                <FlatList keyExtractor={(item) => item.title} data={profileListItem} renderItem={({ item, index }) => {
+                    return <UserProfileLowerListItem item={item} />
+                }} />
             </ScrollView>
         </FBox>
     );

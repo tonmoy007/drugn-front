@@ -10,7 +10,12 @@ return time;
 }
 export const userMedTime =  (props: Props) => {
 let rtMeds: any = {
-    medList: [],
+    medList: {
+        morning: [],
+        afternoon: [],
+        night: [],
+        any: []
+    },
     activeTime: '',
     timeIDs: {morning: [],
         afternoon: [],
@@ -18,7 +23,6 @@ let rtMeds: any = {
         any: []}
 }
     if(props.medicines){
-        rtMeds.medList = props.medicines
             if (props.medicines.length >0) {
                 let tempIDs: any = {
                     morning: [],
@@ -34,27 +38,30 @@ let rtMeds: any = {
                     const date = new Date(props.medicines[i].updated_at);
                     //morning
                     if (props.medicines[i].take_medicine_time_type < 4) {
+                        rtMeds.medList.morning.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.morning.push(props.medicines[i]);
                     }
                     //afternoon
                     if (props.medicines[i].take_medicine_time_type > 3 && props.medicines[i].take_medicine_time_type < 9) {
+                        rtMeds.medList.afternoon.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.afternoon.push(props.medicines[i]);
                     }
                     //night
                     if (props.medicines[i].take_medicine_time_type > 8 && props.medicines[i].take_medicine_time_type < 14) {
+                        rtMeds.medList.night.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.night.push(props.medicines[i]);
                     }
                     //any
                     if (props.medicines[i].take_medicine_time_type > 14) {
+                        rtMeds.medList.any.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.any.push(props.medicines[i]);
                     }
                 }
                 rtMeds.timeIDs = tempIDs;
-                console.log(today.time)
                     if (+today.time < 12)
                     rtMeds.activeTime = 'morning'
                     if (+today.time >= 12 && +today.time < 18)
