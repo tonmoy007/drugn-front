@@ -20,7 +20,8 @@ export type RootParamList = {
     Home: any,
     Nft: any,
     Account: any,
-    MedicineList: any
+    MedicineList: any,
+    TermsAndCondition:any
 }
 export type BottomTab = {
     Home: any;

@@ -24,6 +24,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {AddedList} from "./medicine/added-list";
+import {TermsAndConditions} from "./account/terms-and-conditions";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
@@ -105,6 +106,7 @@ export const AppNavigation = () => {
                         }}/>
                     </>
                 )}
+                <Stack.Screen name={"TermsAndCondition"} component={TermsAndConditions} options={{title:"利用規約（特定商取引法に基づく表示）"}}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

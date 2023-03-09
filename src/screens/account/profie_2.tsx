@@ -14,6 +14,7 @@ import {toastMessage} from "../../utils/toast";
 export default function UserProfile2({navigation}) {
     const user = useSelector((state: GlobalState) => state.user);
     const dispatch = useDispatch();
+
     const [profileListItem, setProfileListItem] = useState([
         {
             title: "Mail",
@@ -29,11 +30,11 @@ export default function UserProfile2({navigation}) {
         },
         {
             title: "連続服用日数",
-            subTitle: "120days"
+            subTitle: "未実装"
         },
         {
             title: "総服用日数",
-            subTitle: "120days",
+            subTitle: "未実装",
         },
         {
             title: "Chain Type ",
@@ -60,7 +61,10 @@ export default function UserProfile2({navigation}) {
             }
         },
         {
-            title: "利用規約"
+            title: "利用規約（特定商取引法に基づく表示）",
+            onPress:()=>{
+                navigation.navigate("TermsAndCondition")
+            }
         },
         {
             title: "プライバシーポリシー"

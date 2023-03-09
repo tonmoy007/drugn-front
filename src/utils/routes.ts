@@ -26,7 +26,8 @@ export const linking = {
             profile: "/profile",
             wallet: "/wallet",
             freeNFT: "/free-nft",
-            addedMed:"/added-medicine"
+            addedMed: "/added-medicine",
+            TermsAndCondition: "/dashboard/accounts/terms-of-use",
         }
     },
     prefixes: []

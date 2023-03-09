@@ -8,10 +8,14 @@ import {ScreenWidth} from "../../utils/constants";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
 import {copyToClipboard} from "../../utils/clipboard";
+import {toastMessage} from "../../utils/toast";
 
 export default function UserProfileUpperTabs() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
+    const onItemsTap=async()=>{
+        await toastMessage({msg:"Coming Soon"});
+    }
     return (
         <Card style={styles.card}>
             <Card.Content>
@@ -23,7 +27,7 @@ export default function UserProfileUpperTabs() {
                                        style={{width: 18, height: 18}}/> Coins
                             </Text>
                         </FBox>
-                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>+8.8</Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>+1</Text>
                     </FBox>
                     <FBox style={styles.cardDivider}></FBox>
                     <FBox style={styles.tabContainer}>
@@ -33,8 +37,7 @@ export default function UserProfileUpperTabs() {
                                        style={{width: 18, height: 18}}/> Stamina
                             </Text>
                         </FBox>
-                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>-2.4<Text
-                            style={{fontSize: 16}}>Hp</Text></Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>∞</Text>
                     </FBox>
                     <FBox style={styles.cardDivider}></FBox>
                     <FBox style={styles.tabContainer}>
@@ -43,7 +46,7 @@ export default function UserProfileUpperTabs() {
                                 <FontAwesome name='heart' size={18}/> Items
                             </Text>
                         </FBox>
-                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>+1</Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}} onPress={onItemsTap}>0</Text>
                     </FBox>
                 </FBox>
             </Card.Content>
