@@ -16,12 +16,17 @@ let rtMeds: any = {
         night: [],
         any: []
     },
-    activeTime: '',
+    activeTime: 'afternoon',
     timeIDs: {morning: [],
         afternoon: [],
         night: [],
         any: []}
-}
+}   
+
+   const today = {
+                    day: new Date().getUTCDay() + 1,
+                    time: validateTime(+(new Date().getUTCHours().toLocaleString('en-GB')) + 9),
+                }
     if(props.medicines){
             if (props.medicines.length >0) {
                 let tempIDs: any = {
@@ -30,10 +35,7 @@ let rtMeds: any = {
                     night: [],
                     any: []
                 };
-                const today = {
-                    day: new Date().getUTCDay() + 1,
-                    time: validateTime(+(new Date().getUTCHours().toLocaleString('en-GB')) + 9),
-                }
+         
                 for (let i = 0; i < props.medicines.length; i++) {
                     const date = new Date(props.medicines[i].updated_at);
                     //morning
@@ -49,26 +51,26 @@ let rtMeds: any = {
                             tempIDs.afternoon.push(props.medicines[i]);
                     }
                     //night
-                    if (props.medicines[i].take_medicine_time_type > 8 && props.medicines[i].take_medicine_time_type < 14) {
+                    if (props.medicines[i].take_medicine_time_type > 8 && props.medicines[i].take_medicine_time_type < 13) {
                         rtMeds.medList.night.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.night.push(props.medicines[i]);
                     }
                     //any
-                    if (props.medicines[i].take_medicine_time_type > 14) {
+                    if (props.medicines[i].take_medicine_time_type >= 13) {
                         rtMeds.medList.any.push(props.medicines[i])
                         if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
                             tempIDs.any.push(props.medicines[i]);
                     }
                 }
-                rtMeds.timeIDs = tempIDs;
-                    if (+today.time < 12)
+                rtMeds.timeIDs = tempIDs;         
+            } 
+            if (+today.time>=3 && +today.time < 11)
                     rtMeds.activeTime = 'morning'
-                    if (+today.time >= 12 && +today.time < 18)
+                    else if (+today.time >= 11 && +today.time < 16)
                     rtMeds.activeTime = 'afternoon'
-                    if (+today.time >= 18 && +today.time <= 23)
+                    else
                     rtMeds.activeTime = 'night'
-            }
     }
     return rtMeds
 };

@@ -18,9 +18,9 @@ import { jpTime } from "../../utils/constants";
 
 export const ManageUserMeds = ({ delMed, history }) => {
     const user = useSelector((state: GlobalState) => state.user)
-    const { data: meds, isLoading, error } = useFetchMedsQuery({ userId: user.id ?? 0 })
+    const { data: meds, isLoading, isFetching, error } = useFetchMedsQuery({ userId: user.id ?? 0 })
     const [deleteMed, { }] = useDeleteMedMutation()
-    const [deleting, setDeleting] = useState<boolean>(false)
+    const [deleting, setDeleting] = useState<string>('')
     const [medList, setMedList] = useState<any>({ morning: [], afternoon: [], night: [], any: [] })
     const [timeIDs, setTimeIDs] = useState<object>({ morning: [], afternoon: [], night: [], any: [] })
     const [activeTime, setActiveTime] = useState<string>('morning');
@@ -56,16 +56,15 @@ export const ManageUserMeds = ({ delMed, history }) => {
     }, [activeTime])
 
     const deleteMedicine = (itemID) => {
-        setDeleting(true)
+        setDeleting(itemID)
         deleteMed({ id: itemID }).unwrap().then(async (res) => {
             if (res.error) {
                 toastMessage({ msg: res.message });
                 return;
             }
-            // setMedList(medList.filter(item => item.id !== itemID));
-            setDeleting(false);
+            setDeleting('');
         }).catch(err => {
-            setDeleting(false);
+            setDeleting('');
             toastMessage({ msg: err.message ?? "Server Error Response" })
         })
 
@@ -74,16 +73,20 @@ export const ManageUserMeds = ({ delMed, history }) => {
     const rightSwipeAction = (itemID) => {
         return (<>
             <FBox style={{ alignItems: 'center', justifyContent: 'center', marginRight: 20 }}>
-                <TouchableOpacity onPress={() => deleteMedicine(itemID)}>
-                    <IconButton icon={"trash-can"} iconColor={colors.red}
-                        style={{ width: 'inherit', height: 'inherit', margin: 0 }} />
-                    <Text style={{ color: colors.red }}>消去</Text>
-                </TouchableOpacity>
+                {deleting === itemID ?
+                    <ActivityIndicator size={'small'} color={colors.primary} />
+                    :
+                    <TouchableOpacity onPress={() => deleteMedicine(itemID)}>
+                        <IconButton icon={"trash-can"} iconColor={colors.red}
+                            style={{ width: 'inherit', height: 'inherit', margin: 0 }} />
+                        <Text style={{ color: colors.red }}>消去</Text>
+                    </TouchableOpacity>
+                }
             </FBox>
         </>)
     }
 
-    if (isLoading)
+    if (isLoading || isFetching)
         return (<>
             <FBox style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                 <ActivityIndicator size={'large'} color={colors.primary} />
@@ -99,66 +102,60 @@ export const ManageUserMeds = ({ delMed, history }) => {
 
     return (
         <>
-            {deleting ?
-                <ActivityIndicator size={'large'} color={colors.primary} />
-                :
+            {history && <FBox style={{ flex: 1 }}>
+                <DoseList list={medHistory} swipeable={false} rightSwipeAction={rightSwipeAction} medHistory={true} />
+            </FBox>}
+            {!delMed && !history &&
                 <>
-                    {history && <FBox style={{ flex: 1 }}>
-                        <DoseList list={medHistory} swipeable={false} rightSwipeAction={rightSwipeAction} medHistory={true} />
-                    </FBox>}
-                    {!delMed && !history &&
-                        <>
-                            <FBox style={{ flex: 1 }}>
-                                {timeIDs[activeTime]?.length > 0 || timeIDs['any'].length > 0
-                                    ?
-                                    <>
-                                        <Text style={{ textAlign: 'center', }}>薬を飲む 今日 {today}({day}) {jpTime[activeTime]}</Text>
-                                        <DoseList list={[...timeIDs[activeTime], ...timeIDs['any']]} swipeable={false} rightSwipeAction={rightSwipeAction} />
-                                    </>
-                                    :
-                                    <Text style={{ textAlign: 'center', }}>まだお薬の登録ができていないようです。
-                                        ＋薬を追加登録するから処方された
-                                        お薬を飲むスケジュールを登録してください。
-                                    </Text>
-                                }
-                            </FBox>
-                        </>
-                    }
-
-                    {!history && <><Card elevation={1} style={styles.card}>
-                        <Card.Content style={{ padding: 0 }}>
-                            <FBox style={styles.tabs}>
-                                {Object.keys(jpTime).map((time, index) =>
-                                    <Fragment key={time}>
-                                        <Button style={{
-                                            ...styles.tabContainer, flex: 1, backgroundColor: time === curTab ? theme.colors.primary : 'inherit',
-                                            borderRadius: time === curTab ? 10 : 0
-                                        }}
-                                            onPress={() => setCurTab(time)}>
-                                            <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>{jpTime[time]}</Text>
-                                        </Button>
-                                        {index < Object.keys(jpTime).length - 1 && time !== curTab && <FBox style={styles.cardDivider}></FBox>}
-                                    </Fragment>
-                                )}
-
-                            </FBox>
-                        </Card.Content>
-                    </Card>
-                        <FBox style={{ marginVertical: 10 }}>
-                            <DoseList list={medList[curTab]} swipeable={true} rightSwipeAction={rightSwipeAction} recordMed={true} />
-                            {medList[curTab].length === 0 && <Text style={{ textAlign: 'center' }}>あなたは薬を持っていません</Text>}
-                        </FBox>
-
-                        <FBox style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                            <Button mode={"text"} textColor={colors.white}
-                                style={{ backgroundColor: theme.colors.surfaceDisabled, width: 'max-content', borderRadius: 20 }}
-                                icon={({ color, size }) => <MaterialIcons name={"add-circle-outline"} color={color}
-                                    size={size} />}
-                                onPress={() => nav.navigate("addMedicine")}>薬を追加登録する</Button>
-                        </FBox>
-                    </>
-                    }
+                    <FBox style={{ flex: 1 }}>
+                        {timeIDs[activeTime]?.length > 0 || timeIDs['any'].length > 0
+                            ?
+                            <>
+                                <Text style={{ textAlign: 'center', }}>薬を飲む 今日 {today}({day}) {jpTime[activeTime]}</Text>
+                                <DoseList list={[...timeIDs[activeTime], ...timeIDs['any']]} swipeable={false} rightSwipeAction={rightSwipeAction} />
+                            </>
+                            :
+                            <Text style={{ textAlign: 'center', }}>まだお薬の登録ができていないようです。
+                                ＋薬を追加登録するから処方された
+                                お薬を飲むスケジュールを登録してください。
+                            </Text>
+                        }
+                    </FBox>
                 </>
+            }
+
+            {!history && <><Card elevation={1} style={styles.card}>
+                <Card.Content style={{ padding: 0 }}>
+                    <FBox style={styles.tabs}>
+                        {Object.keys(jpTime).map((time, index) =>
+                            <Fragment key={time}>
+                                <Button style={{
+                                    ...styles.tabContainer, flex: 1, backgroundColor: time === curTab ? theme.colors.primary : 'inherit',
+                                    borderRadius: time === curTab ? 10 : 0
+                                }}
+                                    onPress={() => setCurTab(time)}>
+                                    <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>{jpTime[time]}</Text>
+                                </Button>
+                                {index < Object.keys(jpTime).length - 1 && time !== curTab && <FBox style={styles.cardDivider}></FBox>}
+                            </Fragment>
+                        )}
+
+                    </FBox>
+                </Card.Content>
+            </Card>
+                <FBox style={{ marginVertical: 10 }}>
+                    <DoseList list={medList[curTab]} swipeable={true} rightSwipeAction={rightSwipeAction} recordMed={true} />
+                    {medList[curTab].length === 0 && <Text style={{ textAlign: 'center' }}>あなたは薬を持っていません</Text>}
+                </FBox>
+
+                <FBox style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <Button mode={"text"} textColor={colors.white}
+                        style={{ backgroundColor: theme.colors.surfaceDisabled, width: 'max-content', borderRadius: 20 }}
+                        icon={({ color, size }) => <MaterialIcons name={"add-circle-outline"} color={color}
+                            size={size} />}
+                        onPress={() => nav.navigate("addMedicine")}>薬を追加登録する</Button>
+                </FBox>
+            </>
             }
         </>
     )

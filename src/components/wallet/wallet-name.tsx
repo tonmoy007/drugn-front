@@ -44,9 +44,19 @@ export default function WalletName(props: Props) {
         }
     }, [newSymbolAcct])
 
+
+    useEffect(() => {
+        if (error) {
+            toastMessage({ msg: `User ID already has a wallet` });
+            props.navigation.navigate('dashboard')
+        }
+    }, [error])
+
     const handleNextNav = async () => {
-        props.setUserWallet({ address: newSymbolAcct?.address, privateKey: newSymbolAcct?.privateKey, base64Qr: newSymbolAcct?.base64Qr });
-        props.setStep(props.nextStep)
+        if (walletName.length) {
+            props.setUserWallet({ address: newSymbolAcct?.address, privateKey: newSymbolAcct?.privateKey, base64Qr: newSymbolAcct?.base64Qr });
+            props.setStep(props.nextStep)
+        }
     }
 
     return (

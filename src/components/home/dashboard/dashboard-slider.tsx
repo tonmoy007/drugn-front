@@ -51,6 +51,7 @@ export const DashboardSlider = ({ id }) => {
 
     function getAllUserMeds(meds) {
         const allMeds = userMedTime({ medicines: meds })
+        console.log(allMeds)
         setActiveTime(allMeds.activeTime)
         setTimeIDs(allMeds.timeIDs)
     }
@@ -75,7 +76,7 @@ export const DashboardSlider = ({ id }) => {
             }}
                 key={`item-${index}${key}`}
             >
-                <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%' }}>
+                <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%', justifyContent: 'center' }}>
                     {index == 0 && (
                         <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}>
                             <FBox style={{
