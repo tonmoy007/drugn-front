@@ -1,19 +1,20 @@
-import { StyleSheet, Image } from 'react-native';
-import { colors } from '../../utils/settings';
-import { Card, useTheme, Text } from 'react-native-paper';
-import { FBox } from '../globals/fbox';
-import { FontAwesome } from '@expo/vector-icons';
+import {StyleSheet, Image} from 'react-native';
+import {colors} from '../../utils/settings';
+import {Card, useTheme, Text} from 'react-native-paper';
+import {FBox} from '../globals/fbox';
+import {FontAwesome} from '@expo/vector-icons';
 import React from "react";
-import { ScreenWidth } from "../../utils/constants";
-import { useSelector } from "react-redux";
-import { GlobalState } from "../../utils/store/global";
-import { copyToClipboard } from "../../utils/clipboard";
+import {ScreenWidth} from "../../utils/constants";
+import {useSelector} from "react-redux";
+import {GlobalState} from "../../utils/store/global";
+import {copyToClipboard} from "../../utils/clipboard";
+import {toastMessage} from "../../utils/toast";
 
 export default function UserProfileUpperTabs() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
-    const onItemsTap = async () => {
-        await toastMessage({ msg: "Coming Soon" });
+    const onItemsTap=async()=>{
+        await toastMessage({msg:"Coming Soon"});
     }
     return (
         <Card style={styles.card}>
@@ -21,46 +22,45 @@ export default function UserProfileUpperTabs() {
                 <FBox style={styles.tabs}>
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
-                            <Text style={{ ...styles.upperLabelText, color: theme.colors.onPrimary }}>
+                            <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>
                                 <Image source={require("../../../assets/icons/coins.svg")}
-                                    style={{ width: 18, height: 18 }} /> Coins
+                                       style={{width: 18, height: 18}}/> Coins
                             </Text>
                         </FBox>
-                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>+8.8</Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>+1</Text>
                     </FBox>
                     <FBox style={styles.cardDivider}></FBox>
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
-                            <Text style={{ ...styles.upperLabelText, color: theme.colors.onPrimary }}>
+                            <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>
                                 <Image source={require("../../../assets/icons/battery.svg")}
-                                    style={{ width: 18, height: 18 }} /> Stamina
+                                       style={{width: 18, height: 18}}/> Stamina
                             </Text>
                         </FBox>
-                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>-2.4<Text
-                            style={{ fontSize: 16 }}>Hp</Text></Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}}>∞</Text>
                     </FBox>
                     <FBox style={styles.cardDivider}></FBox>
                     <FBox style={styles.tabContainer}>
                         <FBox style={styles.tabLabel}>
-                            <Text style={{ ...styles.upperLabelText, color: theme.colors.onPrimary }}>
-                                <FontAwesome name='heart' size={18} /> Items
+                            <Text style={{...styles.upperLabelText, color: theme.colors.onPrimary}}>
+                                <FontAwesome name='heart' size={18}/> Items
                             </Text>
                         </FBox>
-                        <Text style={{ ...styles.tabText, color: theme.colors.onPrimary }}>+1</Text>
+                        <Text style={{...styles.tabText, color: theme.colors.onPrimary}} onPress={onItemsTap}>0</Text>
                     </FBox>
                 </FBox>
             </Card.Content>
             <FBox style={styles.cardWidthDivider}></FBox>
 
-            <FBox style={{ alignItems: "flex-start", marginLeft: 20, marginTop: 24 }}>
+            <FBox style={{alignItems: "flex-start", marginLeft: 20, marginTop: 24}}>
                 <FBox style={styles.tabLabel}>
-                    <Text style={{ ...styles.lowerText, fontWeight: "bold", color: theme.colors.onPrimary }}>
+                    <Text style={{...styles.lowerText, fontWeight: "bold", color: theme.colors.onPrimary}}>
                         <Image source={require("../../../assets/icons/battery.svg")}
-                            style={{ width: 18, height: 18 }} /> Wallet Address
+                               style={{width: 18, height: 18}}/> Wallet Address
                     </Text>
                 </FBox>
                 <Text onPress={async () => {
-                    await copyToClipboard({ text: user.wallet ?? "", msg: `Wallet address copied successfully` })
+                    await copyToClipboard({text: user.wallet ?? "", msg: `Wallet address copied successfully`})
                 }} style={{
                     ...styles.lowerText,
                     fontSize: 12,
@@ -118,6 +118,5 @@ const styles = StyleSheet.create({
     tabText: {
         marginTop: 2,
         fontSize: 16,
-        textAlign: 'center'
     }
 });
