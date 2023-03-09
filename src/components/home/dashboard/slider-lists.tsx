@@ -19,7 +19,6 @@ export const SliderLists = ({ data, time }) => {
         night: 'moon',
         any: 'dinner'
     }
-    console.log(time, iconTime[time])
     return (
         <FBox style={{ flex: 1 }}>
             <LinearGradient colors={['#47C3E8', '#48A8EF']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }} style={{

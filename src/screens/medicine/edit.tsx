@@ -87,8 +87,10 @@ export const EditMedicine = ({ route, navigation }) => {
         if (doseTime.length > 0 && doseTime[0].dosage.id !== 0 && doseTime[0].time.id !== 0) {
             let finalDosages: object[] = [];
             for (let i = 0; i <= doseTime.length; i++) {
-                if (i === doseTime.length)
+                if (i === doseTime.length) {
                     nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
+                    break;
+                }
                 if (doseTime[i].dosage.id !== 0 && doseTime[i].time.id !== 0) {
                     finalDosages.push({
                         "userId": user.id,
