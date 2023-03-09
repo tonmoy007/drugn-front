@@ -79,14 +79,14 @@ export default function RecordMedicine({ route, navigation }) {
                 return;
             }
             if (user.wallet) {
-                // rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
-                //     if (res.error) {
-                //         toastMessage({ msg: res.message });
-                //         return;
-                //     }
-                await toastMessage({ msg: `薬が正常に記録されました` })
-                navigation.navigate('dashboard')
-                // })
+                rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
+                    if (res.error) {
+                        toastMessage({ msg: res.message });
+                        return;
+                    }
+                    await toastMessage({ msg: `薬が正常に記録されました` })
+                    navigation.navigate('dashboard')
+                })
             } else {
                 await toastMessage({ msg: `薬が正常に記録されました` })
                 navigation.navigate('dashboard')

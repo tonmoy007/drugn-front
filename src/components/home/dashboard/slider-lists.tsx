@@ -47,8 +47,8 @@ export const SliderLists = ({ data, time }) => {
                 </FBox>
             </LinearGradient>
             {data.length === 0 && <>
-                <FBox key={`item-list-none`} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%" }}>
-                    <Text variant='titleLarge'>既に飲み終わっているので、次回のお薬を飲む時間になるまでここに表示されません！</Text>
+                <FBox key={`item-list-none`} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%", padding: 10 }}>
+                    <Text>既に飲み終わっているので、次回のお薬を飲む時間になるまでここに表示されません！</Text>
                 </FBox>
             </>}
             {data.slice(0, 3).map((item, i) => {

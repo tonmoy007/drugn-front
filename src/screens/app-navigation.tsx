@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { AddedList } from "./medicine/added-list";
 import { TermsAndConditions } from "./account/terms-and-conditions";
+import { MedicineHistory } from "./medicine/history";
 
 
 const Stack = createNativeStackNavigator<RootParamList>();
