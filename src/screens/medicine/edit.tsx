@@ -14,6 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { medIcons, medTime } from "../../utils/constants";
 import { useSelector } from "react-redux";
 import { GlobalState } from "../../utils/store/global";
+import { toastMessage } from "../../utils/toast";
 
 const dosages = [
     { value: '1', label: '1', id: 1 },
@@ -85,7 +86,9 @@ export const EditMedicine = ({ route, navigation }) => {
     const handleNext = () => {
         if (doseTime.length > 0 && doseTime[0].dosage.id !== 0 && doseTime[0].time.id !== 0) {
             let finalDosages: object[] = [];
-            for (let i = 0; i < doseTime.length; i++) {
+            for (let i = 0; i <= doseTime.length; i++) {
+                if (i === doseTime.length)
+                    nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
                 if (doseTime[i].dosage.id !== 0 && doseTime[i].time.id !== 0) {
                     finalDosages.push({
                         "userId": user.id,
@@ -95,9 +98,14 @@ export const EditMedicine = ({ route, navigation }) => {
                         "dose": +doseTime[i].dosage.id,
                         "medicineName": medName,
                     })
+                } else {
+                    toastMessage({ msg: `Error! - Select ${doseTime[i].dosage.id === 0 ? 'dose' : 'time'} for dose ${i + 1}` })
+                    break;
                 }
             }
-            nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
+            // nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
+        } else {
+            toastMessage({ msg: `Please select dose time` })
         }
     }
 
@@ -149,59 +157,61 @@ export const EditMedicine = ({ route, navigation }) => {
                         )
                     }} name={"query"} control={control} />
                 </FBox>
-                <Text style={{ ...styles.label, marginBottom: 5 }}>薬のアイコンを設定する</Text>
-                <SideSwipe data={Object.keys(medIcons)}
-                    itemWidth={100}
-                    style={{ width: '100%' }}
-                    renderItem={renderMedIcons} />
+                {medName !== 'NONE' && <>
+                    <Text style={{ ...styles.label, marginBottom: 5 }}>薬のアイコンを設定する</Text>
+                    <SideSwipe data={Object.keys(medIcons)}
+                        itemWidth={100}
+                        style={{ width: '100%' }}
+                        renderItem={renderMedIcons} />
 
-                {doseTime.map((dose, index) => {
-                    return <FBox key={dose.id}>
-                        <Divider style={{ marginTop: 25 }} />
-                        <FBox>
-                            <Text style={styles.label}>服用時間 {index + 1}</Text>
-                            <FPaperSelect name={"dist"} title={"選択してください"}
-                                selectItems={Object.values(medTime)}
-                                mode={"outlined"}
-                                onChange={(item) => handleDoseChange(item, index, 'time')}
-                                outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
-                                outlineColor={"transparent"}
-                                selectedItem={dose.time}
-                            />
-                        </FBox>
+                    {doseTime.map((dose, index) => {
+                        return <FBox key={dose.id}>
+                            <Divider style={{ marginTop: 25 }} />
+                            <FBox>
+                                <Text style={styles.label}>服用時間 {index + 1}</Text>
+                                <FPaperSelect name={"dist"} title={"選択してください"}
+                                    selectItems={Object.values(medTime)}
+                                    mode={"outlined"}
+                                    onChange={(item) => handleDoseChange(item, index, 'time')}
+                                    outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
+                                    outlineColor={"transparent"}
+                                    selectedItem={dose.time}
+                                />
+                            </FBox>
 
-                        <FBox>
-                            <Text style={styles.label}>服用数 {index + 1}</Text>
-                            <FBox style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <FBox style={{ flex: 3 }}>
-                                    <FPaperSelect name={"dosage"} title={"選択してください"}
-                                        selectItems={dosages}
-                                        mode={"outlined"}
-                                        onChange={(item) => handleDoseChange(item, index, 'dosage')}
-                                        outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
-                                        outlineColor={"transparent"}
-                                        selectedItem={dose.dosage}
-                                    />
-                                </FBox>
-                                <FBox style={{ paddingLeft: 20 }}>
-                                    <Text style={{ color: colors.text }}>錠/包(袋)/回</Text>
+                            <FBox>
+                                <Text style={styles.label}>服用数 {index + 1}</Text>
+                                <FBox style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <FBox style={{ flex: 3 }}>
+                                        <FPaperSelect name={"dosage"} title={"選択してください"}
+                                            selectItems={dosages}
+                                            mode={"outlined"}
+                                            onChange={(item) => handleDoseChange(item, index, 'dosage')}
+                                            outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
+                                            outlineColor={"transparent"}
+                                            selectedItem={dose.dosage}
+                                        />
+                                    </FBox>
+                                    <FBox style={{ paddingLeft: 20 }}>
+                                        <Text style={{ color: colors.text }}>錠/包(袋)/回</Text>
+                                    </FBox>
                                 </FBox>
                             </FBox>
+                            {index > 0 && <FBox style={{ width: 'max-content', marginTop: 10 }}>
+                                <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: 'max-content' }}
+                                    onPress={() => removeDosage(dose)}>
+                                    <MaterialIcons name='delete' onPress={() => { }}
+                                        style={{ color: theme.colors.errorContainer }} size={22} />
+                                    <Text style={{ color: theme.colors.errorContainer }}>投薬時間を削除</Text>
+                                </TouchableOpacity>
+                            </FBox>}
                         </FBox>
-                        {index > 0 && <FBox style={{ width: 'max-content', marginTop: 10 }}>
-                            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: 'max-content' }}
-                                onPress={() => removeDosage(dose)}>
-                                <MaterialIcons name='delete' onPress={() => { }}
-                                    style={{ color: theme.colors.errorContainer }} size={22} />
-                                <Text style={{ color: theme.colors.errorContainer }}>投薬時間を削除</Text>
-                            </TouchableOpacity>
-                        </FBox>}
-                    </FBox>
-                }
-                )}
+                    }
+                    )}
 
-                <Text style={{ ...styles.addDoseText, color: theme.colors.primary }} onPress={() =>
-                    setDoseTime(doseTime => [...doseTime, { dosage: initDose, time: initTime, id: doseTime[doseTime.length - 1].id + 1 }])}>服用時間を追加する</Text>
+                    <Text style={{ ...styles.addDoseText, color: theme.colors.primary }} onPress={() =>
+                        setDoseTime(doseTime => [...doseTime, { dosage: initDose, time: initTime, id: doseTime[doseTime.length - 1].id + 1 }])}>服用時間を追加する</Text>
+                </>}
             </FBox >
         </ScrollView >
     )

@@ -1,5 +1,5 @@
-import { ScrollView, Image, StyleSheet } from "react-native";
-import { Button, Divider, List, Text, useTheme } from "react-native-paper";
+import { ScrollView, StyleSheet } from "react-native";
+import { Divider, List, Text, useTheme } from "react-native-paper";
 import { colors, RootParamList } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
 import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
@@ -45,7 +45,7 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
 
 
     const takeMed = (medData) => {
-        if (!swipeable && !recordMed) {
+        if (!swipeable && !recordMed && !medHistory) {
             nav.navigate('recordMedicine', { medData })
         }
     }
@@ -57,7 +57,7 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
                     return <Swipeable
                         renderRightActions={() => rightSwipeAction ? rightSwipeAction(item.id) : null}
                         onSwipeableOpen={(direction, swipeable) => {
-                            if (direction==="right"){
+                            if (direction === "right") {
                                 setSwiped({ ...swiped, [item.id]: true })
                             }
                         }}
@@ -71,7 +71,7 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
                                 <FBox style={styles.historyDate}><MaterialCommunityIcons name={item.created_at === item.updated_at ? 'bottle-tonic-plus' : 'history'}
                                     color={colors.textSemiDark} size={15} /> <Text
                                         style={{ marginLeft: 10, color: colors.textSemiDark }}
-                                    >{`${moment(item.updated_at).format('llll')}(${moment().format('dddd').substring(0, 3)})`}</Text>
+                                    >{`${moment(item.updated_at).format('llll')}`}</Text>
                                 </FBox>}
 
                             <List.Item
