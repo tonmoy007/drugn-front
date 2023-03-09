@@ -12,6 +12,7 @@ export type RootParamList = {
     editMedicine: any,
     manageMedicine: any,
     recordMedicine: any,
+    medicineHistory:any,
     deleteMedicine: any
     profile: any,
     wallet: any,

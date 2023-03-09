@@ -1,15 +1,15 @@
-import {Dimensions, StyleSheet, TouchableOpacity} from "react-native";
-import {useEffect, useState} from "react";
-import {ActivityIndicator, Button, Text} from "react-native-paper";
-import {FBox} from "../../globals/fbox";
-import {colors, RootParamList} from "../../../utils/settings";
-import {SliderLists} from "./slider-lists";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { FBox } from "../../globals/fbox";
+import { colors, RootParamList } from "../../../utils/settings";
+import { SliderLists } from "./slider-lists";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import SideSwipe from 'react-native-sideswipe'
 import moment from "moment";
-import {userMedTime} from "../../../utils/functions/medicines";
-import {useFetchMedsQuery} from "../../../api/okusuri";
+import { userMedTime } from "../../../utils/functions/medicines";
+import { useFetchMedsQuery } from "../../../api/okusuri";
 
 interface SliderPaginationProps {
     currentIndex: number,
@@ -22,13 +22,13 @@ export const SliderPagination = (props: SliderPaginationProps) => {
         <FBox style={styles.dotContainer}>
             {Array(props.length).fill(0).map((item, index) => {
                 return <TouchableOpacity onPress={() => props.onClick(index)} key={"page_" + index}
-                                         style={index == props.currentIndex ? {...styles.dot, ...styles.dotActive} : styles.dot}></TouchableOpacity>
+                    style={index == props.currentIndex ? { ...styles.dot, ...styles.dotActive } : styles.dot}></TouchableOpacity>
             })}
         </FBox>
     )
 }
 
-export const DashboardSlider = ({id}) => {
+export const DashboardSlider = ({ id }) => {
     const windowDimensions = Dimensions.get('window');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [windowDimension, setWindowDimension] = useState(windowDimensions)
@@ -41,7 +41,7 @@ export const DashboardSlider = ({id}) => {
     });
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const today = moment().format('MM/DD');
-    const {data: meds, isLoading, isFetching} = useFetchMedsQuery({userId: id})
+    const { data: meds, isLoading, isFetching } = useFetchMedsQuery({ userId: id })
 
     useEffect(() => {
         if (meds?.medicines) {
@@ -50,7 +50,7 @@ export const DashboardSlider = ({id}) => {
     }, [meds])
 
     function getAllUserMeds(meds) {
-        const allMeds = userMedTime({medicines: meds})
+        const allMeds = userMedTime({ medicines: meds })
         setActiveTime(allMeds.activeTime)
         setTimeIDs(allMeds.timeIDs)
     }
@@ -59,42 +59,42 @@ export const DashboardSlider = ({id}) => {
     useEffect(() => {
         const subscription = Dimensions.addEventListener(
             'change',
-            ({window}) => {
+            ({ window }) => {
                 setWindowDimension(window);
             },
         );
         return () => subscription?.remove();
     });
 
-    const renderItem = ({itemIndex, currentIndex, item, animatedValue}) => {
+    const renderItem = ({ itemIndex, currentIndex, item, animatedValue }) => {
         const index = itemIndex;
         const key = itemIndex + currentIndex;
         return (
             <FBox style={{
                 ...styles.card, width: windowDimension.width - 36
             }}
-                  key={`item-${index}${key}`}
+                key={`item-${index}${key}`}
             >
-                <FBox style={{padding: 0, margin: 0, flex: 1, width: '100%'}}>
+                <FBox style={{ padding: 0, margin: 0, flex: 1, width: '100%' }}>
                     {index == 0 && (
-                        <FBox style={{flex: 1, alignItems: "center", justifyContent: "center", padding: 20}}>
+                        <FBox style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}>
                             <FBox style={{
                                 flex: 1,
                                 flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text style={{fontFamily: 'Montserrat_700Bold', marginBottom: 5}}>今日 {today}</Text>
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 {today}</Text>
                                 <Button icon={"plus-circle-outline"}
-                                        labelStyle={{fontSize: 30, fontWeight: "bold", lineHeight: 40}}
-                                        mode={"text"} textColor={colors.white}
-                                        onPress={() => nav.navigate("addMedicine")}>薬を新規登録する</Button>
+                                    labelStyle={{ fontSize: 30, fontWeight: "bold", lineHeight: 40 }}
+                                    mode={"text"} textColor={colors.white}
+                                    onPress={() => nav.navigate("addMedicine")}>薬を新規登録する</Button>
                             </FBox>
                         </FBox>
                     )}
                     {index == 1 && (
-                        isLoading || isFetching ? <ActivityIndicator/> :
-                            <SliderLists data={timeIDs[activeTime] ?? []} time={activeTime}/>
+                        isLoading || isFetching ? <ActivityIndicator /> :
+                            <SliderLists data={timeIDs[activeTime] ? [...timeIDs[activeTime], ...timeIDs['any']] : []} time={activeTime} />
                     )}
 
                 </FBox>
@@ -106,15 +106,15 @@ export const DashboardSlider = ({id}) => {
     }
 
     return (
-        <FBox style={{flex: 1, minHeight: windowDimension.height / 4}}>
-            <SideSwipe data={Array(timeIDs[activeTime]?.length > 0 ? 2 : 1).fill(0)} index={currentIndex}
-                       itemWidth={windowDimension.width - 18}
-                       style={{width: windowDimension.width}}
-                       threshold={windowDimension.width - 100}
-                       contentOffset={18}
-                       renderItem={renderItem} onIndexChange={handleCarouselScrollEnd}/>
-            <SliderPagination currentIndex={currentIndex} length={timeIDs[activeTime]?.length > 0 ? 2 : 1}
-                              onClick={(i) => setCurrentIndex(i)}/>
+        <FBox style={{ flex: 1, minHeight: windowDimension.height / 4 }}>
+            <SideSwipe data={Array(2).fill(0)} index={currentIndex}
+                itemWidth={windowDimension.width - 18}
+                style={{ width: windowDimension.width }}
+                threshold={windowDimension.width - 100}
+                contentOffset={18}
+                renderItem={renderItem} onIndexChange={handleCarouselScrollEnd} />
+            <SliderPagination currentIndex={currentIndex} length={2}
+                onClick={(i) => setCurrentIndex(i)} />
         </FBox>
     )
 }

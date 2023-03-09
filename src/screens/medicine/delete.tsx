@@ -46,7 +46,7 @@ export const DeleteMedicine = ({ navigation }) => {
         <FBox style={styles.container}>
             <RecordHeader />
             <ScrollView style={{ flex: 1 }}>
-                <ManageUserMeds delMed={true} />
+                <ManageUserMeds delMed={true} history={false} />
             </ScrollView>
 
         </FBox>

@@ -8,7 +8,7 @@ export const MedicineListScreen = () => {
         <>
             <DashboardHeader />
             <ScrollView style={{ flex: 1 }}>
-                <ManageUserMeds delMed={false} />
+                <ManageUserMeds delMed={false} history={false} />
             </ScrollView>
         </>
     )
