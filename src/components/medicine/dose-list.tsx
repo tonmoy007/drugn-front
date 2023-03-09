@@ -1,13 +1,15 @@
 import { ScrollView, Image, StyleSheet } from "react-native";
-import { Divider, List, Text, useTheme } from "react-native-paper";
+import { Button, Divider, List, Text, useTheme } from "react-native-paper";
 import { colors, RootParamList } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
 import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { CustomIcon } from "../../utils/custom-icon";
 import { medIcons, medTime } from "../../utils/constants";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import moment from "moment";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export interface Medicine {
     id: string | number;
@@ -19,20 +21,28 @@ export interface Medicine {
     take_medicine_time_type: number;
     dose: number;
     medicine_name?: string;
+    updated_at?: string;
+    created_at?: string;
 }
 
 interface Props {
     list: Medicine[];
     swipeable?: boolean;
     recordMed?: boolean;
+    medHistory?: boolean;
     rightSwipeAction?: (itemID: any) => ReactNode;
     onLocationSelect?: (index: number, medicine?: Medicine) => void;
 }
 
-export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocationSelect }: Props) => {
+export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAction, onLocationSelect }: Props) => {
     const theme = useTheme()
     const [swiped, setSwiped] = useState<object>({})
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+
+    useEffect(() => {
+        setSwiped({})
+    }, [list])
+
 
     const takeMed = (medData) => {
         if (!swipeable && !recordMed) {
@@ -57,6 +67,13 @@ export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocat
                         childrenContainerStyle={{ opacity: swiped[item.id] ? 0.5 : 1 }}
                     >
                         <TouchableOpacity onPress={() => takeMed(item)}>
+                            {medHistory &&
+                                <FBox style={styles.historyDate}><MaterialCommunityIcons name={item.created_at === item.updated_at ? 'bottle-tonic-plus' : 'history'}
+                                    color={colors.textSemiDark} size={15} /> <Text
+                                        style={{ marginLeft: 10, color: colors.textSemiDark }}
+                                    >{`${moment(item.updated_at).format('llll')}(${moment().format('dddd').substring(0, 3)})`}</Text>
+                                </FBox>}
+
                             <List.Item
                                 key={`data_${item.id}`}
                                 style={{
@@ -74,7 +91,7 @@ export const DoseList = ({ list, recordMed, swipeable, rightSwipeAction, onLocat
                                 left={props => <CustomIcon color={medIcons[item.medicine_icon_type]} name={"pill"}
                                     size={16} />}
                             />
-                            {index < list.length - 1 && !onLocationSelect && <Divider key={`divider_${item.id}`} style={{ borderColor: colors.textDark }} />}
+                            {index < list.length - 1 && !onLocationSelect && <Divider key={`divider_${item.id}`} style={{ borderColor: colors.textDark, marginVertical: 5 }} />}
                         </TouchableOpacity>
                     </Swipeable>
                 })}
@@ -87,8 +104,6 @@ const styles = StyleSheet.create({
     list: {
         paddingHorizontal: 10,
         borderRadius: 10,
-        marginBottom: 5,
-        marginTop: 5,
         paddingLeft: 20
     },
     desc: {
@@ -104,5 +119,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         width: 80,
         height: 80
+    },
+    historyDate: {
+        marginLeft: 20,
+        marginTop: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })

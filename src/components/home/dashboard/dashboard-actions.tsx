@@ -12,9 +12,7 @@ export const DashboardActions = () => {
     return (
         <FBox style={{ flexDirection: "row", padding: 18 }}>
             <Button contentStyle={styles.container} labelStyle={styles.label} icon={"history"} mode={"outlined"} style={{ marginRight: 5, ...styles.button }}
-                onPress={() => {
-                    toastMessage({ msg: `Coming soon` })
-                }}>
+                onPress={() => nav.navigate("medicineHistory")}>
                 履歴
             </Button>
             <Button icon={"pencil-box-outline"} labelStyle={styles.label} mode={"outlined"} style={{ marginRight: 5, ...styles.button }}

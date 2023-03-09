@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { jpTime, medIcons, medTime } from "../../../utils/constants";
 import moment from "moment";
+import { toastMessage } from "../../../utils/toast";
 
 export const SliderLists = ({ data, time }) => {
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
@@ -19,41 +20,39 @@ export const SliderLists = ({ data, time }) => {
         any: 'dinner'
     }
     return (
-        <FBox >
+        <FBox style={{ flex: 1 }}>
+            <LinearGradient colors={['#47C3E8', '#48A8EF']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }} style={{
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                shadowColor: "#444444",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: .6,
+                shadowRadius: 5
+            }}>
+                <FBox style={{ padding: 18, flexDirection: "row" }}>
+                    <FBox style={{ flex: 1 }}>
+                        <List.Item key={`slider-item-none`} style={{ marginHorizontal: 18 }}
+                            titleStyle={{ fontSize: 15, fontWeight: "700", lineHeight: 20 }}
+                            left={(props) => <CustomIcon size={28} color={colors.white} name={"pill-outlined"} />} title={`今日 ${today} (${day}) ${jpTime[time]}`}
+                            descriptionStyle={{ color: colors.white }} />
+                        {/* <Text variant={"bodyMedium"} style={{ marginBottom: 10 }}>{`今日 ${today}(${day}) ${jpTime[time]}`}</Text> */}
+                    </FBox>
+                    <FBox>
+                        {time === 'morning' ? <CustomIcon name={'sunrise'} color={"white"} size={56} />
+                            :
+                            <Image source={require(`../../../../assets/icons/${iconTime[time]}.svg`)} style={{ width: 40, height: 40 }} />
+                        }
+                    </FBox>
+                    <FBox />
+                </FBox>
+            </LinearGradient>
+            {data.length === 0 && <>
+                <FBox key={`item-list-none`} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%", padding: 10 }}>
+                    <Text>既に飲み終わっているので、次回のお薬を飲む時間になるまでここに表示されません！</Text>
+                </FBox>
+            </>}
             {data.slice(0, 3).map((item, i) => {
-                return i === 0 ? (
-                    <TouchableOpacity key={`slider_list-item${i}`} onPress={() => {
-                        navigation.navigate("recordMedicine", { medData: item })
-                    }} activeOpacity={.9}>
-                        <LinearGradient colors={['#47C3E8', '#48A8EF']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }} style={{
-                            borderTopLeftRadius: 20,
-                            borderTopRightRadius: 20,
-                            shadowColor: "#444444",
-                            shadowOffset: { width: 0, height: 2 },
-                            shadowOpacity: .6,
-                            shadowRadius: 5
-                        }}>
-                            <FBox style={{ padding: 18, flexDirection: "row" }}>
-                                <FBox style={{ flex: 1 }}>
-                                    <Text variant={"bodyMedium"} style={{ marginBottom: 10 }}>{`今日 ${today}(${day}) ${jpTime[time]}`}</Text>
-                                    <List.Item key={`slider-item-${i}`} style={{ marginHorizontal: 18 }} onPress={() => {
-                                        navigation.navigate("recordMedicine", { medData: item })
-                                    }} titleStyle={{ fontSize: 15, fontWeight: "700", lineHeight: 20 }}
-                                        left={(props) => <CustomIcon size={28} color={colors.white} name={"pill-outlined"} />} title={item.medicine_name}
-                                        description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
-                                        descriptionStyle={{ color: colors.white }} />
-                                </FBox>
-                                <FBox>
-                                    {time === 'morning' ? <CustomIcon name={'sunrise'} color={"white"} size={56} />
-                                        :
-                                        <Image source={require(`../../../../assets/icons/${iconTime[time]}.svg`)} style={{ width: 56, height: 56 }} />
-                                    }
-                                </FBox>
-                                <FBox />
-                            </FBox>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                ) : (
+                return (
                     <FBox key={`item-list-${i}`} style={{ flex: 1, width: "100%" }}>
                         <List.Item key={`slider-item-${i}`} style={{ marginHorizontal: 18 }} onPress={() => {
                             navigation.navigate("recordMedicine", { medData: item })

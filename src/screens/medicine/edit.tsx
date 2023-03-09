@@ -184,7 +184,7 @@ export const EditMedicine = ({ route, navigation }) => {
                                     />
                                 </FBox>
                                 <FBox style={{ paddingLeft: 20 }}>
-                                    <Text style={{ color: colors.text }}>錠/包(袋)</Text>
+                                    <Text style={{ color: colors.text }}>錠/包(袋)/回</Text>
                                 </FBox>
                             </FBox>
                         </FBox>

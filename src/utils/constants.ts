@@ -34,5 +34,5 @@ export const jpTime = {
     morning: '朝',
     afternoon: '午後',
     night: '夜',
-    any: ''
+    any: '発熱時'
 }
