@@ -5,6 +5,7 @@ import App from "./App";
 import {createRoot} from "react-dom/client";
 import {registerRootComponent} from 'expo';
 
+import * as serviceWorkerRegistration from "./src/serviceWorkerRegistration";
 // registerRootComponent(App)
 if (__DEV__) {
     activateKeepAwake().then(() => {
@@ -20,7 +21,7 @@ if (__DEV__) {
         }
     });
 } else {
-    if (Platform.OS === "web" && !__DEV__) {
+    if (Platform.OS === "web") {
         const root = createRoot(
             document.getElementById("root") ?? document.getElementById("main")
         );
@@ -29,5 +30,13 @@ if (__DEV__) {
     } else {
         registerRootComponent(App);
     }
+}
+
+if (!__DEV__) {
+    serviceWorkerRegistration.register({
+        onUpdate: (register) => {
+            console.log("Service worker updated")
+        }
+    })
 }
 

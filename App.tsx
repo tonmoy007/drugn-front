@@ -6,7 +6,6 @@ import {
     Montserrat_300Light,
     Montserrat_700Bold
 } from "@expo-google-fonts/montserrat";
-import * as serviceWorkerRegistration from "./src/serviceWorkerRegistration";
 import {theme} from "./src/utils/theme";
 import * as Font from "expo-font";
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -53,4 +52,3 @@ export default function App(props) {
     );
 }
 
-serviceWorkerRegistration.register()
