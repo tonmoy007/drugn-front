@@ -61,7 +61,7 @@ export default function WalletName(props: Props) {
 
     return (
         <FBox style={styles.container}>
-            <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20 }}>Walletの表示名を設定してください</Text>
+            <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20 }}>Walletの表示名を確認してくださ</Text>
             {error ?
                 <>
                     <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>User ID already has a wallet</Text>
