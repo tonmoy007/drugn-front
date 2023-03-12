@@ -35,8 +35,12 @@ if (__DEV__) {
 if (!__DEV__) {
     serviceWorkerRegistration.register({
         onUpdate: (register) => {
+            console.log(register)
             console.log("Service worker updated")
         }
     })
+} else {
+    console.log("DEV MODE ENABLED")
+    serviceWorkerRegistration.unregister();
 }
 

@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useTheme, Text, Button } from 'react-native-paper';
-import { colors } from '../../utils/settings';
-import { FBox } from '../globals/fbox';
-import { useEffect } from 'react'
+import {StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useTheme, Text, Button} from 'react-native-paper';
+import {colors} from '../../utils/settings';
+import {FBox} from '../globals/fbox';
+import {useEffect} from 'react'
 
 interface Props {
     nextStep: number;
@@ -22,7 +22,7 @@ export default function Wallet(props: Props) {
             },
             headerRight: () => {
                 return (
-                    <Text style={{ ...styles.navText, color: theme.colors.onSurfaceDisabled }}>次へ</Text >
+                    <Text style={{...styles.navText, color: theme.colors.onSurfaceDisabled}}>次へ</Text>
                 )
             }
         });
@@ -30,16 +30,18 @@ export default function Wallet(props: Props) {
 
     return (
         <FBox style={styles.container}>
-            <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20 }}>新規でWalletを作りますか?</Text>
+            <Text variant={"titleLarge"}
+                  style={{...styles.text, fontWeight: '700', marginBottom: 20}}>新規でWalletを作りますか?</Text>
             <Button onPress={() => props.setStep(props.nextStep)}
-                labelStyle={styles.btnText} style={styles.button}>
-                <TouchableOpacity style={styles.innerBTN}><Text style={{ ...styles.text, color: theme.colors.onPrimary }}>おすすめ</Text></TouchableOpacity> 新規Wallet作成</Button>
-            <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>●●●●●●●なのでおすすめです。（なぜオススメ?）</Text>
-            {/* <Text variant={"titleLarge"} style={{ ...styles.text, fontWeight: '700', marginBottom: 20, marginTop: 80 }}>既にお持ちのWalletを使いますか?</Text>
-            <Button labelStyle={styles.btnText} style={{ ...styles.button, borderColor: theme.colors.surfaceVariant, marginBottom: 15 }}>
-                Mnemonic</Button>
-            <Button labelStyle={styles.btnText} style={{ ...styles.button, borderColor: theme.colors.surfaceVariant }}>
-                Private Key</Button> */}
+                    labelStyle={styles.btnText} style={styles.button}>
+                <TouchableOpacity style={styles.innerBTN}><Text
+                    style={{...styles.text, color: theme.colors.onPrimary}}>おすすめ</Text></TouchableOpacity> 新規Wallet作成</Button>
+            <Text style={{
+                ...styles.text,
+                color: theme.colors.onPrimary,
+                marginTop: 10
+            }}>テスト版の為すでにお持ちのアドレスではなく、DrugN専用のアドレスを作成し、ご利用されることをお勧めしています。</Text>
+
         </FBox>
     );
 }

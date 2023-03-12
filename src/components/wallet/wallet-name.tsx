@@ -81,8 +81,10 @@ export default function WalletName(props: Props) {
                                 : <></>}
                         />
                     }
-                    <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>本名や個人を特定できるような名前はトラブルに繋がります。
-                        避けてください。記号の使用はできません。</Text>
+                    <Text style={{ ...styles.text, color: theme.colors.onPrimary, marginTop: 10 }}>
+                        本名や個人を特定できるような名前はトラブルに繋がります。避けてください。記号の使用ができません。
+                        問題がなければ右上の登録を押してください。
+                    </Text>
                 </>
             }
             <FBox style={{ marginTop: 50 }}>

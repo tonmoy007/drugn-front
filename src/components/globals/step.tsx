@@ -38,7 +38,7 @@ interface Props {
 export default function StepTracker(props: Props) {
     const theme = useTheme();
 
-    const redenderIndicator = (step) => {
+    const renderIndicator = (step) => {
         if (step.stepStatus === 'finished')
             return (
                 <FontAwesome name='check' color={theme.colors.onPrimary} />
@@ -62,7 +62,7 @@ export default function StepTracker(props: Props) {
                     stepCount={props.maxSteps}
                     customStyles={indicatorStyles}
                     currentPosition={props.step}
-                    renderStepIndicator={redenderIndicator}
+                    renderStepIndicator={renderIndicator}
                     labels={[]}
                 // onPress={handleStepSwitch}
                 />
