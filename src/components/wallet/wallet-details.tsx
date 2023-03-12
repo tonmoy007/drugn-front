@@ -12,6 +12,7 @@ import {captureRef} from 'react-native-view-shot';
 import {GlobalState} from '../../utils/store/global';
 import {toastMessage} from "../../utils/toast";
 import domtoimage from 'dom-to-image';
+import {ScreenWidth} from "../../utils/constants";
 
 interface Props {
     userWallet: { address: string, privateKey: string, base64Qr: any },
@@ -23,6 +24,7 @@ interface Props {
 export default function WalletDetails(props: Props) {
     const [copied, setCopied] = useState<boolean>(false);
     const screenShotRef = useRef(null);
+    const [showStep,updateShowStep]=useState(0);
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const user = useSelector((state: GlobalState) => state.user)
     const dispatch = useDispatch();
@@ -105,6 +107,7 @@ export default function WalletDetails(props: Props) {
         if (Platform.OS === "web") {
             saveScreenShot().catch(err => console.log(err));
         }
+        updateShowStep(1)
     }
 
     return (
@@ -116,7 +119,8 @@ export default function WalletDetails(props: Props) {
                     <Text variant={"titleMedium"} style={{color: theme.colors.scrim, fontWeight: '700'}}><FontAwesome
                         name='warning' size={18}/> 重要 <FontAwesome
                         name='warning' size={18}/></Text>
-                    <Text style={{...styles.text, color: theme.colors.scrim, marginTop: 8}}>Walletの受け取りを完了するには
+                    <Text style={{...styles.text, color: theme.colors.scrim, marginTop: 8}}>
+                        Walletの受け取りを完了するには
                         本画面のスクリーンショットを取るか、
                         プライベートキーのコピーし、
                         絶対に紛失しない、流出しないように
@@ -153,8 +157,11 @@ export default function WalletDetails(props: Props) {
                           variant={"titleMedium"}>{privateKey}</Text>
                 </FBox>
                 <Button style={{...styles.button, backgroundColor: theme.colors.primary}}
-                        onPress={async () => setCopied(await copyToClipboard(
-                            {text: privateKey, msg: `Private key copied successfully`, time: 1000}))}
+                        onPress={async () => {
+                            setCopied(await copyToClipboard(
+                                {text: privateKey, msg: `Private key copied successfully`, time: 1000}))
+                            updateShowStep(2)
+                        }}
                         labelStyle={{...styles.text, color: theme.colors.onPrimary}}>プライベートキーをコピーする</Button>
                 <Text style={{color: theme.colors.background, fontWeight: '700', marginVertical: 10}}
                       variant={"titleMedium"}>又は</Text>
@@ -163,9 +170,10 @@ export default function WalletDetails(props: Props) {
                         labelStyle={{...styles.text, color: theme.colors.onPrimary}}
                 >本画面をスクリーンショットで保管する</Button>
 
-                <FBox style={{width: '100%', paddingBottom: 30}}>
+                <FBox style={{width: '100%', paddingBottom: 30, maxWidth: ScreenWidth}}>
                     <Button icon={"help-circle-outline"} mode={"outlined"}
-                            style={styles.help} labelStyle={{...styles.helpText, color: theme.colors.background}}
+                            style={styles.help}
+                            labelStyle={{...styles.helpText, color: theme.colors.background}}
                             onPress={() => {
                             }}>プライベートキーとは?
                     </Button>
@@ -186,7 +194,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        maxWidth: ScreenWidth,
+        overflow: "hidden"
     },
     navText: {
         justifyContent: 'center',
@@ -231,6 +241,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     helpText: {
-        marginHorizontal: 0
+        marginHorizontal: 0,
+        maxWidth: ScreenWidth,
+        overflow:"hidden"
     }
 });

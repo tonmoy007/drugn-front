@@ -1,5 +1,6 @@
 import {Animated, Easing, Image, Platform, StyleSheet} from "react-native"
 import {ReactNode, useEffect, useRef} from "react";
+import {RippleCircle} from "./ripple-circle";
 
 interface HandMovingProps {
     children: ReactNode;
@@ -14,25 +15,32 @@ export const HandMoving = ({children, duration, distance}: HandMovingProps) => {
             toValue: {x: distance ?? 20, y: distance ?? 20},
             useNativeDriver: false,
             duration: duration ?? 1000,
-            easing: Easing.inOut(Easing.ease)
+            easing: Easing.elastic(Easing.bounce(1))
         })).start()
     }
     useEffect(() => {
         animate()
     }, [])
     return (
-        <Animated.View
-            style={{
-                ...styles.cursor,
-                transform: [{translateX: position.current.x}, {translateY: position.current.y}, {rotateX: "45deg"}]
-            }}>
-            <Image source={require("../../../assets/images/cursor-hand-icon.svg")} style={{width: 40, height: 40}}/>
-        </Animated.View>
+        <>
+            <Animated.View
+                style={{
+                    ...styles.cursor,
+                    transform: [{translateX: position.current.x}, {translateY: position.current.y}, {rotateX: "45deg"}]
+                }}>
+                <Image source={require("../../../assets/images/cursor-hand-icon.svg")} style={{width: 40, height: 50}}/>
+
+            </Animated.View>
+            <RippleCircle position={"absolute"}>
+                {children}
+            </RippleCircle>
+        </>
     )
 }
 const styles = StyleSheet.create({
     cursor: {
         //@ts-ignore
-        position: Platform.OS === "web" ? "fixed" : "absolute",
+        position: "relative",
+
     }
 })

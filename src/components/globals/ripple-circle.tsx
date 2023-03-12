@@ -1,5 +1,5 @@
 import {Animated, Easing, Platform, StyleSheet} from "react-native"
-import {ReactNode, useEffect, useRef} from "react";
+import {ReactNode, useEffect, useRef, useState} from "react";
 import {colors} from "../../utils/settings";
 
 interface RippleProps {
@@ -17,18 +17,18 @@ export const RippleCircle = ({children, maxScale, duration}: RippleProps) => {
         Animated.loop(
             Animated.stagger((duration ?? 1000) / 2, [
                 Animated.parallel([
-                    Animated.timing(opacity.current, {
-                        useNativeDriver: false,
-                        toValue: 0,
-                        duration: duration ?? 1000
-                    }),
-                    Animated.timing(scale.current, {
-                        useNativeDriver: false,
-                        toValue: maxScale ?? 2,
-                        duration: 1000,
-                        easing: Easing.inOut(Easing.ease)
-                    })
-                ]),
+                Animated.timing(opacity.current, {
+                    useNativeDriver: false,
+                    toValue: 0,
+                    duration: duration ?? 1000
+                }),
+                Animated.timing(scale.current, {
+                    useNativeDriver: false,
+                    toValue: maxScale ?? 2,
+                    duration: 1000,
+                    easing: Easing.inOut(Easing.ease)
+                })
+            ]),
                 Animated.parallel([
                     Animated.timing(opacity2.current, {
                         useNativeDriver: false,

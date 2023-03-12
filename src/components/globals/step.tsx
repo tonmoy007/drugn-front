@@ -62,7 +62,6 @@ interface Props {
 
 export default function StepTracker(props: Props) {
     const theme = useTheme();
-
     const renderIndicator = (step) => {
         if (step.stepStatus === 'finished')
             return (

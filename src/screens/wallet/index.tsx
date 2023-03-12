@@ -1,7 +1,7 @@
 import { FBox } from "../../components/globals/fbox";
 import { Button, Text, useTheme } from "react-native-paper";
 import { useState, useEffect } from "react";
-import { StyleSheet, Image } from 'react-native'
+import {StyleSheet, Image, ScrollView} from 'react-native'
 import StepTracker from "../../components/globals/step";
 import Wallet from "../../components/wallet";
 import WalletName from "../../components/wallet/wallet-name";
@@ -11,7 +11,7 @@ import { GlobalState } from "../../utils/store/global";
 
 export const NewWallet = ({ route, navigation }) => {
     const [completed, setCompleted] = useState<boolean>(false)
-    const [curStep, setCurStep] = useState<number>(0);
+    const [curStep, setCurStep] = useState<number>(2);
     const [userWallet, setUserWallet] = useState<any>({});
     const user = useSelector((state: GlobalState) => state.user)
 
@@ -37,36 +37,38 @@ export const NewWallet = ({ route, navigation }) => {
                 <FBox style={{ padding: 20, width: '100%' }}>
                     <StepTracker step={completed ? 3 : curStep} maxSteps={3} setStep={setCurStep} />
                 </FBox>
-                {curStep === 2 && !completed ?
-                    <WalletDetails setCompleted={setCompleted} navigation={navigation} setStep={setCurStep} userWallet={userWallet} />
-                    :
-                    <FBox style={{ width: '100%', paddingHorizontal: 20, flex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-                        {curStep === 0 && <Wallet nextStep={1} setStep={setCurStep} navigation={navigation} />}
-                        {curStep === 1 && <WalletName nextStep={2} setStep={setCurStep} navigation={navigation} user={user} setUserWallet={setUserWallet} />}
-                        {curStep === 2 && completed && <>
-                            <FBox style={{ flex: 2, alignItems: 'center' }}>
-                                <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20 }}>Walletの作成
-                                    完了いたしました</Text>
-                                <FBox style={{ marginTop: 30 }}>
-                                    <Image source={require("../../../assets/icons/bag_bg.svg")} style={{ width: 250, height: 250 }} />
+                <ScrollView>
+                    {curStep === 2 && !completed ?
+                        <WalletDetails setCompleted={setCompleted} navigation={navigation} setStep={setCurStep} userWallet={userWallet} />
+                        :
+                        <FBox style={{ width: '100%', paddingHorizontal: 20, flex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+                            {curStep === 0 && <Wallet nextStep={1} setStep={setCurStep} navigation={navigation} />}
+                            {curStep === 1 && <WalletName nextStep={2} setStep={setCurStep} navigation={navigation} user={user} setUserWallet={setUserWallet} />}
+                            {curStep === 2 && completed && <>
+                                <FBox style={{ flex: 2, alignItems: 'center' }}>
+                                    <Text variant={"titleLarge"} style={{ fontWeight: '700', marginBottom: 20 }}>Walletの作成
+                                        完了いたしました</Text>
+                                    <FBox style={{ marginTop: 30 }}>
+                                        <Image source={require("../../../assets/icons/bag_bg.svg")} style={{ width: 250, height: 250 }} />
+                                    </FBox>
                                 </FBox>
-                            </FBox>
-                            <FBox style={{ width: '100%' }}>
-                                <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
-                                    labelStyle={{ color: theme.colors.onPrimary }} onPress={() => navigation.replace('freeNFT')}
-                                >NFTを受け取る</Button>
+                                <FBox style={{ width: '100%' }}>
+                                    <Button style={{ ...styles.button, backgroundColor: theme.colors.primary }}
+                                            labelStyle={{ color: theme.colors.onPrimary }} onPress={() => navigation.replace('freeNFT')}
+                                    >NFTを受け取る</Button>
 
-                                <FBox style={{ width: '100%', paddingBottom: 30 }}>
-                                    <Button icon={"help-circle-outline"} mode={"outlined"}
-                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーとは?
-                                    </Button>
-                                    <Button icon={"help-circle-outline"} mode={"outlined"}
-                                        style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーを無くしたらどうなりますか?
-                                    </Button>
+                                    <FBox style={{ width: '100%', paddingBottom: 30 }}>
+                                        <Button icon={"help-circle-outline"} mode={"outlined"}
+                                                style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーとは?
+                                        </Button>
+                                        <Button icon={"help-circle-outline"} mode={"outlined"}
+                                                style={styles.help} labelStyle={{ color: theme.colors.onPrimary }} onPress={() => { }}>プライベートキーを無くしたらどうなりますか?
+                                        </Button>
+                                    </FBox>
                                 </FBox>
-                            </FBox>
-                        </>}
-                    </FBox>}
+                            </>}
+                        </FBox>}
+                </ScrollView>
             </FBox>
         </>
     )
