@@ -1,9 +1,10 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import {FontAwesome} from '@expo/vector-icons';
+import {useState} from 'react';
+import {Animated, StyleSheet, View} from 'react-native';
+import {Text, useTheme} from 'react-native-paper';
 import StepIndicator from 'react-native-step-indicator';
-import { colors } from '../../utils/settings';
+import {colors} from '../../utils/settings';
+import {RippleCircle} from "./ripple-circle";
 
 const indicatorStyles = {
     stepIndicatorSize: 20,
@@ -28,6 +29,30 @@ const indicatorStyles = {
     labelSize: 13,
     currentStepLabelColor: colors.primary,
 };
+const customStyles = {
+    stepIndicatorSize: 25,
+    currentStepIndicatorSize: 30,
+    separatorStrokeWidth: 2,
+    currentStepStrokeWidth: 3,
+    stepStrokeCurrentColor: colors.primary,
+    stepStrokeWidth: 3,
+    stepStrokeFinishedColor: colors.primary,
+    stepStrokeUnFinishedColor: colors.textSemiDark,
+    separatorFinishedColor: colors.primary,
+    separatorUnFinishedColor: colors.textSemiDark,
+    stepIndicatorFinishedColor: colors.primary,
+    stepIndicatorUnFinishedColor: colors.white,
+    stepIndicatorCurrentColor: colors.white,
+    stepIndicatorLabelFontSize: 12,
+    currentStepIndicatorLabelFontSize: 10,
+    stepIndicatorLabelCurrentColor: 'transparent',
+    stepIndicatorLabelFinishedColor: 'transparent',
+    stepIndicatorLabelUnFinishedColor: 'transparent',
+    labelColor: colors.textSemiDark,
+    labelSize: 10,
+    currentStepLabelColor: colors.primary,
+    borderRadiusSize: 10
+}
 
 interface Props {
     step: number;
@@ -41,30 +66,32 @@ export default function StepTracker(props: Props) {
     const renderIndicator = (step) => {
         if (step.stepStatus === 'finished')
             return (
-                <FontAwesome name='check' color={theme.colors.onPrimary} />
+                <FontAwesome name='check' color={theme.colors.onPrimary}/>
             )
 
         if (step.stepStatus === 'current')
             return (
-                <FontAwesome name='circle' color={theme.colors.primary} />
+                <RippleCircle key={"animated-circle"} maxScale={2}>
+                    <Text style={{color: colors.primary, fontWeight: "bold", fontSize: 12}}>{step.position + 1}</Text>
+                </RippleCircle>
             )
+        if (step.stepStatus === "unfinished") {
+            return (
+                <Text style={{color: colors.primary, fontWeight: "bold", fontSize: 12}}>{step.position + 1}</Text>
+            )
+        }
     }
-
-    // const handleStepSwitch = (i) => {
-    //     if (props.setStep && i < props.step)
-    //         props.setStep(i);
-    // }
 
     return (
         <View style={styles.container}>
             <View style={styles.stepIndicator}>
                 <StepIndicator
                     stepCount={props.maxSteps}
-                    customStyles={indicatorStyles}
+                    customStyles={customStyles}
                     currentPosition={props.step}
                     renderStepIndicator={renderIndicator}
                     labels={[]}
-                // onPress={handleStepSwitch}
+                    // onPress={handleStepSwitch}
                 />
             </View>
 
