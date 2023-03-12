@@ -4,21 +4,23 @@ import {Button, Text, useTheme} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {colors, RootParamList} from "../../utils/settings";
+import {ReactNode} from "react";
 
 interface Props {
     imageUrl: ImageSourcePropType;
     title: string;
     buttonText: string;
     navigationPath: keyof RootParamList,
-    buttonMode?:"text" | "outlined" | "contained" | "elevated" | "contained-tonal"
-    description?:string
+    buttonMode?: "text" | "outlined" | "contained" | "elevated" | "contained-tonal"
+    description?: string,
+    bottomExtra?: ReactNode
 }
 
 export const MessageWithImage = (props: Props) => {
     const theme = useTheme()
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
     return (
-        <FBox style={{flex: 1, paddingHorizontal: 20, alignItems: "center", justifyContent: "center",paddingTop:20}}>
+        <FBox style={{flex: 1, paddingHorizontal: 20, alignItems: "center", justifyContent: "center", paddingTop: 20}}>
             <FBox style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
                 <FBox style={{paddingVertical: 40}}>
                     <Image source={props.imageUrl}
@@ -32,14 +34,25 @@ export const MessageWithImage = (props: Props) => {
                     padding: 20,
                     fontWeight: "700"
                 }}>{props.title}</Text>
-                {props.description&&(
-                    <Text variant={"bodySmall"} style={{color:colors.textSemiDark,padding:40,textAlign:"center"}}>{props.description}</Text>
+                {props.description && (
+                    <Text variant={"bodySmall"} style={{
+                        color: colors.textSemiDark,
+                        padding: 40,
+                        textAlign: "center"
+                    }}>{props.description}</Text>
                 )}
             </FBox>
             <FBox style={{minHeight: 120, width: "100%", alignItems: "center", justifyContent: "center"}}>
-                <Button theme={{roundness: 1}} mode={props.buttonMode??"contained"} onPress={() => {
+                <Button theme={{roundness: 1}} mode={props.buttonMode ?? "contained"} onPress={() => {
                     nav.navigate(props.navigationPath as any)
                 }}>{props.buttonText}</Button>
+                {
+                    props.bottomExtra ? (
+                        <FBox style={{marginTop: 10}}>
+                            {props.bottomExtra}
+                        </FBox>
+                    ) : null
+                }
             </FBox>
         </FBox>
     )
