@@ -1,7 +1,7 @@
 import {createApi, setupListeners} from "@reduxjs/toolkit/query/react";
 import {AuthPayload, AuthResponse, ConfirmCodePayload} from "./types";
 import {BaseQuery} from "../constants";
-import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 
 export const authApi = createApi({
     reducerPath: 'authApi',

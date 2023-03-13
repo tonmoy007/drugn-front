@@ -1,14 +1,15 @@
 import {Animated, Easing, Platform, StyleSheet} from "react-native"
-import {ReactNode, useEffect, useRef, useState} from "react";
+import {ReactNode, useEffect, useRef} from "react";
 import {colors} from "../../utils/settings";
 
 interface RippleProps {
     children?: ReactNode;
     maxScale?: number
-    duration?: number
+    duration?: number,
+    position:"absolute"|"fixed"
 }
 
-export const RippleCircle = ({children, maxScale, duration}: RippleProps) => {
+export const RippleCircle = ({children, maxScale, duration,position}: RippleProps) => {
     const scale = useRef(new Animated.Value(1))
     const scale2 = useRef(new Animated.Value(1))
     const opacity = useRef(new Animated.Value(1))
@@ -54,6 +55,8 @@ export const RippleCircle = ({children, maxScale, duration}: RippleProps) => {
             <Animated.View style={{
                 ...styles.ripple,
                 transform: [{scaleX: scale.current}, {scaleY: scale.current}],
+                // @ts-ignore
+                position:position??"fixed",
                 opacity: opacity.current
             }}/>
             <Animated.View style={{

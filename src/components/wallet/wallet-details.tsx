@@ -8,9 +8,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {copyToClipboard} from '../../utils/clipboard';
 import {updateUser} from '../../utils/store/user';
 import {useDispatch, useSelector} from 'react-redux';
-import {captureRef} from 'react-native-view-shot';
 import {GlobalState} from '../../utils/store/global';
-import {toastMessage} from "../../utils/toast";
 import domtoimage from 'dom-to-image';
 import {ScreenWidth} from "../../utils/constants";
 
@@ -80,16 +78,6 @@ export default function WalletDetails(props: Props) {
                 .catch(e => {
                     console.log(e);
                 });
-        } else {
-            try {
-                const local_url = await captureRef(screenShotRef, {height: 440, quality: 1})
-                await MediaLibrary.saveToLibraryAsync(local_url)
-                if (local_url) {
-                    await toastMessage({msg: "Saved!"})
-                }
-            } catch (err) {
-                await toastMessage({msg: "" + err})
-            }
         }
     }
     const onSaveScreenShot = () => {

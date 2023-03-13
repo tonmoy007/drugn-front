@@ -27,6 +27,7 @@ const UserReducer = userSlice.reducer
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
+    version:1
 }
 
 export const UserPersistedReducer = persistReducer(persistConfig, UserReducer)
