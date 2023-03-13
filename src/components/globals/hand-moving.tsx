@@ -1,21 +1,22 @@
-import {Animated, Easing, Image, Platform, StyleSheet} from "react-native"
+import {Animated, Easing, Image, StyleSheet} from "react-native"
 import {ReactNode, useEffect, useRef} from "react";
 import {RippleCircle} from "./ripple-circle";
 
 interface HandMovingProps {
-    children: ReactNode;
+    children?: ReactNode;
     duration?: number;
     distance?: number;
+    pref?: any;
 }
 
-export const HandMoving = ({children, duration, distance}: HandMovingProps) => {
-    const position = useRef(new Animated.ValueXY({x: 0, y: 0}))
+export const HandMoving = ({children, duration, distance, pref}: HandMovingProps) => {
+    const position = useRef(new Animated.ValueXY({x: 0, y: -35}))
     const animate = () => {
         Animated.loop(Animated.timing(position.current, {
             toValue: {x: distance ?? 20, y: distance ?? 20},
             useNativeDriver: false,
             duration: duration ?? 1000,
-            easing: Easing.elastic(Easing.bounce(1))
+            easing: Easing.inOut(Easing.cubic)
         })).start()
     }
     useEffect(() => {
@@ -23,17 +24,17 @@ export const HandMoving = ({children, duration, distance}: HandMovingProps) => {
     }, [])
     return (
         <>
-            <Animated.View
-                style={{
-                    ...styles.cursor,
-                    transform: [{translateX: position.current.x}, {translateY: position.current.y}, {rotateX: "45deg"}]
-                }}>
-                <Image source={require("../../../assets/images/cursor-hand-icon.svg")} style={{width: 40, height: 50}}/>
-
-            </Animated.View>
-            <RippleCircle position={"absolute"}>
-                {children}
+            <RippleCircle position={"absolute"} maxScale={3}>
+                <Animated.View
+                    style={{
+                        ...styles.cursor,
+                        transform: [{translateX: position.current.x}, {translateY: position.current.y}, {rotateX: "45deg"}]
+                    }}>
+                    <Image source={require("../../../assets/images/cursor-hand-icon.svg")}
+                           style={{width: 40, height: 50}}/>
+                </Animated.View>
             </RippleCircle>
+            {children}
         </>
     )
 }
@@ -41,6 +42,6 @@ const styles = StyleSheet.create({
     cursor: {
         //@ts-ignore
         position: "relative",
-
+        zIndex: 2
     }
 })

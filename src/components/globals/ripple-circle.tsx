@@ -6,10 +6,10 @@ interface RippleProps {
     children?: ReactNode;
     maxScale?: number
     duration?: number,
-    position?:"absolute"|"fixed"
+    position?: "absolute" | "fixed"
 }
 
-export const RippleCircle = ({children, maxScale, duration,position}: RippleProps) => {
+export const RippleCircle = ({children, maxScale, duration, position}: RippleProps) => {
     const scale = useRef(new Animated.Value(1))
     const scale2 = useRef(new Animated.Value(1))
     const opacity = useRef(new Animated.Value(1))
@@ -18,18 +18,18 @@ export const RippleCircle = ({children, maxScale, duration,position}: RippleProp
         Animated.loop(
             Animated.stagger((duration ?? 1000) / 2, [
                 Animated.parallel([
-                Animated.timing(opacity.current, {
-                    useNativeDriver: false,
-                    toValue: 0,
-                    duration: duration ?? 1000
-                }),
-                Animated.timing(scale.current, {
-                    useNativeDriver: false,
-                    toValue: maxScale ?? 2,
-                    duration: 1000,
-                    easing: Easing.inOut(Easing.ease)
-                })
-            ]),
+                    Animated.timing(opacity.current, {
+                        useNativeDriver: false,
+                        toValue: 0,
+                        duration: duration ?? 1000
+                    }),
+                    Animated.timing(scale.current, {
+                        useNativeDriver: false,
+                        toValue: maxScale ?? 2,
+                        duration: 1000,
+                        easing: Easing.inOut(Easing.ease)
+                    })
+                ]),
                 Animated.parallel([
                     Animated.timing(opacity2.current, {
                         useNativeDriver: false,
@@ -56,12 +56,14 @@ export const RippleCircle = ({children, maxScale, duration,position}: RippleProp
                 ...styles.ripple,
                 transform: [{scaleX: scale.current}, {scaleY: scale.current}],
                 // @ts-ignore
-                position:position??"fixed",
+                position: position ?? "fixed",
                 opacity: opacity.current
             }}/>
             <Animated.View style={{
                 ...styles.ripple,
                 transform: [{scaleX: scale2.current}, {scaleY: scale2.current}],
+                // @ts-ignore
+                position: position ?? "fixed",
                 opacity: opacity2.current
             }}/>
             {children}
@@ -78,5 +80,6 @@ const styles = StyleSheet.create({
         // @ts-ignore
         position: Platform.OS === "web" ? "fixed" : "relative",
         borderRadius: 20,
+        zIndex: -2
     }
 })

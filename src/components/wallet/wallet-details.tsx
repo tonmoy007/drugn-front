@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {GlobalState} from '../../utils/store/global';
 import domtoimage from 'dom-to-image';
 import {ScreenWidth} from "../../utils/constants";
+import {HandMoving} from "../globals/hand-moving";
 
 interface Props {
     userWallet: { address: string, privateKey: string, base64Qr: any },
@@ -22,15 +23,14 @@ interface Props {
 export default function WalletDetails(props: Props) {
     const [copied, setCopied] = useState<boolean>(false);
     const screenShotRef = useRef(null);
-    const [showStep,updateShowStep]=useState(0);
+    const [showStep, updateShowStep] = useState(0);
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const user = useSelector((state: GlobalState) => state.user)
     const dispatch = useDispatch();
-
     const QRIMG = props.userWallet.base64Qr;
-    const walletAddress = props.userWallet.address;
-    const privateKey = props.userWallet.privateKey
-    const theme = useTheme()
+    const walletAddress = props.userWallet.address ?? "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+    const privateKey = props.userWallet.privateKey ?? "DDAAAAAAAAAAAAAAAADDDDDDDDDDDDDDAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    const theme = useTheme();
 
     useEffect(() => {
         dispatch(updateUser({...user, wallet: props.userWallet.address}))
@@ -50,18 +50,17 @@ export default function WalletDetails(props: Props) {
                 return (
                     <Text style={{
                         ...styles.navText,
-                        color: copied ? theme.colors.primary : theme.colors.onSurfaceDisabled
+                        color: copied && showStep === 3 ? theme.colors.primary : theme.colors.onSurfaceDisabled
                     }}
                           onPress={() => {
-                              if (copied)
+                              if (showStep === 3)
                                   props.setCompleted(true)
                           }}>完了</Text>
                 )
             }
         });
-    }, [props.setCompleted, copied]);
+    }, [props.setCompleted, copied, showStep]);
     const saveScreenShot = async () => {
-
         if (Platform.OS === "web") {
             domtoimage
                 .toJpeg(screenShotRef.current, {
@@ -81,21 +80,10 @@ export default function WalletDetails(props: Props) {
         }
     }
     const onSaveScreenShot = () => {
-
-        if (status === null) {
-            requestPermission().then((res) => {
-                console.log(res)
-                if (res.granted) {
-                    saveScreenShot().catch(err => console.log(err))
-                }
-            })
-        } else {
-            saveScreenShot().catch(err => console.log(err));
-        }
         if (Platform.OS === "web") {
             saveScreenShot().catch(err => console.log(err));
         }
-        updateShowStep(1)
+        updateShowStep(showStep + 1)
     }
 
     return (
@@ -117,46 +105,68 @@ export default function WalletDetails(props: Props) {
             </FBox>
             <View ref={screenShotRef} style={{...styles.container2, backgroundColor: theme.colors.onPrimary}}>
                 <Text style={{color: theme.colors.primary, fontWeight: '700',}} variant={"titleMedium"}>アドレス</Text>
-                <Button style={{width: '100%'}}
-                        onPress={() => copyToClipboard({
-                            text: walletAddress,
-                            msg: `Wallet address copied successfully`
-                        })}>
-                    <Text style={{
-                        ...styles.text,
-                        flex: 1,
-                        flexWrap: 'wrap',
-                        color: theme.colors.background,
-                        fontWeight: '700',
-                    }} variant={"titleMedium"}>{walletAddress}</Text>
-                </Button>
+                <FBox style={styles.relative}>
+                    <Button style={{width: '100%'}}
+                            onPress={() => {
+                                copyToClipboard({
+                                    text: walletAddress,
+                                    msg: `Wallet address copied successfully`
+                                }).then(() => {
+                                    if (showStep === 0) {
+                                        updateShowStep(showStep + 1)
+                                    }
+                                })
+                            }}>
+                        <Text style={{
+                            ...styles.text,
+                            flex: 1,
+                            flexWrap: 'wrap',
+                            color: theme.colors.background,
+                            fontWeight: '700',
+                        }} variant={"titleMedium"}>{walletAddress}</Text>
+                    </Button>
+                    {showStep === 0 && <HandMoving/>}
+                </FBox>
+
 
                 <Text style={{color: theme.colors.primary, fontWeight: '700', marginVertical: 20}}
                       variant={"titleMedium"}>保管が必要なプライベートキー</Text>
+
                 <TouchableOpacity
-                    onLongPress={() => copyToClipboard({text: privateKey, msg: `Private key copied successfully`})}>
-
+                    onLongPress={() => {
+                        copyToClipboard({text: privateKey, msg: `Private key copied successfully`}).then(() => {
+                            if (showStep == 1) {
+                                updateShowStep(showStep + 1)
+                            }
+                        })
+                    }}>
                     <Image source={{uri: QRIMG}} style={{width: 250, height: 250}}/>
-
                 </TouchableOpacity>
 
                 <FBox style={{width: '100%', padding: 10, marginTop: 20, backgroundColor: theme.colors.backdrop}}>
                     <Text style={{...styles.text, color: theme.colors.background, fontWeight: '700',}}
                           variant={"titleMedium"}>{privateKey}</Text>
                 </FBox>
-                <Button style={{...styles.button, backgroundColor: theme.colors.primary}}
-                        onPress={async () => {
-                            setCopied(await copyToClipboard(
-                                {text: privateKey, msg: `Private key copied successfully`, time: 1000}))
-                            updateShowStep(2)
-                        }}
-                        labelStyle={{...styles.text, color: theme.colors.onPrimary}}>プライベートキーをコピーする</Button>
+                <FBox style={styles.relative}>
+                    <Button style={{...styles.button, backgroundColor: theme.colors.primary}}
+                            onPress={async () => {
+                                setCopied(await copyToClipboard(
+                                    {text: privateKey, msg: `Private key copied successfully`, time: 1000}))
+                                updateShowStep(showStep + 1)
+                            }}
+                            labelStyle={{...styles.text, color: theme.colors.onPrimary}}>プライベートキーをコピーする</Button>
+
+                    {showStep === 1 ? <HandMoving/> : null}
+                </FBox>
                 <Text style={{color: theme.colors.background, fontWeight: '700', marginVertical: 10}}
                       variant={"titleMedium"}>又は</Text>
-                <Button onPress={() => onSaveScreenShot()}
-                        style={{...styles.button, backgroundColor: theme.colors.primary}}
-                        labelStyle={{...styles.text, color: theme.colors.onPrimary}}
-                >本画面をスクリーンショットで保管する</Button>
+                <FBox style={styles.relative}>
+                    <Button onPress={() => onSaveScreenShot()}
+                            style={{...styles.button, backgroundColor: theme.colors.primary}}
+                            labelStyle={{...styles.text, color: theme.colors.onPrimary}}
+                    >本画面をスクリーンショットで保管する</Button>
+                    {showStep === 2 ? <HandMoving/> : null}
+                </FBox>
 
                 <FBox style={{width: '100%', paddingBottom: 30, maxWidth: ScreenWidth}}>
                     <Button icon={"help-circle-outline"} mode={"outlined"}
@@ -170,10 +180,7 @@ export default function WalletDetails(props: Props) {
                             onPress={() => {
                             }}>プライベートキーを無くしたらどうなりますか?</Button>
                 </FBox>
-
             </View>
-
-
         </FBox>
     );
 }
@@ -231,6 +238,7 @@ const styles = StyleSheet.create({
     helpText: {
         marginHorizontal: 0,
         maxWidth: ScreenWidth,
-        overflow:"hidden"
-    }
+        overflow: "hidden"
+    },
+    relative: {position: "relative", width: "100%", alignItems: "center"}
 });
