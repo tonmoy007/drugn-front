@@ -1,13 +1,13 @@
 import {useSelector} from "react-redux";
-import {FBox} from "../../components/globals/fbox";
-import {DoseList} from "../../components/medicine/dose-list";
+import {FBox} from "../globals/fbox";
+import {DoseList} from "./dose-list";
 import {GlobalState} from "../../utils/store/global";
 import {useEffect, useState, Fragment} from 'react'
 import {useDeleteMedMutation, useFetchMedsQuery} from "../../api/okusuri";
 import {toastMessage} from "../../utils/toast";
 import {colors, RootParamList} from "../../utils/settings";
 import {StyleSheet} from 'react-native'
-import {ActivityIndicator, Button, Card, Divider, IconButton, Text, useTheme} from "react-native-paper";
+import {ActivityIndicator, Button, Card, IconButton, Text, useTheme} from "react-native-paper";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {MaterialIcons} from "@expo/vector-icons";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";

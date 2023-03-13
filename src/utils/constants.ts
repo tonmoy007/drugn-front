@@ -14,6 +14,7 @@ export const medIcons = {
     6: colors.onBackgroundSpace
 }
 export const medTime = {
+   0: { label: "朝：食前 ", value: "朝：食前 ", id: 0 },
    1: { label: "朝：食直後", value: "朝：食直後", id: 1 },
     2: { label: "朝：食後", value: "朝：食後" , id: 2},
    3: { label: "食間(午前）", value: "食間(午前）" , id: 3},
@@ -35,5 +36,5 @@ export const jpTime = {
     morning: '朝',
     afternoon: '昼',
     night: '夜',
-    any: '発熱時'
+    any: 'その他'
 }

@@ -8,7 +8,7 @@ export const RecordHeader = () => {
 
     return (
         <FBox style={{ ...styles.header, backgroundColor: colors.background2 }}>
-            <Text>服用する薬を記録します</Text>
+            <Text>左にスワイプで薬を削除できます。</Text>
         </FBox>
     )
 }

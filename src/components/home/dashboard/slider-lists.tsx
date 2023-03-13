@@ -9,11 +9,14 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { jpTime, medIcons, medTime } from "../../../utils/constants";
 import moment from "moment";
 import { toastMessage } from "../../../utils/toast";
+import {useSelector} from "react-redux";
+import {GlobalState} from "../../../utils/store/global";
 
 export const SliderLists = ({ data, time }) => {
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const today = moment().format('MM/DD');
     const day = moment().format('dddd').substring(0, 3)
+    const user=useSelector((state:GlobalState)=>state.user);
     const iconTime = {
         afternoon: 'sunny',
         night: 'moon',
@@ -48,7 +51,8 @@ export const SliderLists = ({ data, time }) => {
             </LinearGradient>
             {data.length === 0 && <>
                 <FBox key={`item-list-none`} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%", padding: 10 }}>
-                    <Text>既に飲み終わっているので、次回のお薬を飲む時間になるまでここに表示されません！</Text>
+                    <Text>{user.new?"服用されるお薬のDrugNへの登録がまだのようです。\n" +
+                        "お薬を登録するとここに表示されます。\n":"既に飲み終わっているので、次回のお薬を飲む時間になるまでここに表示されません！"}</Text>
                 </FBox>
             </>}
             {data.slice(0, 3).map((item, i) => {

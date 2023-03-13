@@ -1,5 +1,5 @@
 import { AddedMedicineList } from "../../components/medicine/added-medicine-list";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MessageWithImage } from "../../components/globals/message-with-image";
 
 export const AddedList = ({ route, navigation }) => {

@@ -25,7 +25,7 @@ export const DeleteMedicine = ({ navigation }) => {
                 return (
                     <Text style={{
                         ...styles.text, color: theme.colors.primary
-                    }} onPress={handleNextNav}>次へ</Text>
+                    }} onPress={handleNextNav}>ホームへ</Text>
                 )
             }
         });

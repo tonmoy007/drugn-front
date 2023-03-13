@@ -189,6 +189,15 @@ export default function AddMedicine({ route, navigation }) {
                     }
                     <FBox style={{ flex: 2 }}>
                         <Text style={styles.text}>服用中のお薬のバーコードをスキャンしてください。</Text>
+                        <FBox style={styles.buttonContainer}>
+                            <TextInput
+                                style={{ marginRight: 10 }} mode={"outlined"} value={inputGS1Code}
+                                onChangeText={(value) => setInputGS1Code(value)}
+                                placeholder={"Manually Enter the gs1Code"} />
+                            <IconButton onPress={onSubmitManual} mode={"outlined"}
+
+                                        icon={"send"} />
+                        </FBox>
                     </FBox>
                 </>
             }
