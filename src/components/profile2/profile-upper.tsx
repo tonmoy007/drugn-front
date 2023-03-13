@@ -1,5 +1,5 @@
 import {StyleSheet, Image} from 'react-native';
-import {colors} from '../../utils/settings';
+import {colors, RootParamList} from '../../utils/settings';
 import {Card, useTheme, Text, Button} from 'react-native-paper';
 import {FBox} from '../globals/fbox';
 import React from "react";
@@ -7,11 +7,15 @@ import {ScreenWidth} from "../../utils/constants";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
 import {useBalanceQuery} from "../../api/account";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 
 export default function UserProfileUpperSection() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
     const {data: balance} = useBalanceQuery({address: user.wallet})
+    const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
+
     return (
         <Card style={styles.card}>
             <Card.Content>
@@ -44,8 +48,7 @@ export default function UserProfileUpperSection() {
 
                         <Button labelStyle={styles.label} icon={"history"} mode={"outlined"}
                                 style={{marginRight: 5, ...styles.button}}
-                                onPress={() => {
-                                }}>
+                                onPress={() => nav.navigate("medicineHistory")}>
                             服薬履歴
                         </Button>
                     </FBox>
