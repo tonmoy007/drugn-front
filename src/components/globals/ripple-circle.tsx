@@ -6,7 +6,7 @@ interface RippleProps {
     children?: ReactNode;
     maxScale?: number
     duration?: number,
-    position:"absolute"|"fixed"
+    position?:"absolute"|"fixed"
 }
 
 export const RippleCircle = ({children, maxScale, duration,position}: RippleProps) => {
