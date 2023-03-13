@@ -11,6 +11,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {GlobalState} from "../../../utils/store/global";
 import {toastMessage} from "../../../utils/toast";
 import {useBalanceQuery, useUserDataQuery} from "../../../api/account";
+import {ComingSoon} from "../../../utils/constants";
 
 
 export const DashboardHeader = () => {
@@ -20,7 +21,7 @@ export const DashboardHeader = () => {
     const {data: userData, isLoading} = useUserDataQuery({userId: user.id})
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onNotiPress = async () => {
-        await toastMessage({msg: `Coming soon`})
+        await toastMessage({msg: ComingSoon})
     }
 
     const handleWallet = () => {

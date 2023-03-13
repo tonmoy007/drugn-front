@@ -4,6 +4,7 @@ import { colors } from "./settings";
 const {width, height} = Dimensions.get("window")
 export const ScreenWidth = width
 export const ScreenHeight = height;
+export const ComingSoon = "準備中です！お楽しみに!";
 export const medIcons = {
     1: colors.white,
     2: colors.primary2,

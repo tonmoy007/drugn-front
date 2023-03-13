@@ -4,7 +4,7 @@ import {Card, useTheme, Text} from 'react-native-paper';
 import {FBox} from '../globals/fbox';
 import {FontAwesome} from '@expo/vector-icons';
 import React from "react";
-import {ScreenWidth} from "../../utils/constants";
+import {ComingSoon, ScreenWidth} from "../../utils/constants";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
 import {copyToClipboard} from "../../utils/clipboard";
@@ -14,7 +14,7 @@ export default function UserProfileUpperTabs() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
     const onItemsTap=async()=>{
-        await toastMessage({msg:"Coming Soon"});
+        await toastMessage({msg: ComingSoon});
     }
     return (
         <Card style={styles.card}>

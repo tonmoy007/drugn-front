@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GlobalState } from "../../utils/store/global";
 import { logout } from "../../utils/store/user";
 import { toastMessage } from "../../utils/toast";
+import {ComingSoon} from "../../utils/constants";
 
 interface ProfileListItem {
     title: string;
@@ -52,14 +53,14 @@ export default function UserProfile2({ navigation }) {
             title: "Daily Donation",
             progress: 0,
             onPress: async () => {
-                await toastMessage({ msg: "Coming Soon" })
+                await toastMessage({ msg: ComingSoon })
             }
         },
         {
             title: "Fee Donation",
             progress: 0,
             onPress: async () => {
-                await toastMessage({ msg: "Coming Soon" })
+                await toastMessage({ msg: ComingSoon })
             }
         },
         {

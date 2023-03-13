@@ -5,6 +5,7 @@ import { Button, Card, Text, useTheme } from 'react-native-paper';
 import { FBox } from '../../components/globals/fbox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ClaimNFT from '../../components/nft/claimNFT';
+import {ComingSoon} from "../../utils/constants";
 
 const drugImage = require('../../../assets/icons/pills/blue_primary_eye.svg')
 const waterImage = require('../../../assets/icons/account_create_success.svg')
@@ -102,7 +103,7 @@ export default function FreeNFT({ navigation }) {
                             keyExtractor={(item, index) => `${curTab}-${index}`}
                         />
                             :
-                            <Text variant='titleMedium' style={{ textAlign: 'center', marginTop: 50 }}>Coming Soon</Text>
+                            <Text variant='titleMedium' style={{ textAlign: 'center', marginTop: 50 }}>{ComingSoon}</Text>
                         }
                     </FBox>
                 </>
