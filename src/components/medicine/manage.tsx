@@ -152,7 +152,7 @@ export const ManageUserMeds = ({delMed, history}) => {
                 <FBox style={{marginVertical: 10}}>
                     <DoseList list={medList[curTab]} swipeable={true} rightSwipeAction={rightSwipeAction}
                               recordMed={true}/>
-                    {medList[curTab].length === 0 && <Text style={{textAlign: 'center'}}>あなたは薬を持っていません</Text>}
+                    {medList[curTab].length === 0 && <Text style={{textAlign: 'center'}}>お薬を飲むスケジュールが登録されていません。</Text>}
                 </FBox>
 
                 <FBox style={{justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>

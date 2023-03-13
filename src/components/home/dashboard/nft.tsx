@@ -3,6 +3,7 @@ import { colors } from '../../../utils/settings';
 import { Text, useTheme, ProgressBar } from 'react-native-paper';
 import { NftProgress } from '../../globals/nft-progress';
 import {FBox} from "../../globals/fbox";
+import {ComingSoon} from "../../../utils/constants";
 
 const drugImage = require('../../../../assets/icons/pills/blue_primary_eye.svg')
 
@@ -54,7 +55,7 @@ export default function HomeNFT() {
 
     return (
         <FBox style={styles.container}>
-            <Text style={{ textAlign: 'center' }}>Coming Soon</Text>
+            <Text style={{ textAlign: 'center' }}>{ComingSoon}</Text>
             {/* <FlatList
                 data={nfts}
                 renderItem={renderList}

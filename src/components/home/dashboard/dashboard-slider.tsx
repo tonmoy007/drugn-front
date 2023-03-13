@@ -41,6 +41,7 @@ export const DashboardSlider = ({ id }) => {
     });
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const today = moment().format('MM/DD');
+    const dateName = moment().format('dddd').substring(0,3);
     const { data: meds, isLoading, isFetching } = useFetchMedsQuery({ userId: id })
 
     useEffect(() => {
@@ -85,7 +86,8 @@ export const DashboardSlider = ({ id }) => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>今日 {today}</Text>
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 2 }}>今日 {today}</Text>
+                                <Text style={{ fontFamily: 'Montserrat_700Bold', marginBottom: 5 }}>({dateName})</Text>
                                 <Button icon={"plus-circle-outline"}
                                     labelStyle={{ fontSize: 30, fontWeight: "bold", lineHeight: 40 }}
                                     mode={"text"} textColor={colors.white}

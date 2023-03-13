@@ -4,6 +4,7 @@ import { colors } from "./settings";
 const {width, height} = Dimensions.get("window")
 export const ScreenWidth = width
 export const ScreenHeight = height;
+export const ComingSoon = "準備中です！お楽しみに!";
 export const medIcons = {
     1: colors.white,
     2: colors.primary2,
@@ -32,7 +33,7 @@ export const medTime = {
 }
 export const jpTime = {
     morning: '朝',
-    afternoon: '午後',
+    afternoon: '昼',
     night: '夜',
     any: '発熱時'
 }

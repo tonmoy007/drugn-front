@@ -15,6 +15,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import HomeNFT from "./nft";
 import { toastMessage } from "../../../utils/toast";
+import {ComingSoon} from "../../../utils/constants";
 
 const { height: windowHeight } = Dimensions.get('window');
 
@@ -77,12 +78,12 @@ export const DashboardNft = ({ hideHeader }: { hideHeader?: boolean }) => {
                     <Card elevation={1} style={styles.card}>
                         <Card.Content>
                             <FBox style={styles.cardWrapper}>
-                                <TouchableOpacity style={styles.cardIcon} onPress={() => toastMessage({ msg: 'Coming soon' })}>
+                                <TouchableOpacity style={styles.cardIcon} onPress={() => toastMessage({ msg: ComingSoon })}>
                                     <CustomIcon color={colors.white} name={"nft-up"} size={smallScreen ? 20 : 60} />
                                     <Text style={styles.cardIconText}>NFT売買</Text>
                                 </TouchableOpacity>
                                 <FBox style={styles.cardIconDivider}></FBox>
-                                <TouchableOpacity onPress={() => toastMessage({ msg: 'Coming soon' })} style={{ flex: 1, alignItems: "center", flexDirection: "column" }}>
+                                <TouchableOpacity onPress={() => toastMessage({ msg: ComingSoon })} style={{ flex: 1, alignItems: "center", flexDirection: "column" }}>
                                     <CustomIcon color={colors.white} name={"nft-down"} size={smallScreen ? 20 : 60} />
                                     <Text style={styles.cardIconText}>NFT受取</Text>
                                 </TouchableOpacity>
