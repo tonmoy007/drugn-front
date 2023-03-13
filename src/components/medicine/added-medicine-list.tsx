@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     submit_button: {
-        background: "rgba(255, 255, 255, 0.2)",
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
         border: "1px solid #FFFFFF",
         borderRadius: 10,
         fontWeight: 500,

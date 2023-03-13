@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "prod:web": "npx expo start --web --no-dev --minify"
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",

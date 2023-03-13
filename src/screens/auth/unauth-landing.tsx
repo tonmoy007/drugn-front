@@ -30,7 +30,6 @@ export const UnAuthLanding = () => {
                     </FBox>
                     <FBox style={{display: "flex", flex: .2}}>
                         <Button mode="contained" onPress={() => {
-
                             navigation.navigate(signUpUrl)
                         }}
                                 style={{width: "100%", marginBottom: 12, borderRadius: 5}}>DrugNを始める</Button>
