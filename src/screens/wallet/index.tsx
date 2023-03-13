@@ -11,7 +11,7 @@ import { GlobalState } from "../../utils/store/global";
 
 export const NewWallet = ({ route, navigation }) => {
     const [completed, setCompleted] = useState<boolean>(false)
-    const [curStep, setCurStep] = useState<number>(2);
+    const [curStep, setCurStep] = useState<number>(0);
     const [userWallet, setUserWallet] = useState<any>({});
     const user = useSelector((state: GlobalState) => state.user)
 
