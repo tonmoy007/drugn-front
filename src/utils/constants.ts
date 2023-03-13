@@ -32,7 +32,7 @@ export const medTime = {
 }
 export const jpTime = {
     morning: '朝',
-    afternoon: '午後',
+    afternoon: '昼',
     night: '夜',
     any: '発熱時'
 }
