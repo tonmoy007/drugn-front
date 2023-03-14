@@ -1,13 +1,15 @@
 const createExpoWebpackConfigAsync = require("@expo/webpack-config");
 const path = require("path");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+require("dotenv").config()
 module.exports = async function (env, argv) {
     // Set by expo-cli during `expo build:web`
     const isEnvProduction = env.mode === "production";
-
     // Create the default config
-    const config = await createExpoWebpackConfigAsync(env, argv);
-
+    const config = await createExpoWebpackConfigAsync({
+        ...env,
+        pwa: isEnvProduction
+    }, argv);
     if (isEnvProduction) {
         config.plugins.push(
             // Generate a service worker script that will precache, and keep up to date,
