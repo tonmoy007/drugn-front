@@ -8,7 +8,7 @@ interface Props {
 export const toastMessage = async (props: Props) => {
     if(props.msg){
         let toast = Toast.show(props.msg, {
-        duration: Toast.durations.LONG,
+        duration: props.time??Toast.durations.LONG,
         position: 0
       })
       if(props.time){

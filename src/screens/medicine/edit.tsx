@@ -26,14 +26,17 @@ const dosages = [
     { value: '7', label: '7', id: 7 },
     { value: '8', label: '8', id: 8 },
 ];
-const initDose = { value: '', label: '', id: 0 }
-const initTime = { value: "", label: "", id: 0 }
+const initDose = { value: '', label: '', id: -1 }
+const initTime = { value: "", label: "", id: -1 }
+const allDosageDays: any[] = Array.from({ length: 180 }).map((_, index) => { return { value: index + 1, label: index + 1, id: index + 1 } })
 
 export const EditMedicine = ({ route, navigation }) => {
     const [medName, setMedName] = useState<string>('NONE')
     const { handleSubmit, control, setValue } = useForm()
     const [medIcon, setMedIcon] = useState<number>(1)
-    const [doseTime, setDoseTime] = useState<any>([{ dosage: initDose, time: initTime, id: 0 }])
+    const [doseTime, setDoseTime] = useState<any>([{ dosage: initDose, time: initTime, id: -1 }])
+    const [dosageDays, setDosageDays] = useState<any>({ value: 0, label: 0, id: 0 })
+
     const user = useSelector((state: GlobalState) => state.user)
 
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>()
@@ -84,24 +87,29 @@ export const EditMedicine = ({ route, navigation }) => {
     }
 
     const handleNext = () => {
-        if (doseTime.length > 0 && doseTime[0].dosage.id !== 0 && doseTime[0].time.id !== 0) {
+        if (dosageDays.id === 0) {
+            toastMessage({ msg: `Please select dose days` })
+            return;
+        }
+        if (doseTime.length > 0 && doseTime[0].dosage.id !== -1 && doseTime[0].time.id !== -1) {
             let finalDosages: object[] = [];
             for (let i = 0; i <= doseTime.length; i++) {
                 if (i === doseTime.length) {
                     nav.navigate("addedMed", { allMeds: { ...allMeds, [editID !== '' ? editID : route.params.medData.id]: finalDosages } })
                     break;
                 }
-                if (doseTime[i].dosage.id !== 0 && doseTime[i].time.id !== 0) {
+                if (doseTime[i].dosage.id !== -1 && doseTime[i].time.id !== -1) {
                     finalDosages.push({
-                        "userId": user.id,
-                        "medicineId": editID !== '' ? editID : route.params.medData.id,
-                        "takeMedicineIconType": +medIcon,
-                        "takeMedicineTimeType": +doseTime[i].time.id,
-                        "dose": +doseTime[i].dosage.id,
-                        "medicineName": medName,
+                        userId: user.id,
+                        medicineId: editID !== '' ? editID : route.params.medData.id,
+                        takeMedicineIconType: +medIcon,
+                        takeMedicineTimeType: +doseTime[i].time.id,
+                        dose: +doseTime[i].dosage.id,
+                        medicineName: medName,
+                        days: dosageDays.id
                     })
                 } else {
-                    toastMessage({ msg: `Error! - Select ${doseTime[i].dosage.id === 0 ? 'dose' : 'time'} for dose ${i + 1}` })
+                    toastMessage({ msg: `Error! - Select ${doseTime[i].dosage.id === -1 ? 'dose' : 'time'} for dose ${i + 1}` })
                     break;
                 }
             }
@@ -165,6 +173,24 @@ export const EditMedicine = ({ route, navigation }) => {
                         itemWidth={100}
                         style={{ width: '100%' }}
                         renderItem={renderMedIcons} />
+                    <FBox>
+                        <Text style={styles.label}>日分</Text>
+                        <FBox style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <FBox style={{ flex: 3 }}>
+                                <FPaperSelect name={"dosage-days"} title={"日分"}
+                                    selectItems={allDosageDays}
+                                    mode={"outlined"}
+                                    onChange={(item) => setDosageDays(item)}
+                                    outlineStyle={{ backgroundColor: "rgba(255,255,255,.06)" }}
+                                    outlineColor={"transparent"}
+                                    selectedItem={dosageDays}
+                                />
+                            </FBox>
+                            <FBox style={{ paddingLeft: 20 }}>
+                                <Text style={{ color: colors.text }}>日分</Text>
+                            </FBox>
+                        </FBox>
+                    </FBox>
 
                     {doseTime.map((dose, index) => {
                         return <FBox key={dose.id}>
