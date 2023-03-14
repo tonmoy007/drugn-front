@@ -24,7 +24,7 @@ export const AddedMedicineList = ({ navigation, setSubmitted, medicines }) => {
         const allMeds: any[] = Object.values(medicines);
         let previewMeds: any[] = [];
         for (let i = 0; i < allMeds.length; i++) {
-            previewMeds.push(allMeds[i][0]);
+            previewMeds.push(...allMeds[i]);
         }
         setMedPreview(previewMeds)
     }, [medicines])

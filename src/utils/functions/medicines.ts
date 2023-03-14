@@ -8,19 +8,43 @@ if(time>=24){
 }
 return time;
 }
+
+const hashTime = {
+    0: 'morning',
+    1: 'morning',
+    2: 'morning',
+    3: 'morning',
+    4: 'afternoon',
+    5: 'afternoon',
+    6: 'afternoon',
+    7: 'afternoon',
+    8: 'afternoon',
+    9: 'night',
+    10: 'night',
+    11: 'night',
+    12: 'night',
+    13: 'afternoon',
+    14: 'afternoon',
+    15: 'morning',
+    16: 'night',
+    17: 'afternoon',
+    18: 'afternoon',
+    19: 'afternoon',
+}
+
+
 export const userMedTime =  (props: Props) => {
 let rtMeds: any = {
     medList: {
         morning: [],
         afternoon: [],
         night: [],
-        any: []
     },
     activeTime: 'afternoon',
     timeIDs: {morning: [],
         afternoon: [],
         night: [],
-        any: []}
+}
 }   
 
    const today = {
@@ -33,35 +57,13 @@ let rtMeds: any = {
                     morning: [],
                     afternoon: [],
                     night: [],
-                    any: []
                 };
          
                 for (let i = 0; i < props.medicines.length; i++) {
                     const date = new Date(props.medicines[i].updated_at);
-                    //morning
-                    if (props.medicines[i].take_medicine_time_type < 4) {
-                        rtMeds.medList.morning.push(props.medicines[i])
-                        if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
-                            tempIDs.morning.push(props.medicines[i]);
-                    }
-                    //afternoon
-                    if (props.medicines[i].take_medicine_time_type > 3 && props.medicines[i].take_medicine_time_type < 9) {
-                        rtMeds.medList.afternoon.push(props.medicines[i])
-                        if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
-                            tempIDs.afternoon.push(props.medicines[i]);
-                    }
-                    //night
-                    if (props.medicines[i].take_medicine_time_type > 8 && props.medicines[i].take_medicine_time_type < 13) {
-                        rtMeds.medList.night.push(props.medicines[i])
-                        if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
-                            tempIDs.night.push(props.medicines[i]);
-                    }
-                    //any
-                    if (props.medicines[i].take_medicine_time_type >= 13) {
-                        rtMeds.medList.any.push(props.medicines[i])
-                        if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
-                            tempIDs.any.push(props.medicines[i]);
-                    }
+                    rtMeds.medList[hashTime[props.medicines[i].take_medicine_time_type]].push(props.medicines[i]);
+                    if ((date.getUTCDay() + 1 !== today.day || (props.medicines[i].updated_at === props.medicines[i].created_at)))
+                            tempIDs[hashTime[props.medicines[i].take_medicine_time_type]].push(props.medicines[i]);
                 }
                 rtMeds.timeIDs = tempIDs;         
             } 

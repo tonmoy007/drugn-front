@@ -54,50 +54,60 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
         <ScrollView style={{ maxHeight: "100%" }}>
             <List.Section>
                 {list.map((item, index) => {
-                    return <Swipeable
-                        renderRightActions={() => rightSwipeAction ? rightSwipeAction(item.id) : null}
-                        onSwipeableOpen={(direction, swipeable) => {
-                            if (direction === "right") {
-                                setSwiped({ ...swiped, [item.id]: true })
-                            }
-                        }}
-                        onSwipeableClose={() => setSwiped({ ...swiped, [item.id]: false })}
-                        key={`view_${item.id}`}
-                        enabled={swipeable}
-                        childrenContainerStyle={{ opacity: swiped[item.id] ? 0.5 : 1 }}
-                    >
-                        <TouchableOpacity onPress={() => takeMed(item)}>
-                            {medHistory &&
-                                <FBox style={styles.historyDate}><MaterialCommunityIcons name={item.created_at === item.updated_at ? 'bottle-tonic-plus' : 'history'}
-                                    color={colors.textSemiDark} size={15} /> <Text
-                                        style={{ marginLeft: 10, color: colors.textSemiDark }}
-                                    >{`${moment(item.updated_at).format('llll')}`}</Text>
-                                </FBox>}
+                    return (<>
+                        {!medHistory || (item.created_at !== item.updated_at && medHistory) ?
+                            <>
+                                <Swipeable
+                                    renderRightActions={() => rightSwipeAction ? rightSwipeAction(item.id) : null}
+                                    onSwipeableOpen={(direction, swipeable) => {
+                                        if (direction === "right") {
+                                            setSwiped({ ...swiped, [item.id]: true })
+                                        }
+                                    }}
+                                    onSwipeableClose={() => setSwiped({ ...swiped, [item.id]: false })}
+                                    key={`view_${item.id}`}
+                                    enabled={swipeable}
+                                    childrenContainerStyle={{ opacity: swiped[item.id] ? 0.5 : 1 }}
+                                >
 
-                            <List.Item
-                                key={`data_${item.id}`}
-                                style={{
-                                    ...styles.list,
-                                    borderWidth: onLocationSelect ? 1 : 0,
-                                    borderColor: !item.selected ? theme.colors.outline : theme.colors.primary,
-                                }}
-                                title={(props) => <Text {...props} numberOfLines={2} ellipsizeMode={'tail'}>{item.medicine_name}</Text>}
+                                    <TouchableOpacity onPress={() => takeMed(item)}>
+                                        {medHistory &&
+                                            <FBox style={styles.historyDate}><MaterialCommunityIcons name={'history'}
+                                                color={colors.textSemiDark} size={15} /> <Text
+                                                    style={{ marginLeft: 10, color: colors.textSemiDark }}
+                                                >{`${moment(item.updated_at).format('llll')}`}</Text>
+                                            </FBox>}
 
-                                description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
-                                onPress={() => onLocationSelect ? onLocationSelect(index, item) : null}
-                                descriptionStyle={[styles.desc, {
-                                    color: theme.colors.onPrimary,
-                                }]}
-                                left={props => <CustomIcon color={medIcons[item.medicine_icon_type]} name={"pill"}
-                                    size={16} />}
-                            />
-                            {index < list.length - 1 && !onLocationSelect && <Divider key={`divider_${item.id}`} style={{ borderColor: colors.textDark, marginVertical: 5 }} />}
-                        </TouchableOpacity>
-                    </Swipeable>
+                                        <List.Item
+                                            key={`data_${item.id}`}
+                                            style={{
+                                                ...styles.list,
+                                                borderWidth: onLocationSelect ? 1 : 0,
+                                                borderColor: !item.selected ? theme.colors.outline : theme.colors.primary,
+                                            }}
+                                            title={(props) => <Text {...props} numberOfLines={2} ellipsizeMode={'tail'}>{item.medicine_name}</Text>}
+
+                                            description={`${medTime[item.take_medicine_time_type].value} / ${item.dose}`}
+                                            onPress={() => onLocationSelect ? onLocationSelect(index, item) : null}
+                                            descriptionStyle={[styles.desc, {
+                                                color: theme.colors.onPrimary,
+                                            }]}
+                                            left={props => <CustomIcon color={medIcons[item.medicine_icon_type]} name={"pill"}
+                                                size={16} />}
+                                        />
+                                        {index < list.length - 1 && !onLocationSelect && <Divider key={`divider_${item.id}`} style={{ borderColor: colors.textDark, marginVertical: 5 }} />}
+                                    </TouchableOpacity>
+
+                                </Swipeable>
+                            </>
+                            :
+                            null
+                        }
+                    </>)
                 })}
             </List.Section>
         </ScrollView>
-    </FBox>
+    </FBox >
 }
 
 const styles = StyleSheet.create({

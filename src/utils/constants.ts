@@ -36,5 +36,9 @@ export const jpTime = {
     morning: '朝',
     afternoon: '昼',
     night: '夜',
-    any: 'その他'
+}
+export const timeDets = {
+    morning: { color: ['#F5C24E', '#E83F94'] },
+    afternoon: { icon: require("../../assets/icons/sunny.svg"), color: ['#2988ff', '#2988ff'] },
+    night: { icon: require("../../assets/icons/moon.svg"), color: ['#5B4EF5', '#E83F94'] },
 }

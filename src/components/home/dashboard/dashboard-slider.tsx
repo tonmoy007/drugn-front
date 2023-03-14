@@ -37,11 +37,10 @@ export const DashboardSlider = ({ id }) => {
         morning: [],
         afternoon: [],
         night: [],
-        any: []
     });
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const today = moment().format('MM/DD');
-    const dateName = moment().format('dddd').substring(0,3);
+    const dateName = moment().format('dddd').substring(0, 3);
     const { data: meds, isLoading, isFetching } = useFetchMedsQuery({ userId: id })
 
     useEffect(() => {
@@ -52,7 +51,6 @@ export const DashboardSlider = ({ id }) => {
 
     function getAllUserMeds(meds) {
         const allMeds = userMedTime({ medicines: meds })
-        console.log(allMeds)
         setActiveTime(allMeds.activeTime)
         setTimeIDs(allMeds.timeIDs)
     }
@@ -97,7 +95,7 @@ export const DashboardSlider = ({ id }) => {
                     )}
                     {index == 1 && (
                         isLoading || isFetching ? <ActivityIndicator /> :
-                            <SliderLists data={timeIDs[activeTime] ? [...timeIDs[activeTime], ...timeIDs['any']] : []} time={activeTime} />
+                            <SliderLists data={timeIDs[activeTime] ? [...timeIDs[activeTime]] : []} time={activeTime} />
                     )}
 
                 </FBox>
