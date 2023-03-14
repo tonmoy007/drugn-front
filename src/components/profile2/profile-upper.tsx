@@ -13,7 +13,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 export default function UserProfileUpperSection() {
     const theme = useTheme();
     const user = useSelector((state: GlobalState) => state.user);
-    const {data: balance} = useBalanceQuery({address: user.wallet})
+    const {data: balance} = useBalanceQuery({address: user.address})
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
 
     return (

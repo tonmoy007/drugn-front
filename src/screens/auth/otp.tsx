@@ -5,7 +5,6 @@ import {useCallback, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootParamList} from "../../utils/settings";
-import {ConfirmCode} from "../../services/auth";
 import {setNewUser} from "../../utils/store/user";
 import {useDispatch} from "react-redux";
 import {useConfirmCodeMutation} from "../../api/auth";

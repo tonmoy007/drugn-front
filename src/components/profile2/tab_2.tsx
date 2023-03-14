@@ -60,13 +60,13 @@ export default function UserProfileUpperTabs() {
                     </Text>
                 </FBox>
                 <Text onPress={async () => {
-                    await copyToClipboard({text: user.wallet ?? "", msg: `Wallet address copied successfully`})
+                    await copyToClipboard({text: user.address ?? "", msg: `Wallet address copied successfully`})
                 }} style={{
                     ...styles.lowerText,
                     fontSize: 12,
                     marginTop: 4,
                     color: theme.colors.onPrimary
-                }}>{user.wallet ?? "N/A"}</Text>
+                }}>{user.address ?? "N/A"}</Text>
             </FBox>
         </Card>
     );

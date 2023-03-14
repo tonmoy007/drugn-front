@@ -19,7 +19,7 @@ interface Props {
 export default function ConfirmClaimNFT(props: Props) {
     const [claimed, setClaimed] = useState<boolean>(false)
     const user = useSelector((state: GlobalState) => state.user)
-    const { data: claimNFT, isLoading, error } = useInitialNFTQuery({ address: user.wallet, user: user.id ?? 0 })
+    const { data: claimNFT, isLoading, error } = useInitialNFTQuery({ address: user.address, user: user.id ?? 0 })
 
     const theme = useTheme()
 

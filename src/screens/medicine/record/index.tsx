@@ -78,8 +78,8 @@ export default function RecordMedicine({ route, navigation }) {
                 toastMessage({ msg: res.message });
                 return;
             }
-            if (user.wallet) {
-                rewardUser({ address: user.wallet, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
+            if (user.address) {
+                rewardUser({ address: user.address, userId: user.id, medicineId: tempMedData.medicineId }).unwrap().then(async (res) => {
                     if (res.error) {
                         toastMessage({ msg: res.message });
                         return;

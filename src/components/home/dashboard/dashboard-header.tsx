@@ -1,6 +1,6 @@
 import {FBox} from "../../globals/fbox";
 import {Image, TouchableOpacity} from "react-native";
-import {IconButton, Text} from "react-native-paper";
+import {ActivityIndicator, IconButton, Text} from "react-native-paper";
 import {CustomIcon} from "../../../utils/custom-icon";
 import {colors, RootParamList} from "../../../utils/settings";
 import {useEffect, useState} from "react";
@@ -17,7 +17,7 @@ import {ComingSoon} from "../../../utils/constants";
 export const DashboardHeader = () => {
     const [hasNoti, setHasNoti] = useState(true)
     const user = useSelector((state: GlobalState) => state.user)
-    const {data: balance} = useBalanceQuery({address: user.wallet})
+    const {data: balance, isLoading: loadingBalance} = useBalanceQuery({address: user.address})
     const {data: userData, isLoading} = useUserDataQuery({userId: user.id})
     const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>()
     const onNotiPress = async () => {
@@ -26,7 +26,7 @@ export const DashboardHeader = () => {
 
     const handleWallet = () => {
         if (user && user.loggedIn) {
-            if (!user.wallet) {
+            if (!user.address) {
                 navigation.navigate('wallet')
             }
         }
@@ -50,7 +50,7 @@ export const DashboardHeader = () => {
                     <TouchableOpacity style={{flexDirection: "row", alignItems: "center"}} onPress={handleWallet}>
                         <Image source={require("../../../../assets/images/drugn-wallet.png")}
                                style={{marginRight: 8, width: 20, height: 20}}/>
-                        {user?.wallet ?
+                        {isLoading ? (<ActivityIndicator/>) : user?.address ?
                             <Text style={{
                                 fontFamily: "Montserrat_700Bold",
                                 fontSize: 18,
@@ -59,7 +59,8 @@ export const DashboardHeader = () => {
                             :
                             <Text style={{fontFamily: "Montserrat_700Bold", fontSize: 14, lineHeight: 22}}>Add
                                 wallet</Text>
-                        }</TouchableOpacity>
+                        }
+                    </TouchableOpacity>
                 </FBox>
             </FBox>
             <FBox>

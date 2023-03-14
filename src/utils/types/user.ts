@@ -7,7 +7,7 @@ export interface User {
     accessToken?: string;
     avatar?: string;
     loggedIn: boolean;
-    wallet?:string;
+    address:string;
     new?: boolean;
 }
 
