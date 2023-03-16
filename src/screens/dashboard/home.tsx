@@ -8,22 +8,21 @@ import {DashboardActions} from "../../components/home/dashboard/dashboard-action
 import {DashboardNftHealth} from "../../components/home/dashboard/dashboard-nft-health";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../utils/store/global";
+import {Background} from "../../components/globals/background";
 
 export const Home = () => {
 
     const user = useSelector((state: GlobalState) => state.user)
     console.log(user)
     return (
-        <LinearGradient style={{flex: 1, justifyContent: "space-between"}} colors={[colors.primary2, colors.background]}
-                        start={{x: 0.1, y: 0.3}}
-                        end={{x: 0.6, y: 0.5}} locations={[.1, .6]}>
+        <Background colors={[colors.primary2, colors.background]}>
             <DashboardHeader/>
             <ScrollView style={{flex: 1}}>
                 <DashboardNftHealth userID={user.id}/>
                 <DashboardSlider id={user.id}/>
                 <DashboardActions/>
             </ScrollView>
-        </LinearGradient>
+        </Background>
     )
 }
 const styles = StyleSheet.create({
