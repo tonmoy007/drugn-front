@@ -3,7 +3,7 @@ import { Divider, List, Text, useTheme } from "react-native-paper";
 import { colors, RootParamList } from "../../utils/settings";
 import { FBox } from "../globals/fbox";
 import { Swipeable, TouchableOpacity } from "react-native-gesture-handler";
-import { ReactNode, useState, useEffect } from "react";
+import {ReactNode, useState, useEffect, Fragment} from "react";
 import { CustomIcon } from "../../utils/custom-icon";
 import { medIcons, medTime } from "../../utils/constants";
 import { useNavigation } from "@react-navigation/core";
@@ -54,7 +54,7 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
         <ScrollView style={{ maxHeight: "100%" }}>
             <List.Section>
                 {list.map((item, index) => {
-                    return (<>
+                    return (<Fragment key={'item-dose-'+index}>
                         {!medHistory || (item.created_at !== item.updated_at && medHistory) ?
                             <>
                                 <Swipeable
@@ -103,7 +103,7 @@ export const DoseList = ({ list, recordMed, swipeable, medHistory, rightSwipeAct
                             :
                             null
                         }
-                    </>)
+                    </Fragment>)
                 })}
             </List.Section>
         </ScrollView>
