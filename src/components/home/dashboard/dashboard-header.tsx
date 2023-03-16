@@ -15,7 +15,7 @@ import {ComingSoon} from "../../../utils/constants";
 
 
 export const DashboardHeader = () => {
-    const [hasNoti, setHasNoti] = useState(true)
+    const [hasNoti, setHasNoti] = useState(false)
     const user = useSelector((state: GlobalState) => state.user)
     const {data: balance, isLoading: loadingBalance} = useBalanceQuery({address: user.address})
     const {data: userData, isLoading} = useUserDataQuery({userId: user.id})
