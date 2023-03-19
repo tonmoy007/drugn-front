@@ -142,7 +142,7 @@ export default function AddMedicine({ route, navigation }) {
                         key={`medPhoto`}>
                         <Button icon={"camera"} labelStyle={[styles.text, { fontSize: 16 }]} mode={"outlined"}
                             style={styles.photoPreview}
-                            onPress={retake}>バーコードをスキャン</Button>
+                            onPress={retake}>撮影をしなおす。</Button>
                     </ImageBackground>
                     <FBox style={styles.photoType}>
                         <Text style={styles.cameraText}>{scannedGS1Code}</Text>
