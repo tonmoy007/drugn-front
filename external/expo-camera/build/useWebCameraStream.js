@@ -53,10 +53,12 @@ export function useWebCameraStream(video, preferredType, settings, { onCameraRea
         return FacingModeToCameraType[facingMode];
     }, [mediaTrackSettings]);
     const getStreamDeviceAsync = React.useCallback(async () => {
+        console.log(preferredType);
         try {
             return await Utils.getPreferredStreamDevice(preferredType);
         }
         catch (nativeEvent) {
+            console.error(nativeEvent);
             if (__DEV__) {
                 console.warn(`Error requesting UserMedia for type "${preferredType}":`, nativeEvent);
             }

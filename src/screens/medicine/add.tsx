@@ -1,6 +1,6 @@
 import {Camera, CameraType} from '../../../external/expo-camera';
 import React, {useEffect, useRef, useState} from 'react';
-import {ImageBackground, StyleSheet, View} from 'react-native';
+import {ImageBackground, StyleSheet} from 'react-native';
 import {ActivityIndicator, Button, IconButton, Text, TextInput, useTheme} from "react-native-paper";
 import {StepOf} from '../../components/globals/step-of';
 import {colors, RootParamList} from '../../utils/settings';
@@ -18,7 +18,8 @@ BarcodeReader.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-javas
 export default function AddMedicine({ route, navigation }) {
     let cameraRef = useRef<any>()
     const [medData, setMedData] = useState<any>({})
-    const [medImage, setMedImage] = useState<any>(null)
+    const [medImage, setMedImage] = useState<any>(null);
+    const [cameraType,setCameraType]=useState<CameraType>(CameraType.back)
     const [scannedGS1Code, setScannedGS1Code] = useState<string>('');
     const [inputGS1Code, setInputGS1Code] = useState<string>('');
     const { data: med, isLoading, isFetching, error } = useGs1codeQuery({ gs1code: scannedGS1Code })
@@ -27,7 +28,7 @@ export default function AddMedicine({ route, navigation }) {
     const nav = useNavigation<NativeStackNavigationProp<RootParamList>>();
     const timeout = React.useRef(undefined);
     const isRunning = React.useRef(false)
-    const scanner = useRef<BarcodeReader | null>(null)
+    const [cameraLoading,setCameraLoading] = useState(false)
     const theme = useTheme();
     const { allMeds = {} } = route.params ?? {}
 
@@ -36,7 +37,10 @@ export default function AddMedicine({ route, navigation }) {
         if (route)
             setMedicine(null)
     }, [route])
-
+    useEffect(()=>{
+        setCameraLoading(true)
+        setTimeout(()=>setCameraLoading(false),10);
+    },[cameraType])
     useEffect(() => {
         let curStep = 1;
         if (medicine)
@@ -64,17 +68,16 @@ export default function AddMedicine({ route, navigation }) {
     }, [medicine]);
 
     useEffect(() => {
-        console.log(permission?.granted)
         if (!permission?.granted) {
             requestPermission().catch(err => alert(err))
         }
-        console.log(permission)
-        console.log("Hello")
     }, [])
 
     useEffect(() => {
-        if (error && scannedGS1Code !== '')
-            toastMessage({ msg: `Error getting medicine data` })
+        if (error && scannedGS1Code !== ''){
+            toastMessage({ msg: `Error getting medicine data` }).catch(err=>console.log(err))
+            setScannedGS1Code("")
+        }
     }, [error])
 
     useEffect(() => {
@@ -96,7 +99,12 @@ export default function AddMedicine({ route, navigation }) {
             navigation.replace('dashboard')
     }
     const onSubmitManual = () => {
-        takePic(inputGS1Code);
+        if (inputGS1Code!==""){
+            const code=inputGS1Code.replace(/\(\d+\)/,"")
+            console.log(inputGS1Code,code)
+            takePic(code).catch(err=>console.log(err));
+        }
+
         // setMedicine({ manual: true })
     }
     const takePic = async (gsCode) => {
@@ -105,11 +113,14 @@ export default function AddMedicine({ route, navigation }) {
             base64: true,
             exif: false
         };
-        if (gsCode) {
-            setMedImage(await cameraRef.current.takePictureAsync(options));
+        if (gsCode&&gsCode!=="") {
+            try{
+                setMedImage(await cameraRef.current.takePictureAsync(options));
+            }catch (err){
+                console.log(err)
+            }
             setScannedGS1Code(gsCode)
         }
-        ;
     }
 
     const retake = () => {
@@ -162,7 +173,7 @@ export default function AddMedicine({ route, navigation }) {
                             </FBox>
                         </FBox>
                         :
-                        <Camera style={styles.camera} type={CameraType.back} ref={cameraRef} barCodeScannerSettings={{
+                        !cameraLoading?<Camera autoFocus={true} focusDepth={1/100} style={styles.camera} onCameraReady={()=>console.log("Camera Ready")} type={cameraType} ref={cameraRef} barCodeScannerSettings={{
                             barCodeTypes: [
                                 'aztec',
                                 'codabar',
@@ -183,9 +194,14 @@ export default function AddMedicine({ route, navigation }) {
                             ], interval: 10
                         }} onBarCodeScanned={(res) => {
                             if (res.data) {
-                                takePic(res.data)
+                                takePic(res.data).catch(err=>{
+                                    console.log(err)
+                                })
                             }
-                        }} />
+                        }} onMountError={(err)=>{
+                            console.error("main",err)
+                            setCameraType(CameraType.front)
+                        }} />:null
                     }
                     <FBox style={{ flex: 2 }}>
                         <Text style={styles.text}>服用中のお薬のバーコードをスキャンしてください。</Text>
@@ -195,7 +211,6 @@ export default function AddMedicine({ route, navigation }) {
                                 onChangeText={(value) => setInputGS1Code(value)}
                                 placeholder={"Manually Enter the gs1Code"} />
                             <IconButton onPress={onSubmitManual} mode={"outlined"}
-
                                         icon={"send"} />
                         </FBox>
                     </FBox>

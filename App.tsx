@@ -31,7 +31,7 @@ export default function App(props) {
         <>
             <FBox style={{flex:1,alignItems:"center",justifyContent:"center"}}>
                 <FBox style={{flexDirection:"row"}}>
-                    <ActivityIndicator/> <Text style={{paddingLeft: 20}} variant={"bodySmall"}>Fonts loading</Text>
+                    <ActivityIndicator/> <Text style={{paddingLeft: 20}} variant={"bodySmall"}> loading...</Text>
                 </FBox>
             </FBox>
         </>

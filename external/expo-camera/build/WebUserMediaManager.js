@@ -54,9 +54,11 @@ async function sourceSelectedAsync(isMuted, audioConstraints, videoConstraints) 
 }
 export async function requestUserMediaAsync(props, isMuted = true) {
     if (canGetUserMedia()) {
+        console.log("Can get user media");
         return await sourceSelectedAsync(isMuted, props.audio, props.video);
     }
     const [audio, video] = await requestLegacyUserMediaAsync(props);
+    console.log(audio, video);
     return await sourceSelectedAsync(isMuted, audio, video);
 }
 export async function getAnyUserMediaAsync(constraints, ignoreConstraints = false) {
@@ -75,9 +77,17 @@ export async function getAnyUserMediaAsync(constraints, ignoreConstraints = fals
 }
 export async function getUserMediaAsync(constraints) {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        return navigator.mediaDevices.getUserMedia(constraints);
+        console.log("requested constraints", constraints);
+        try {
+            return navigator.mediaDevices.getUserMedia(constraints);
+        }
+        catch (err) {
+            console.error("ERROR FOUND", err);
+            throw err;
+        }
     }
     const _getUserMedia = navigator['mozGetUserMedia'] || navigator['webkitGetUserMedia'] || navigator['msGetUserMedia'];
+    console.log(_getUserMedia);
     return new Promise((resolve, reject) => _getUserMedia.call(navigator, constraints, resolve, reject));
 }
 export function canGetUserMedia() {

@@ -77,9 +77,11 @@ export function useWebCameraStream(
   }, [mediaTrackSettings]);
 
   const getStreamDeviceAsync = React.useCallback(async (): Promise<MediaStream | null> => {
+    console.log(preferredType)
     try {
       return await Utils.getPreferredStreamDevice(preferredType);
     } catch (nativeEvent) {
+      console.error(nativeEvent);
       if (__DEV__) {
         console.warn(`Error requesting UserMedia for type "${preferredType}":`, nativeEvent);
       }

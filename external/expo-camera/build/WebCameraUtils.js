@@ -136,6 +136,7 @@ export async function getPreferredStreamDevice(preferredCameraType, preferredWid
     catch (error) {
         // A hack on desktop browsers to ensure any camera is used.
         // eslint-disable-next-line no-undef
+        console.log("here i go", error);
         if (error instanceof OverconstrainedError && error.constraint === 'facingMode') {
             const nextCameraType = preferredCameraType === CameraType.back ? CameraType.front : CameraType.back;
             return await getStreamDevice(nextCameraType, preferredWidth, preferredHeight);
@@ -145,7 +146,9 @@ export async function getPreferredStreamDevice(preferredCameraType, preferredWid
 }
 export async function getStreamDevice(preferredCameraType, preferredWidth, preferredHeight) {
     const constraints = getIdealConstraints(preferredCameraType, preferredWidth, preferredHeight);
+    console.log("constrains", constraints);
     const stream = await requestUserMediaAsync(constraints);
+    console.log("i am stream", stream);
     return stream;
 }
 export function isWebKit() {
