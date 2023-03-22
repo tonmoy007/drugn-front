@@ -44,27 +44,29 @@ export default function WalletDetails(props: Props) {
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerTitleAlign: 'center',
-            headerLeft: () => {
-                return (
-                    <TouchableOpacity
-                        style={styles.navText} onPress={() => props.setStep(1)}><MaterialIcons
-                        name='keyboard-arrow-left' size={28} color={theme.colors.onPrimary}/></TouchableOpacity>
-                )
-            },
-            headerRight: () => {
-                return (
-                    <Text style={{
-                        ...styles.navText,
-                        color: copied && showStep === 3 ? theme.colors.primary : theme.colors.onSurfaceDisabled
-                    }}
-                          onPress={() => {
-                              if (showStep === 3)
-                                  props.setCompleted(true)
-                          }}>完了</Text>
-                )
-            }
-        });
+                                        headerTitleAlign: 'center',
+                                        headerLeft: () => {
+                                            return (
+                                                <TouchableOpacity
+                                                    style={styles.navText}
+                                                    onPress={() => props.setStep(1)}><MaterialIcons
+                                                    name='keyboard-arrow-left' size={28}
+                                                    color={theme.colors.onPrimary}/></TouchableOpacity>
+                                            )
+                                        },
+                                        headerRight: () => {
+                                            return (
+                                                <Text style={{
+                                                    ...styles.navText,
+                                                    color: copied && showStep >= 3 ? theme.colors.primary : theme.colors.onSurfaceDisabled
+                                                }}
+                                                      onPress={() => {
+                                                          if (showStep >= 3)
+                                                              props.setCompleted(true)
+                                                      }}>完了</Text>
+                                            )
+                                        }
+                                    });
     }, [props.setCompleted, copied, showStep]);
     const saveScreenShot = async () => {
         if (Platform.OS === "web") {
@@ -89,7 +91,7 @@ export default function WalletDetails(props: Props) {
         if (Platform.OS === "web") {
             saveScreenShot().catch(err => console.log(err));
         }
-        updateShowStep(showStep + 1)
+        updateShowStep(current => current >= 2 ? current + 1 : current)
     }
 
     return (
@@ -115,12 +117,11 @@ export default function WalletDetails(props: Props) {
                     <Button style={{width: '100%'}}
                             onPress={() => {
                                 copyToClipboard({
-                                    text: walletAddress,
-                                    msg: `Wallet address copied successfully`
-                                }).then(() => {
-                                    if (showStep === 0) {
-                                        updateShowStep(showStep + 1)
-                                    }
+                                                    text: walletAddress,
+                                                    msg: `Wallet address copied successfully`
+                                                }).then(() => {
+                                    updateShowStep(current => current === 0 ? current + 1 : current)
+
                                 })
                             }}>
                         <Text style={{
@@ -141,9 +142,8 @@ export default function WalletDetails(props: Props) {
                 <TouchableOpacity
                     onLongPress={() => {
                         copyToClipboard({text: privateKey, msg: `Private key copied successfully`}).then(() => {
-                            if (showStep == 1) {
-                                updateShowStep(showStep + 1)
-                            }
+                            updateShowStep(current => current === 1 ? current + 1 : current)
+
                         })
                     }}>
                     <Image source={{uri: QRIMG}} style={{width: 250, height: 250}}/>
@@ -181,7 +181,8 @@ export default function WalletDetails(props: Props) {
                             onPress={() => setShowHelp1(true)}>プライベートキーとは?
                     </Button>
                     <TextInfoModal title={"プライベートキーとは?"} show={showHelp1} text={help1} onDismiss={setShowHelp1}/>
-                    <TextInfoModal title={"プライベートキーを無くしたらどうなりますか?"} show={showHelp2} text={help2} onDismiss={setShowHelp2}/>
+                    <TextInfoModal title={"プライベートキーを無くしたらどうなりますか?"} show={showHelp2} text={help2}
+                                   onDismiss={setShowHelp2}/>
                     <Button icon={"help-circle-outline"} mode={"outlined"}
                             style={styles.help} labelStyle={{...styles.helpText, color: theme.colors.background}}
                             onPress={() => setShowHelp2(true)}>プライベートキーを無くしたらどうなりますか?</Button>
@@ -192,59 +193,59 @@ export default function WalletDetails(props: Props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        width: '100%',
-        maxWidth: ScreenWidth,
-        overflow: "hidden"
-    },
-    navText: {
-        justifyContent: 'center',
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-        display: 'flex',
-        flex: 1,
-        alignItems: 'center',
-    },
-    warning: {
-        borderWidth: 1,
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        width: '100%',
-        alignItems: 'center',
-    },
-    text: {
-        textAlign: 'center',
-    },
-    container2: {
-        marginTop: 50,
-        paddingHorizontal: 20,
-        paddingTop: 30,
-        width: '100%',
-        flex: 1,
-        alignItems: 'center',
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
-    },
-    button: {
-        width: '100%',
-        borderRadius: 1
-    },
-    help: {
-        alignSelf: 'flex-start',
-        borderRadius: 0,
-        border: 0,
-        padding: 0,
-        height: 20,
-        marginBottom: 10,
-    },
-    helpText: {
-        marginHorizontal: 0,
-        maxWidth: ScreenWidth,
-        overflow: "hidden"
-    },
-    relative: {position: "relative", width: "100%", alignItems: "center"}
-});
+                                     container: {
+                                         flex: 1,
+                                         alignItems: 'center',
+                                         width: '100%',
+                                         maxWidth: ScreenWidth,
+                                         overflow: "hidden"
+                                     },
+                                     navText: {
+                                         justifyContent: 'center',
+                                         fontSize: 20,
+                                         textAlign: 'center',
+                                         margin: 10,
+                                         display: 'flex',
+                                         flex: 1,
+                                         alignItems: 'center',
+                                     },
+                                     warning: {
+                                         borderWidth: 1,
+                                         paddingVertical: 15,
+                                         paddingHorizontal: 20,
+                                         borderRadius: 5,
+                                         width: '100%',
+                                         alignItems: 'center',
+                                     },
+                                     text: {
+                                         textAlign: 'center',
+                                     },
+                                     container2: {
+                                         marginTop: 50,
+                                         paddingHorizontal: 20,
+                                         paddingTop: 30,
+                                         width: '100%',
+                                         flex: 1,
+                                         alignItems: 'center',
+                                         borderTopRightRadius: 20,
+                                         borderTopLeftRadius: 20,
+                                     },
+                                     button: {
+                                         width: '100%',
+                                         borderRadius: 1
+                                     },
+                                     help: {
+                                         alignSelf: 'flex-start',
+                                         borderRadius: 0,
+                                         border: 0,
+                                         padding: 0,
+                                         height: 20,
+                                         marginBottom: 10,
+                                     },
+                                     helpText: {
+                                         marginHorizontal: 0,
+                                         maxWidth: ScreenWidth,
+                                         overflow: "hidden"
+                                     },
+                                     relative: {position: "relative", width: "100%", alignItems: "center"}
+                                 });
